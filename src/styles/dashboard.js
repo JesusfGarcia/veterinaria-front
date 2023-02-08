@@ -23,13 +23,13 @@ export const Header = styled.header`
   box-sizing: border-box;
   padding: 10px;
   color: ${theme.background};
+  gap: 20px;
 `;
 
 export const Sidebard = styled.aside`
   grid-area: sidebar;
   background-color: ${(props) =>
     props.clientColor ? props.clientColor : theme.primaryLight};
-  height: 100%;
   padding: 10px;
   display: flex;
   flex-direction: column;
@@ -59,4 +59,6 @@ export const SidebarItem = styled.div`
 
 export const Content = styled.section`
   grid-area: content;
+  background-color: ${theme.background};
+  padding: 20px;
 `;
