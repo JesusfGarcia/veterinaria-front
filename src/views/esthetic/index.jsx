@@ -1,34 +1,63 @@
 import React from "react";
+import Content from "../../components/content";
+import {
+  Packet,
+  PacketDescription,
+  PacketFooter,
+  PacketsContainer,
+  PacketTitle,
+} from "../../styles/esthetic";
 
-console.log("hola mundo desde la pantalla de estetica");
 export default function EstheticScreen() {
   return (
-    
-      <div className="conten">
-        <h1>PAQUETES DE ESTETICA</h1>
-        <hr />
-        <div className="paquetes">
-          <div className="paquete1">
-            <div className="titulo">Baño + corte</div>
-            <div className="centro">perro chico</div>
-            <div className="borde">$250</div>
-          </div>
-
-          <div class="paquete1">
-            <div className="titulo">Baño + corte</div>
-            <div className="centro">perro mediano</div>
-            <div className="borde">$280</div>
-          </div>
-
-          <div className="paquete1">
-            <div className="titulo">Baño + corte</div>
-            <div className="centro">perro mediano</div>
-            <div className="borde">$280</div>
-          </div>
-
-          <div className="add">+</div>
-        </div>
-      </div>
-  
+    <Content title="PAQUETES DE ESTETICA" button="Agregar Paquete">
+      <PacketsContainer>
+        <Packet>
+          <PacketTitle>Baño + corte</PacketTitle>
+          <PacketDescription>Perro Chico</PacketDescription>
+          <PacketFooter>$250</PacketFooter>
+        </Packet>
+        <Packet>
+          <PacketTitle>Baño + corte</PacketTitle>
+          <PacketDescription>Perro Chico</PacketDescription>
+          <PacketFooter>$250</PacketFooter>
+        </Packet>
+        <Packet>
+          <PacketTitle>Baño + corte</PacketTitle>
+          <PacketDescription>Perro Chico</PacketDescription>
+          <PacketFooter>$250</PacketFooter>
+        </Packet>
+        <Packet>
+          <PacketTitle>Baño + corte</PacketTitle>
+          <PacketDescription>Perro Chico</PacketDescription>
+          <PacketFooter>$250</PacketFooter>
+        </Packet>
+        <Packet>
+          <PacketTitle>Baño + corte</PacketTitle>
+          <PacketDescription>Perro Chico</PacketDescription>
+          <PacketFooter>$250</PacketFooter>
+        </Packet>
+        <Packet>
+          <PacketTitle>Baño + corte</PacketTitle>
+          <PacketDescription>Perro Chico</PacketDescription>
+          <PacketFooter>$250</PacketFooter>
+        </Packet>
+        <Packet>
+          <PacketTitle>Baño + corte</PacketTitle>
+          <PacketDescription>Perro Chico</PacketDescription>
+          <PacketFooter>$250</PacketFooter>
+        </Packet>
+        <Packet>
+          <PacketTitle>Baño + corte</PacketTitle>
+          <PacketDescription>Perro Chico</PacketDescription>
+          <PacketFooter>$250</PacketFooter>
+        </Packet>
+        <Packet>
+          <PacketTitle>Baño + corte</PacketTitle>
+          <PacketDescription>Perro Chico</PacketDescription>
+          <PacketFooter>$250</PacketFooter>
+        </Packet>
+      </PacketsContainer>
+    </Content>
   );
 }

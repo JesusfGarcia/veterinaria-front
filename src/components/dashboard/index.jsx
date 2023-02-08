@@ -26,7 +26,7 @@ export default function Dashboard() {
     <DashboardContainer showSidebar={showSidebar}>
       <Header>
         <MenuIcon onClick={() => setShowSidebar(!showSidebar)} />
-        <h1>SAN JOSÉ</h1>
+        <h2>SAN JOSÉ</h2>
       </Header>
       <Sidebard>
         {routes.map(({ label, path, icon }) => (
