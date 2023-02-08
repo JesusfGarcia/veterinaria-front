@@ -59,4 +59,5 @@ export const SidebarItem = styled.div`
 
 export const Content = styled.section`
   grid-area: content;
+  background-color: red;
 `;
