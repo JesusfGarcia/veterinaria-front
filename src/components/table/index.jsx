@@ -1,25 +1,38 @@
 import React from "react";
+import Button from "../button";
+import SearchInput from "../searchInput";
 
-import "./styles.css"
-export default function Table({ columns, data }) {
+import styles from "./table.module.scss";
+
+export default function Table({ columns, data, buttonConf }) {
   return (
-    <table className="ejemplo">
-      <thead>
-        <tr>
-          {columns.map((title,indice) => (
-            <th key={`column${indice}`}>{title.label}</th>
-          ))}
-        </tr>
-      </thead>
-      <tbody>
-        {data.map((row,idx) => (
-          <tr key={idx}>
-            {columns.map((column) => (
-              <td key={column.key}>{row[column.key]}</td>
+    <div className={styles.container}>
+      <div className={styles.row}>
+      <SearchInput />
+      {buttonConf && <Button text={buttonConf.label} />}
+      
+      </div>
+   
+      <table className={styles.table_container}>
+        <thead>
+          <tr>
+            {columns.map((title, indice) => (
+              <th key={`column${indice}`}>{title.label}</th>
             ))}
           </tr>
-        ))}
-      </tbody>
-    </table>
+        </thead>
+        <tbody>
+          {data.map((row, idx) => (
+            <tr key={idx}>
+              {columns.map((column) => (
+                <td key={column.key}>
+                  <div>{row[column.key]}</div>
+                </td>
+              ))}
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
   );
 }

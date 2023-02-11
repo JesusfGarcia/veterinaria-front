@@ -56,6 +56,10 @@ const data = [
   },
 ];
 
+const buttonConf = {
+  label:"Añadir Consulta"
+}
+
 export default function UsersScreen() {
   return (
     <Content title="Perfil de Mascota">
@@ -73,11 +77,8 @@ export default function UsersScreen() {
             </div>
           </div>
 
-          <div onkeydown="buscar(event)" class="input">
-            <input type="text" />
-            <img alt="lupa icon" src="./lupa.png" />
-          </div>
-          <Table columns={titles} data={data} />
+          
+          <Table buttonConf={buttonConf}columns={titles} data={data} />
         </div>
       </div>
     </Content>

@@ -139,19 +139,9 @@
   cursor: pointer;
 }
 
-thead {
-  background-color: rgb(42, 112, 42);
-  height: 25px;
-  color: white;
-}
 
-tbody tr {
-  height: 45px;
-}
 
-tr:nth-child(even) {
-  background-color: rgba(16, 92, 46, 0.257);
-}
+
 
 * {
   scrollbar-width: auto;

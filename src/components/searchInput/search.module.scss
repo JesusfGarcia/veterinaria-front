@@ -1,0 +1,20 @@
+@import "../../sass/color.scss";
+.input_container {
+    background-color: #fff;
+    width: fit-content;
+    display: flex;
+    flex-direction: row;
+    gap: 5px;
+    align-items: center;
+    border-radius: 8px;
+    border: 1px solid $shadow;
+    padding: 5px;
+  input {
+    padding: 5px;
+    border: 0px;
+    &:focus-visible{
+        border: 0px;
+        outline: 0px;
+    }
+  }
+}

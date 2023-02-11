@@ -1,0 +1,19 @@
+@import "../../sass/color.scss";
+
+.button{
+    background-color: $secondary;
+    color: $background;
+    font-weight: bold;
+    padding: 10px 15px;
+    cursor: pointer;
+    border: 0px;
+    border-radius: 8px;
+    transition: 0.3s ease background-color;
+    &:hover{
+        background-color: $secundaryLight;
+      
+    }
+
+
+}
+
