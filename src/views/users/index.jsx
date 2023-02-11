@@ -2,6 +2,59 @@ import React from "react";
 
 import MichiJpg from "../../assets/images/michi.jpeg";
 import Content from "../../components/content";
+import Table from "../../components/table";
+
+const titles = [
+  {
+    label: "Descripción",
+    key: "description",
+  },
+  {
+    label: "Costo",
+    key: "cost",
+  },
+  {
+    label: "Tratamiento",
+    key: "treatment",
+  },
+  {
+    label: "Fecha",
+    key: "date",
+  },
+];
+
+const data = [
+  {
+    description: "Perrito enfermito",
+    cost: 50.0,
+    treatment: "una sobadita de panza",
+    date: "12/12/2022",
+  },
+  {
+    description: "Perrito enfermito",
+    cost: 50.0,
+    treatment: "una sobadita de panza",
+    date: "12/12/2022",
+  },
+  {
+    description: "Perrito enfermito",
+    cost: 50.0,
+    treatment: "una sobadita de panza",
+    date: "12/12/2022",
+  },
+  {
+    description: "Perrito enfermito",
+    cost: 50.0,
+    treatment: "una sobadita de panza",
+    date: "12/12/2022",
+  },
+  {
+    description: "Perrito enfermito",
+    cost: 50.0,
+    treatment: "una sobadita de panza",
+    date: "12/12/2022",
+  },
+];
 
 export default function UsersScreen() {
   return (
@@ -24,56 +77,20 @@ export default function UsersScreen() {
             <input type="text" />
             <img alt="lupa icon" src="./lupa.png" />
           </div>
-          <table>
-            <thead>
-              <tr>
-                <th>Descripción</th>
-                <th>Costo</th>
-                <th>Tratamiento</th>
-                <th>Fecha</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>Perrito enfermito</td>
-                <td>$200.00</td>
-                <td>una sobadita de panza</td>
-                <td>19/01/2022</td>
-              </tr>
-              <tr>
-                <td>Perrito enfermito</td>
-                <td>$200.00</td>
-                <td>una sobadita de panza</td>
-                <td>19/01/2022</td>
-              </tr>
-              <tr>
-                <td>Perrito enfermito</td>
-                <td>$200.00</td>
-                <td>una sobadita de panza</td>
-                <td>19/01/2022</td>
-              </tr>
-              <tr>
-                <td>Perrito enfermito</td>
-                <td>$200.00</td>
-                <td>una sobadita de panza</td>
-                <td>19/01/2022</td>
-              </tr>
-              <tr>
-                <td>Perrito enfermito</td>
-                <td>$200.00</td>
-                <td>una sobadita de panza</td>
-                <td>19/01/2022</td>
-              </tr>
-              <tr>
-                <td>Perrito enfermito</td>
-                <td>$200.00</td>
-                <td>una sobadita de panza</td>
-                <td>19/01/2022</td>
-              </tr>
-            </tbody>
-          </table>
+          <Table columns={titles} data={data} />
         </div>
       </div>
     </Content>
   );
 }
+
+
+
+const myobject = {
+  name: "sakldjfas",
+  skere: "adlksjfas"
+}
+
+const {name} = myobject
+
+console.log(name)
