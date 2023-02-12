@@ -3,62 +3,7 @@ import React from "react";
 import MichiJpg from "../../assets/images/michi.jpeg";
 import Content from "../../components/content";
 import Table from "../../components/table";
-
-const titles = [
-  {
-    label: "Descripción",
-    key: "description",
-  },
-  {
-    label: "Costo",
-    key: "cost",
-  },
-  {
-    label: "Tratamiento",
-    key: "treatment",
-  },
-  {
-    label: "Fecha",
-    key: "date",
-  },
-];
-
-const data = [
-  {
-    description: "Perrito enfermito",
-    cost: 50.0,
-    treatment: "una sobadita de panza",
-    date: "12/12/2022",
-  },
-  {
-    description: "Perrito enfermito",
-    cost: 50.0,
-    treatment: "una sobadita de panza",
-    date: "12/12/2022",
-  },
-  {
-    description: "Perrito enfermito",
-    cost: 50.0,
-    treatment: "una sobadita de panza",
-    date: "12/12/2022",
-  },
-  {
-    description: "Perrito enfermito",
-    cost: 50.0,
-    treatment: "una sobadita de panza",
-    date: "12/12/2022",
-  },
-  {
-    description: "Perrito enfermito",
-    cost: 50.0,
-    treatment: "una sobadita de panza",
-    date: "12/12/2022",
-  },
-];
-
-const buttonConf = {
-  label:"Añadir Consulta"
-}
+import Tabs from "../../components/tabs";
 
 export default function UsersScreen() {
   return (
@@ -76,22 +21,9 @@ export default function UsersScreen() {
               <span>3kg</span>
             </div>
           </div>
-
-          
-          <Table buttonConf={buttonConf}columns={titles} data={data} />
+          <Tabs />
         </div>
       </div>
     </Content>
   );
 }
-
-
-
-const myobject = {
-  name: "sakldjfas",
-  skere: "adlksjfas"
-}
-
-const {name} = myobject
-
-console.log(name)
