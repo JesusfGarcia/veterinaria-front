@@ -1,11 +1,17 @@
 import React from "react";
 
+import Cirugia from "./cirugia";
+import Consults from "./consultas";
+import Estetica from "./estetica";
+import Estudios from "./estudios";
+import Parasitos from "./parasitos";
+import Vacunas from "./vacunas";
+
 import MichiJpg from "../../assets/images/michi.jpeg";
 import Content from "../../components/content";
-import Table from "../../components/table";
 import Tabs from "../../components/tabs";
 
-export default function UsersScreen() {
+export default function PetsScreen() {
   return (
     <Content title="Perfil de Mascota">
       <div class="contenedor">
@@ -21,9 +27,37 @@ export default function UsersScreen() {
               <span>3kg</span>
             </div>
           </div>
-          <Tabs />
+          <Tabs items={items}/>
         </div>
       </div>
     </Content>
   );
 }
+
+
+const items = [
+  {
+    label: "Consultas",
+    component: <Consults />,
+  },
+  {
+    label: "Estéticas",
+    component: <Estetica/>
+  },
+  {
+    label: "Estudios",
+    component: <Estudios/>,
+  },
+  {
+    label: "Cirugías",
+    component: <Cirugia/>,
+  },
+  {
+    label: "Control Parasitos",
+    component: <Parasitos/>,
+  },
+  {
+    label: "Vacunas",
+    component: <Vacunas/>,
+  },
+];

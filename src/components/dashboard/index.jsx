@@ -29,7 +29,7 @@ export default function Dashboard() {
         <h2>SAN JOSÉ</h2>
       </Header>
       <Sidebard>
-        {routes.map(({ label, path, icon }) => (
+        {routes.filter(item => item.sidebar).map(({ label, path, icon }) => (
           <SidebarItem
             isSelected={itemSelected === path}
             key={label}

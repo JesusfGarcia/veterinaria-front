@@ -1,9 +1,9 @@
 import React from "react";
 import styles from"./button.module.scss";
 
-export default function Button ({text}){
+export default function Button ({text, onClick, color = "button"}){
     return (
-        <button className={styles.button}>
+        <button onClick={onClick} className={styles[color]}>
             {text}
         </button>
     )

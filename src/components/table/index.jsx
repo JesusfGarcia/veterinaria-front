@@ -1,6 +1,9 @@
 import React from "react";
 import Button from "../button";
 import SearchInput from "../searchInput";
+import CheckIcon from '@mui/icons-material/Check';
+import ClearIcon from '@mui/icons-material/Clear';
+import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
 
 import styles from "./table.module.scss";
 
@@ -8,11 +11,10 @@ export default function Table({ columns, data, buttonConf }) {
   return (
     <div className={styles.container}>
       <div className={styles.row}>
-      <SearchInput />
-      {buttonConf && <Button text={buttonConf.label} />}
-      
+        <SearchInput />
+        {buttonConf && <Button onClick={buttonConf.onClick} text={buttonConf.label} />}
       </div>
-   
+
       <table className={styles.table_container}>
         <thead>
           <tr>
@@ -24,10 +26,8 @@ export default function Table({ columns, data, buttonConf }) {
         <tbody>
           {data.map((row, idx) => (
             <tr key={idx}>
-              {columns.map((column) => (
-                <td key={column.key}>
-                  <div>{row[column.key]}</div>
-                </td>
+              {columns.map((column, id) => (
+                <Td key={`row-${id}`} column={column} item={row}/>
               ))}
             </tr>
           ))}
@@ -35,4 +35,21 @@ export default function Table({ columns, data, buttonConf }) {
       </table>
     </div>
   );
+}
+const Td =({item, column})=>{
+  const {key, type}=column;
+  if (type=== "actions"){
+    return(
+      <td>
+        <div>
+          {column.actions.map((action)=>{
+            if(action.label==="see"){
+              return(<RemoveRedEyeIcon onClick={() => action.onClick(item.id)}/>);
+            }
+          })}
+        </div>
+      </td>
+    )
+  }
+return<td>{item[key]}</td>;
 }
