@@ -26,31 +26,31 @@ const titles = [
 const data = [
     {
       description: "Perrito enfermito",
-      cost: 50.0,
+      cost: "50",
       treatment: "una sobadita de panza",
       date: "12/12/2022",
     },
     {
       description: "Perrito enfermito",
-      cost: 50.0,
+      cost: "50",
       treatment: "una sobadita de panza",
       date: "12/12/2022",
     },
     {
       description: "Perrito enfermito",
-      cost: 50.0,
+      cost: "50",
       treatment: "una sobadita de panza",
       date: "12/12/2022",
     },
     {
       description: "Perrito enfermito",
-      cost: 50.0,
+      cost: "50",
       treatment: "una sobadita de panza",
       date: "12/12/2022",
     },
     {
       description: "Perrito enfermito",
-      cost: 50.0,
+      cost: "50",
       treatment: "una sobadita de panza",
       date: "12/12/2022",
     },

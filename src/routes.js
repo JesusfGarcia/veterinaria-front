@@ -9,6 +9,7 @@ import MonitorHeartIcon from "@mui/icons-material/MonitorHeart";
 import ScienceIcon from "@mui/icons-material/Science";
 import BugReportIcon from "@mui/icons-material/BugReport";
 import PetsIcon from "@mui/icons-material/Pets";
+import LocalHospitalIcon from '@mui/icons-material/LocalHospital';
 
 const ConfigurationScreen = React.lazy(() => import("./views/configuration"));
 const UsersScreen = React.lazy(() => import("./views/user"));
@@ -20,6 +21,8 @@ const VacciensScreen = React.lazy(() => import("./views/vaccines"));
 const CosultationScreen = React.lazy(() => import("./views/consultation"));
 const StudiesScreen = React.lazy(() => import("./views/studies"));
 const ParasyteScreen = React.lazy(() => import("./views/parasyte"));
+const HospitalScreen= React.lazy(()=>import("./views/hospital"));
+const PetScreen=React.lazy(()=>import("./views/pet"))
 
 export const routes = [
   {
@@ -37,7 +40,7 @@ export const routes = [
     sidebar: true,
   },
   {
-    element: <UserInfo />,
+    element: <PetScreen />,
     path: "users/:id",
   },
   {
@@ -89,6 +92,13 @@ export const routes = [
         path: "veterinary/parasyte",
         icon: <BugReportIcon />,
         sidebar: true,
+      },
+      {
+        element:<HospitalScreen/>,
+        label:"Hospital",
+        path:"veterinary/hospital",
+        icon:<LocalHospitalIcon/>,
+        sidebar:true,
       },
     ],
   },

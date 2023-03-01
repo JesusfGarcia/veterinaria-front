@@ -74,5 +74,4 @@ export const SidebarChild = styled.div`
 export const Content = styled.section`
   grid-area: content;
   background-color: ${theme.background};
-  padding: 20px;
 `;

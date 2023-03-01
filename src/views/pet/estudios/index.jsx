@@ -55,5 +55,6 @@ const buttonConf = {
   
   export default function Estudios() {
     return <Table buttonConf={buttonConf} columns={titles} data={data} />;
+    
   }
   
