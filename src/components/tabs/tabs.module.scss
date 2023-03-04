@@ -1,0 +1,29 @@
+@import "../../sass/color.scss";
+
+.content {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.tab_container {
+  display: flex;
+  flex-direction: row;
+  border-radius: 8px 8px 0px 0px;
+  overflow: hidden;
+
+  .selected {
+    background-color: $secundaryLight;
+  }
+  span {
+    flex: 1;
+    background-color: $secondary;
+    color: $background;
+    padding: 10px;
+    font-weight: bolder;
+    &:hover {
+      background-color: $secundaryLight;
+      cursor: pointer;
+    }
+  }
+}

@@ -1,25 +1,55 @@
 import React from "react";
+import Button from "../button";
+import SearchInput from "../searchInput";
+import CheckIcon from '@mui/icons-material/Check';
+import ClearIcon from '@mui/icons-material/Clear';
+import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
 
-import "./styles.css"
-export default function Table({ columns, data }) {
+import styles from "./table.module.scss";
+
+export default function Table({ columns, data, buttonConf }) {
   return (
-    <table className="ejemplo">
-      <thead>
-        <tr>
-          {columns.map((title,indice) => (
-            <th key={`column${indice}`}>{title.label}</th>
-          ))}
-        </tr>
-      </thead>
-      <tbody>
-        {data.map((row,idx) => (
-          <tr key={idx}>
-            {columns.map((column) => (
-              <td key={column.key}>{row[column.key]}</td>
+    <div className={styles.container}>
+      <div className={styles.row}>
+        <SearchInput />
+        {buttonConf && <Button onClick={buttonConf.onClick} text={buttonConf.label} />}
+      </div>
+
+      <table className={styles.table_container}>
+        <thead>
+          <tr>
+            {columns.map((title, indice) => (
+              <th key={`column${indice}`}>{title.label}</th>
             ))}
           </tr>
-        ))}
-      </tbody>
-    </table>
+        </thead>
+        <tbody>
+          {data.map((row, idx) => (
+            <tr key={idx}>
+              {columns.map((column, id) => (
+                <Td key={`row-${id}`} column={column} item={row}/>
+              ))}
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
   );
+}
+const Td =({item, column})=>{
+  const {key, type}=column;
+  if (type=== "actions"){
+    return(
+      <td>
+        <div>
+          {column.actions.map((action)=>{
+            if(action.label==="see"){
+              return(<RemoveRedEyeIcon onClick={() => action.onClick(item.id)}/>);
+            }
+          })}
+        </div>
+      </td>
+    )
+  }
+return<td>{item[key]}</td>;
 }

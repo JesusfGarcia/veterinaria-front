@@ -4,6 +4,7 @@ import {
   Content,
   DashboardContainer,
   Header,
+  SidebarChild,
   Sidebard,
   SidebarItem,
 } from "../../styles/dashboard";
@@ -12,15 +13,19 @@ import { Route, Routes, useLocation, useNavigate } from "react-router-dom";
 
 import { routes } from "../../routes";
 import MenuIcon from "@mui/icons-material/Menu";
+
 export default function Dashboard() {
   const [showSidebar, setShowSidebar] = React.useState(false);
+
   const navigate = useNavigate();
   const location = useLocation();
 
-  const itemSelected = React.useMemo(() => {
-    const arrayLocation = location.pathname.split("/");
-    return arrayLocation[2];
-  }, [location]);
+  const handleSidebarClick = (path) => {
+    if (path === "veterinary") {
+      return navigate(`/admin/veterinary/esthetic`);
+    }
+    navigate(`/admin/${path}`);
+  };
 
   return (
     <DashboardContainer showSidebar={showSidebar}>
@@ -29,31 +34,75 @@ export default function Dashboard() {
         <h2>SAN JOSÉ</h2>
       </Header>
       <Sidebard>
-        {routes.map(({ label, path, icon }) => (
-          <SidebarItem
-            isSelected={itemSelected === path}
-            key={label}
-            onClick={() => navigate(`/admin/${path}`)}
-          >
-            {icon}
-            {label}
-          </SidebarItem>
-        ))}
+        {routes
+          .filter((item) => item.sidebar)
+          .map(({ label, icon, type, childrens, path }) => (
+            <SidebarItemRender
+              showSidebar={showSidebar}
+              type={type}
+              icon={icon}
+              label={label}
+              childrens={childrens}
+              onClick={handleSidebarClick}
+              pathname={location.pathname}
+              path={path}
+            />
+          ))}
       </Sidebard>
       <Content>
         <Suspense fallback={<div>loading...</div>}>
           <Routes>
-            {routes.map(({ element, path }) => (
-              <Route key={path} path={path} element={element} />
+            {routes.map(({ element, path, childrens }) => (
+              <>
+                <Route key={path} path={path} element={element} />
+                {childrens &&
+                  childrens.map((child) => (
+                    <Route
+                      key={child.path}
+                      path={child.path}
+                      element={child.element}
+                    />
+                  ))}
+              </>
             ))}
           </Routes>
         </Suspense>
-
-        {/*   <label>Header</label>
-        <input onChange={(e) => setHeaderColor(e.target.value)} type="color" />
-        <label>Sidebar</label>
-        <input onChange={(e) => setSidebarColor(e.target.value)} type="color" /> */}
       </Content>
     </DashboardContainer>
   );
 }
+
+const SidebarItemRender = ({
+  icon,
+  label,
+  childrens,
+  onClick,
+  pathname,
+  path,
+  showSidebar,
+}) => {
+  return (
+    <div>
+      <SidebarItem
+        isSelected={pathname.includes(path)}
+        onClick={() => onClick(path)}
+      >
+        {icon}
+        {label}
+      </SidebarItem>
+      {childrens !== undefined &&
+        pathname.includes(path) &&
+        childrens.map((child) => {
+          return (
+            <SidebarChild
+              showSidebar={showSidebar}
+              isSelected={pathname.includes(child.path)}
+              onClick={() => onClick(child.path)}
+            >
+              {child.icon} {child.label}
+            </SidebarChild>
+          );
+        })}
+    </div>
+  );
+};

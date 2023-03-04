@@ -1,0 +1,20 @@
+@import "../../sass/color.scss";
+.container{
+    background-color:$primary;
+    gap: 25px;
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+    padding: 10px;
+
+    span {
+        background-color:$secondary;
+        padding: 20px;
+        color:white;
+        
+
+
+    }
+    
+};
+
