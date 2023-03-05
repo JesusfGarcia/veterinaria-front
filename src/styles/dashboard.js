@@ -12,6 +12,8 @@ export const DashboardContainer = styled.div`
     props.showSidebar ? "260px 1fr" : "50px 1fr"};
   grid-template-rows: 60px 1fr;
   transition: 0.5s ease all;
+
+  position: relative;
 `;
 
 export const Header = styled.header`
@@ -74,4 +76,23 @@ export const SidebarChild = styled.div`
 export const Content = styled.section`
   grid-area: content;
   background-color: ${theme.background};
+`;
+
+export const Floating = styled.button`
+  position: absolute;
+  right: 40px;
+  bottom: 40px;
+  background-color: ${theme.primaryHover};
+  color: ${theme.textLight};
+  border: 0px;
+  width: 70px;
+  height: 70px;
+  border-radius: 70px;
+  box-shadow: 5px 5px 5px 0px rgba(0, 0, 0, 0.31);
+  -webkit-box-shadow: 5px 5px 5px 0px rgba(0, 0, 0, 0.31);
+  -moz-box-shadow: 5px 5px 5px 0px rgba(0, 0, 0, 0.31);
+  cursor: pointer;
+  &:hover {
+    opacity: 0.8;
+  }
 `;

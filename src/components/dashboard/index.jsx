@@ -3,11 +3,14 @@ import React, { Suspense } from "react";
 import {
   Content,
   DashboardContainer,
+  Floating,
   Header,
   SidebarChild,
   Sidebard,
   SidebarItem,
 } from "../../styles/dashboard";
+
+import LocalGroceryStoreIcon from "@mui/icons-material/LocalGroceryStore";
 
 import { Route, Routes, useLocation, useNavigate } from "react-router-dom";
 
@@ -68,6 +71,9 @@ export default function Dashboard() {
           </Routes>
         </Suspense>
       </Content>
+      <Floating>
+        <LocalGroceryStoreIcon />
+      </Floating>
     </DashboardContainer>
   );
 }
