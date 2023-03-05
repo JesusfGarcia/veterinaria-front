@@ -4,6 +4,7 @@ import Table from "../../components/table";
 import { useNavigate } from "react-router-dom";
 import Modal from "../../components/dialog";
 import { TextField } from "@mui/material";
+import Container from "../../components/container";
 
 export const data = [
   {
@@ -122,6 +123,9 @@ export default function UsersScreen() {
     },
   ];
   return (
+    <Container>
+
+   
     <Content title="Clientes">
       <div className="linea"></div>
 
@@ -176,5 +180,6 @@ export default function UsersScreen() {
         />
       </Modal>
     </Content>
+    </Container>
   );
 }

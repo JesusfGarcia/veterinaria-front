@@ -1,71 +1,46 @@
 import React from "react";
 import Table from "../../../components/table";
-
 import Modal from "../../../components/dialog";
 import { TextField } from "@mui/material";
+
 const titles = [
   {
-    label: "Descripción",
-    key: "description",
+    label: "Fecha de ingreso",
+    key: "entryDate",
   },
   {
-    label: "Costo",
-    key: "cost",
+    label: "Observaciones",
+    key: "observation",
   },
   {
     label: "Tratamiento",
     key: "treatment",
   },
   {
-    label: "Fecha",
-    key: "date",
+    label: "Fecha de de alta",
+    key: "dischargeDate",
   },
 ];
 
 const data = [
   {
-    description: "Perrito enfermito",
-    cost: 50.0,
-    treatment: "una sobadita de panza",
-    date: "12/12/2022",
-  },
-  {
-    description: "Perrito enfermito",
-    cost: 50.0,
-    treatment: "una sobadita de panza",
-    date: "12/12/2022",
-  },
-  {
-    description: "Perrito enfermito",
-    cost: 50.0,
-    treatment: "una sobadita de panza",
-    date: "12/12/2022",
-  },
-  {
-    description: "Perrito enfermito",
-    cost: 50.0,
-    treatment: "una sobadita de panza",
-    date: "12/12/2022",
-  },
-  {
-    description: "Perrito enfermito",
-    cost: 50.0,
-    treatment: "una sobadita de panza",
-    date: "12/12/2022",
+    entryDate: "12/12/22",
+    observation: "perrito aja con algo ",
+    treatment: "yo que se no le se",
+    dischargeDate: "12/3/23",
   },
 ];
 
 const initialState = {
-  description: "",
-  cost: "",
-  treatment: "",
+  name: "",
+  date1: "",
+  obs: "",
+  trata: "",
   date: "",
 };
-
-export default function Consults() {
+export default function Hospital() {
   const [isOpenModal, setisOpenModal] = React.useState(false);
   const [body, setBody] = React.useState({ ...initialState });
-
   const handleChange = (e) => {
     const { name, value } = e.target;
     setBody({
@@ -83,7 +58,7 @@ export default function Consults() {
     console.log(body);
   };
   const buttonConf = {
-    label: "Añadir Consulta",
+    label: "Ingresar paciente",
     onClick: () => setisOpenModal(true),
   };
   return (
@@ -91,7 +66,7 @@ export default function Consults() {
       <Table buttonConf={buttonConf} columns={titles} data={data} />
       <Modal
         onSave={onSave}
-        title="Añadir Consulta"
+        title="Ingresar paciente"
         isOpen={isOpenModal}
         onClose={closeForm}
       >
@@ -104,22 +79,30 @@ export default function Consults() {
         />
         <TextField
           onChange={handleChange}
-          name="description"
-          value={body.description}
-          size="small"
-          label="Descripción"
+          name="name"
+          value={body.name}
+          size="samll"
+          label="Nombre"
+        />
+
+        <TextField
+          onChange={handleChange}
+          name="date1"
+          value={body.date1}
+          size="samll"
+          label="Fecha de ingreso"
         />
         <TextField
           onChange={handleChange}
-          name="cost"
-          value={body.cost}
+          name="obs"
+          value={body.obs}
           size="small"
-          label="Costo"
+          label="Observaciones"
         />
         <TextField
           onChange={handleChange}
-          name="treatament"
-          value={body.treatment}
+          name="trata"
+          value={body.trata}
           size="small"
           label="Tratamiento"
         />

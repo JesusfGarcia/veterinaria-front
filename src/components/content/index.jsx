@@ -9,7 +9,6 @@ export default function Content({ title, children, button }) {
         <h2> {title}</h2>
         {button && <AddButton>{button}</AddButton>}
       </div>
-      <Hr></Hr>
       {children}
     </div>
   );

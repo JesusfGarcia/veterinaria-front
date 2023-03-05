@@ -56,3 +56,16 @@
   display: flex;
   flex-direction: column;
 }
+
+.item_selected {
+  color: $primaryLight;
+  cursor: pointer;
+  border-bottom: 2px solid $primaryLight;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  flex: 1;
+  padding: 10px;
+  font-weight: bold;
+  height: 30px;
+}

@@ -3,8 +3,8 @@ import React from "react";
 import Content from "../../components/content";
 import Table from "../../components/table";
 import Modal from "../../components/dialog";
-import Styles from "../../styles/esthetic";
 import { TextField } from "@mui/material";
+import Container from "../../components/container";
 
 const titles = [
   {
@@ -90,8 +90,8 @@ export default function EstheticScreen() {
   };
 
   const onSave = () => {
-    console.log(body)
-  }
+    console.log(body);
+  };
 
   const buttonConf = {
     label: "Añadir Visita",
@@ -99,53 +99,60 @@ export default function EstheticScreen() {
   };
 
   return (
-    <Content title="Estetica">
-      <div className="linea"></div>
-      <Table buttonConf={buttonConf} columns={titles} data={data} />
-      <Modal onSave={onSave} title="Añadir Visita" isOpen={isOpenModal} onClose={closeForm}>
-        <TextField
-          onChange={handleChange}
-          name="name"
-          value={body.name}
-          size="small"
-          label="Nombre"
-        />
-        <TextField
-          onChange={handleChange}
-          name="serviceType"
-          value={body.serviceType}
-          size="small"
-          label="Tipo de servicio"
-        />
-        <TextField
-          onChange={handleChange}
-          name="date"
-          value={body.date}
-          size="small"
-          label="Fecha"
-        />
-        <TextField
-          onChange={handleChange}
-          value={body.price}
-          size="small"
-          label="Precio"
-          name="price"
-        />
-        <TextField
-          value={body.observations}
-          size="small"
-          label="Observaciones"
-          onChange={handleChange}
-          name="observations"
-        />
-        <TextField
-          onChange={handleChange}
-          value={body.phone}
-          size="small"
-          label="Telefono"
-          name="phone"
-        />
-      </Modal>
-    </Content>
+    <Container>
+      <Content title="Estetica">
+        <div className="linea"></div>
+        <Table buttonConf={buttonConf} columns={titles} data={data} />
+        <Modal
+          onSave={onSave}
+          title="Añadir Visita"
+          isOpen={isOpenModal}
+          onClose={closeForm}
+        >
+          <TextField
+            onChange={handleChange}
+            name="name"
+            value={body.name}
+            size="small"
+            label="Nombre"
+          />
+          <TextField
+            onChange={handleChange}
+            name="serviceType"
+            value={body.serviceType}
+            size="small"
+            label="Tipo de servicio"
+          />
+          <TextField
+            onChange={handleChange}
+            name="date"
+            value={body.date}
+            size="small"
+            label="Fecha"
+          />
+          <TextField
+            onChange={handleChange}
+            value={body.price}
+            size="small"
+            label="Precio"
+            name="price"
+          />
+          <TextField
+            value={body.observations}
+            size="small"
+            label="Observaciones"
+            onChange={handleChange}
+            name="observations"
+          />
+          <TextField
+            onChange={handleChange}
+            value={body.phone}
+            size="small"
+            label="Telefono"
+            name="phone"
+          />
+        </Modal>
+      </Content>
+    </Container>
   );
 }

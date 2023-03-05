@@ -1,48 +1,42 @@
 @import "../../sass/color.scss";
 
-
-
 .row {
-   display: flex;
-   flex-direction: row;
-   justify-content: space-between;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
 }
 
-.container{
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
 }
 
 .table_container {
-    border-spacing: 0px;
-  color:$text;
+  border-spacing: 0px;
+  color: $text;
   border: 1px solid rgba(110, 110, 110, 0.253);
-  
 
-th {
+  th {
     background-color: $secondary;
     font-size: 18px;
-    color:$background;
+    color: $background;
     text-align: left;
     padding: 10px 15px;
-    
   }
 
   tbody {
-    div{
-        padding: 0px 15px;
-        height: 50px;
-        border-bottom: 1px solid rgba(110, 110, 110, 0.253);
-        display: flex;
-        align-items: center;
+    background-color: white;
+    div {
+      padding: 0px 15px;
+      height: 45px;
+      border-bottom: 1px solid rgba(110, 110, 110, 0.253);
+      display: flex;
+      align-items: center;
     }
 
-
     tr:nth-child(even) {
-      background-color: $primary;
-      
-
+      background-color: #f4f4f4;
     }
   }
 }
