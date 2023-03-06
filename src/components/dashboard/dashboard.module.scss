@@ -1,0 +1,86 @@
+@import "../../sass/color.scss";
+.modal_navbar {
+  display: flex;
+  flex-direction: row;
+  background-color: $primaryDark;
+  color: white;
+  justify-content: space-between;
+  align-items: center;
+
+  box-sizing: border-box;
+}
+
+.tabs {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+
+  span {
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    align-items: center;
+    cursor: pointer;
+    &:hover {
+      background-color: #4d6a8d;
+    }
+  }
+}
+
+.icon {
+  padding: 10px;
+  border-radius: 100%;
+  cursor: pointer;
+  &:hover {
+    background-color: #4d6a8d;
+  }
+}
+
+.modal_body {
+  display: flex;
+  flex-direction: column;
+  background-color: $background;
+  flex: 1;
+}
+.bodyContainer {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  justify-content: space-between;
+}
+
+.buttonRow {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+
+  padding: 10px 0px;
+
+  .buttonContainer {
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+  }
+
+  .priceContainer {
+    span {
+      font-weight: bold;
+      font-size: 18px;
+      b {
+        background-color: white;
+        padding: 5px 10px;
+      }
+    }
+  }
+}
+
+.select_tab {
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  align-items: center;
+  cursor: pointer;
+  background-color: #4d6a8d;
+}

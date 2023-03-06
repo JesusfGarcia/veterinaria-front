@@ -1,7 +1,7 @@
 import React from "react";
 import Button from "../button";
 import SearchInput from "../searchInput";
-
+import DeleteIcon from "@mui/icons-material/Delete";
 import RemoveRedEyeIcon from "@mui/icons-material/RemoveRedEye";
 
 import styles from "./table.module.scss";
@@ -48,6 +48,9 @@ const Td = ({ item, column }) => {
               return (
                 <RemoveRedEyeIcon onClick={() => action.onClick(item.id)} />
               );
+            }
+            if (action.label === "delete") {
+              return <DeleteIcon onClick={() => action.onClick(item.id)} />;
             }
           })}
         </div>
