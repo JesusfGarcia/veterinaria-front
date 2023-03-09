@@ -1,5 +1,6 @@
 import React, { Suspense } from "react";
 import Table from "../../components/table";
+
 import {
   Content,
   DashboardContainer,
@@ -10,10 +11,8 @@ import {
   SidebarItem,
 } from "../../styles/dashboard";
 
-import LogoutIcon from "@mui/icons-material/Logout";
-import PointOfSaleIcon from "@mui/icons-material/PointOfSale";
-import LowPriorityIcon from "@mui/icons-material/LowPriority";
-import ManageSearchIcon from "@mui/icons-material/ManageSearch";
+import SalePoint from "../../views/salepoint";
+
 
 import LocalGroceryStoreIcon from "@mui/icons-material/LocalGroceryStore";
 
@@ -24,8 +23,7 @@ import { Dialog, Slide } from "@mui/material";
 import { routes } from "../../routes";
 import MenuIcon from "@mui/icons-material/Menu";
 
-import styles from "./dashboard.module.scss";
-import Button from "../button";
+
 
 export default function Dashboard() {
   const [showSidebar, setShowSidebar] = React.useState(false);
@@ -39,6 +37,10 @@ export default function Dashboard() {
     }
     navigate(`/admin/${path}`);
   };
+
+  const closeModal =()=>{
+    setShowModal(false)
+  }
 
   return (
     <DashboardContainer showSidebar={showSidebar}>
@@ -90,46 +92,7 @@ export default function Dashboard() {
         open={showModal}
         onClose={() => setShowModal(false)}
       >
-        <div className={styles.modal_body}>
-          <div className={styles.modal_navbar}>
-            <div className={styles.tabs}>
-              <span className={styles.select_tab}>
-                <PointOfSaleIcon />
-                Punto de Venta
-              </span>
-              <span>
-                <LowPriorityIcon />
-                Movimientos
-              </span>
-              <span>
-                <ManageSearchIcon />
-                Historial
-              </span>
-            </div>
-            <LogoutIcon
-              className={styles.icon}
-              onClick={() => setShowModal(false)}
-            />
-          </div>
-          <div className={styles.bodyContainer}>
-            <Table columns={titles} data={data} />
-            <div className={styles.buttonRow}>
-              <div className={styles.buttonContainer}>
-                <Button color="danger" text="Cancelar">
-                  Cancelar
-                </Button>
-                <Button color="button" text="Pagar">
-                  Pagar
-                </Button>
-              </div>
-              <div className={styles.priceContainer}>
-                <span>
-                  Total= <b>$ 3,040.00</b>
-                </span>
-              </div>
-            </div>
-          </div>
-        </div>
+       <SalePoint closeModal={closeModal}/>
       </Dialog>
     </DashboardContainer>
   );
@@ -173,60 +136,3 @@ const SidebarItemRender = ({
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="left" ref={ref} {...props} />;
 });
-const titles = [
-  {
-    label: "producto",
-    key: "name",
-  },
-
-  {
-    label: "Numero de compra",
-    key: "orderId",
-  },
-
-  {
-    label: "Cantidad",
-    key: "quantity",
-  },
-  {
-    label: "Precio",
-    key: "price",
-  },
-
-  {
-    label: "Eliminar",
-    type: "actions",
-    actions: [
-      {
-        label: "delete",
-        onClick: () => console.log("hola mundo"),
-      },
-    ],
-  },
-];
-const data = [
-  {
-    name: "nexgar 15-30",
-    orderId: "862920",
-    quantity: "2",
-    price: "380",
-  },
-  {
-    name: "nexgar 15-30",
-    orderId: "862920",
-    quantity: "2",
-    price: "380",
-  },
-  {
-    name: "nexgar 15-30",
-    orderId: "862920",
-    quantity: "2",
-    price: "380",
-  },
-  {
-    name: "nexgar 15-30",
-    orderId: "862920",
-    quantity: "2",
-    price: "380",
-  },
-];
