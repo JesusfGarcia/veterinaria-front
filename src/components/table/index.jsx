@@ -62,7 +62,6 @@ const Td = ({ item, column }) => {
   }
 
   if (key === "isPayed") {
-    console.log(item[key]);
     return (
       <div>
         {item[key] ? (
@@ -70,7 +69,10 @@ const Td = ({ item, column }) => {
             <CheckCircleOutlineIcon /> Pagado
           </span>
         ) : (
-          <span className={styles.addToCar}>
+          <span
+            onClick={() => column.onClick(item)}
+            className={styles.addToCar}
+          >
             <AddShoppingCartIcon /> Agregar
           </span>
         )}

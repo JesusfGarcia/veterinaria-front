@@ -6,80 +6,12 @@ import Modal from "../../components/dialog";
 import { TextField } from "@mui/material";
 import Container from "../../components/container";
 
-const titles = [
-  {
-    label: "Nombre",
-    key: "name",
-  },
-  {
-    label: "Tipo de servicio",
-    key: "serviceType",
-  },
-  {
-    label: "Fecha",
-    key: "date",
-  },
-
-  {
-    label: "Precio",
-    key: "price",
-  },
-  {
-    label: "Observaciones",
-    key: "observations",
-  },
-  {
-    label: "Teléfono",
-    key: "phone",
-  },
-  {
-    label: "cobro",
-    key: "isPayed",
-  },
-];
-const data = [
-  {
-    name: "Chester García",
-    serviceType: "Baño Grande",
-    date: "12/04/23",
-    price: "$200",
-    observations: "Nervioso",
-    phone: "668156498",
-    isPayed: false,
-  },
-  {
-    name: "Nicky Lugo",
-    serviceType: "Baño Grande",
-    date: "7/04/23",
-    price: "$300",
-    observations: "Usar Bozal",
-    phone: "668156498",
-    isPayed: true,
-  },
-  {
-    name: "Coffee Soto",
-    serviceType: "Baño chico",
-    date: "22/07/22",
-    price: "$150",
-    observations: "Nerviosa",
-    phone: "668156498",
-    isPayed: false,
-  },
-];
-
-const initialState = {
-  name: "",
-  serviceType: "",
-  date: "",
-  price: "",
-  observations: "",
-  phone: "",
-};
+import { CarContext } from "../../components/dashboard";
 
 export default function EstheticScreen() {
   const [isOpenModal, setisOpenModal] = React.useState(false);
   const [body, setBody] = React.useState({ ...initialState });
-
+  const { setProducts, products } = React.useContext(CarContext);
   const handleChange = (e) => {
     const { name, value } = e.target;
     setBody({
@@ -101,6 +33,56 @@ export default function EstheticScreen() {
     label: "Añadir Visita",
     onClick: () => setisOpenModal(true),
   };
+
+  const titles = [
+    {
+      label: "Nombre",
+      key: "name",
+    },
+    {
+      label: "Tipo de servicio",
+      key: "serviceType",
+    },
+    {
+      label: "Fecha",
+      key: "date",
+    },
+
+    {
+      label: "Precio",
+      key: "price",
+    },
+    {
+      label: "Observaciones",
+      key: "observations",
+    },
+    {
+      label: "Teléfono",
+      key: "phone",
+    },
+    {
+      label: "cobro",
+      key: "isPayed",
+      onClick: (product) => {
+        setProducts([
+          ...products,
+          {
+            name: product.serviceType,
+            price: product.price,
+            id: product.id,
+            quantity: 1,
+            type: "esthetic",
+          },
+        ]);
+        const findId = data.findIndex((item) => item.id === product.id);
+
+        data.splice(findId, 1, {
+          ...product,
+          isPayed: true,
+        });
+      },
+    },
+  ];
 
   return (
     <Container>
@@ -160,3 +142,45 @@ export default function EstheticScreen() {
     </Container>
   );
 }
+
+const data = [
+  {
+    name: "Chester García",
+    serviceType: "Baño Grande",
+    date: "12/04/23",
+    price: "$200",
+    observations: "Nervioso",
+    phone: "668156498",
+    isPayed: false,
+    id: 1,
+  },
+  {
+    name: "Nicky Lugo",
+    serviceType: "Baño Grande",
+    date: "7/04/23",
+    price: "$300",
+    observations: "Usar Bozal",
+    phone: "668156498",
+    isPayed: true,
+    id: 2,
+  },
+  {
+    name: "Coffee Soto",
+    serviceType: "Baño chico",
+    date: "22/07/22",
+    price: "$150",
+    observations: "Nerviosa",
+    phone: "668156498",
+    isPayed: false,
+    id: 3,
+  },
+];
+
+const initialState = {
+  name: "",
+  serviceType: "",
+  date: "",
+  price: "",
+  observations: "",
+  phone: "",
+};
