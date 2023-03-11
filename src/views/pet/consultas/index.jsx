@@ -118,6 +118,8 @@ export default function Consults() {
           value={body.description}
           size="small"
           label="Descripción"
+          multiline
+          minRows={3}
         />
         <TextField
           onChange={handleChange}

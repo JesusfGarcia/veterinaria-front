@@ -1,19 +1,26 @@
 @import "../../sass/color.scss";
 
-.container{
-    gap: 25px;
-    display: flex;
-    flex-direction: column;
-    gap: 25px;
-    padding: 10px;
-    min-width: 400px;
+.container {
+  gap: 25px;
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+  padding: 10px;
+  min-width: 700px;
 }
-.title{
-    text-align: center;
+.title {
+  text-align: center;
 }
-.footer{
-    display: flex;
-    flex-direction: row;
-    justify-content: flex-end;
-    gap:20px;
+.footer {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  gap: 20px;
+}
+
+.ejem {
+  width: 70vw;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 }

@@ -6,6 +6,10 @@ import { TextField } from "@mui/material";
 import Container from "../../components/container";
 const titles = [
   {
+    label: "Nombre",
+    key: "name",
+  },
+  {
     label: "Descripción",
     key: "description",
   },
@@ -29,6 +33,7 @@ const titles = [
 
 const data = [
   {
+    name: "Panchon",
     description: "Perrito enfermito",
     cost: "50",
     treatment: "una sobadita de panza",
@@ -36,6 +41,7 @@ const data = [
     isPayed: true,
   },
   {
+    name: "Panchon",
     description: "Perrito enfermito",
     cost: "50",
     treatment: "una sobadita de panza",
@@ -43,6 +49,7 @@ const data = [
     isPayed: false,
   },
   {
+    name: "Panchon",
     description: "Perrito enfermito",
     cost: "50",
     treatment: "una sobadita de panza",
@@ -50,6 +57,7 @@ const data = [
     isPayed: false,
   },
   {
+    name: "Panchon",
     description: "Perrito enfermito",
     cost: "50",
     treatment: "una sobadita de panza",
@@ -57,6 +65,7 @@ const data = [
     isPayed: false,
   },
   {
+    name: "Panchon",
     description: "Perrito enfermito",
     cost: "50",
     treatment: "una sobadita de panza",

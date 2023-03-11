@@ -105,6 +105,8 @@ export default function SurgeryScreen() {
             value={body.concept}
             size="small"
             label="Concepto"
+            multiline
+            minRows={3}
           />
           <TextField
             onChange={handleChange}

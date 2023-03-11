@@ -2,19 +2,24 @@ import * as React from "react";
 import Button from "../button";
 import DialogTitle from "@mui/material/DialogTitle";
 import Dialog from "@mui/material/Dialog";
-import Styles from "./dialog.module.scss";
+import styles from "./dialog.module.scss";
+import { DialogActions, DialogContent } from "@mui/material";
 
-export default function Form({ isOpen, onClose, children, title = "" , onSave}) {
+export default function Form({
+  isOpen,
+  onClose,
+  children,
+  title = "",
+  onSave,
+}) {
   return (
-    <Dialog onClose={onClose} open={isOpen}>
-      <div className={Styles.container}>
-        <DialogTitle className={Styles.title}>{title}</DialogTitle>
-        {children}
-        <div className={Styles.footer}>
-          <Button color="danger" text="Cancelar" onClick={onClose} />
-          <Button onClick={onSave} text="Guardar" />
-        </div>
-      </div>
+    <Dialog maxWidth={false} onClose={onClose} open={isOpen}>
+      <DialogTitle sx={{ fontWeight: "bold" }}>{title}</DialogTitle>
+      <DialogContent className={styles.ejem}>{children}</DialogContent>
+      <DialogActions>
+        <Button color="danger" text="Cancelar" onClick={onClose} />
+        <Button onClick={onSave} text="Guardar" />
+      </DialogActions>
     </Dialog>
   );
 }
