@@ -20,6 +20,10 @@ const titles = [
     label: "Fecha de de alta",
     key: "dischargeDate",
   },
+  {
+    label: "Cobro",
+    key: "isPayed",
+  },
 ];
 
 const data = [
@@ -28,6 +32,7 @@ const data = [
     observation: "perrito aja con algo ",
     treatment: "yo que se no le se",
     dischargeDate: "12/3/23",
+    isPayed: false,
   },
 ];
 

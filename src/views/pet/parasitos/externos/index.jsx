@@ -20,6 +20,10 @@ const titles = [
     label: "Proxima Aplicación",
     key: "date2",
   },
+  {
+    label: "Cobro",
+    key: "isPayed",
+  },
 ];
 const data = [
   {
@@ -27,12 +31,14 @@ const data = [
     date: "14/02/23",
     weight: "23kg",
     date2: "14/03/23",
+    isPayed: false,
   },
   {
     product: "nexgar",
     date: "14/02/23",
     weight: "23kg",
     date2: "14/03/23",
+    isPayed: false,
   },
 ];
 

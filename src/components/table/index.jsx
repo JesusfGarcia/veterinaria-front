@@ -4,6 +4,9 @@ import SearchInput from "../searchInput";
 import DeleteIcon from "@mui/icons-material/Delete";
 import RemoveRedEyeIcon from "@mui/icons-material/RemoveRedEye";
 
+import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
+import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
+
 import styles from "./table.module.scss";
 
 export default function Table({ columns, data, buttonConf }) {
@@ -55,6 +58,23 @@ const Td = ({ item, column }) => {
           })}
         </div>
       </td>
+    );
+  }
+
+  if (key === "isPayed") {
+    console.log(item[key]);
+    return (
+      <div>
+        {item[key] ? (
+          <span className={styles.payed}>
+            <CheckCircleOutlineIcon /> Pagado
+          </span>
+        ) : (
+          <span className={styles.addToCar}>
+            <AddShoppingCartIcon /> Agregar
+          </span>
+        )}
+      </div>
     );
   }
   return (

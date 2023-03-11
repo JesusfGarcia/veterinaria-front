@@ -27,6 +27,10 @@ const title = [
     label: "Fecha de alta",
     key: "date",
   },
+  {
+    label: "cobro",
+    key: "isPayed",
+  },
 ];
 
 const data = [
@@ -36,6 +40,23 @@ const data = [
     obs: "perrito con diarrea de hace dos dias, se le dio medicaento en otra veterinaria",
     trata: "se le puso suero y medicamento",
     date: "17/02/23",
+    isPayed: false,
+  },
+  {
+    name: "coffee",
+    date1: "14/02/23",
+    obs: "perrito con diarrea de hace dos dias, se le dio medicaento en otra veterinaria",
+    trata: "se le puso suero y medicamento",
+    date: "17/02/23",
+    isPayed: true,
+  },
+  {
+    name: "coffee",
+    date1: "14/02/23",
+    obs: "perrito con diarrea de hace dos dias, se le dio medicaento en otra veterinaria",
+    trata: "se le puso suero y medicamento",
+    date: "17/02/23",
+    isPayed: false,
   },
 ];
 const initialState = {

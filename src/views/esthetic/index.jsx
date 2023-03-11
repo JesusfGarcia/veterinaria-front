@@ -24,7 +24,6 @@ const titles = [
     label: "Precio",
     key: "price",
   },
-
   {
     label: "Observaciones",
     key: "observations",
@@ -32,6 +31,10 @@ const titles = [
   {
     label: "Teléfono",
     key: "phone",
+  },
+  {
+    label: "cobro",
+    key: "isPayed",
   },
 ];
 const data = [
@@ -42,24 +45,25 @@ const data = [
     price: "$200",
     observations: "Nervioso",
     phone: "668156498",
+    isPayed: false,
   },
   {
     name: "Nicky Lugo",
     serviceType: "Baño Grande",
     date: "7/04/23",
     price: "$300",
-
     observations: "Usar Bozal",
     phone: "668156498",
+    isPayed: true,
   },
   {
     name: "Coffee Soto",
     serviceType: "Baño chico",
     date: "22/07/22",
     price: "$150",
-
     observations: "Nerviosa",
     phone: "668156498",
+    isPayed: false,
   },
 ];
 

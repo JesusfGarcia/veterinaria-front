@@ -30,6 +30,10 @@ const titles = [
     label: "Proxima vacuna",
     key: "date2",
   },
+  {
+    label: "Cobro",
+    key: "isPayed",
+  },
 ];
 const data = [
   {
@@ -39,6 +43,7 @@ const data = [
     lab: "Merial",
     name2: "MVZ.Thelma",
     date2: "25/02/23",
+    isPayed: true,
   },
   {
     pet: "sisi",
@@ -47,6 +52,7 @@ const data = [
     lab: "Merial",
     name2: "MVZ.Thelma",
     date2: "25/02/23",
+    isPayed: false,
   },
 ];
 const initialState = {

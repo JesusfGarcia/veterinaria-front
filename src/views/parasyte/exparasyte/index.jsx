@@ -1,7 +1,7 @@
 import { TextField } from "@mui/material";
 import React from "react";
-import Content from "../../../components/content";
-import Table from ".././../../components/table";
+
+import Table from "../../../components/table";
 import Modal from "../../../components/dialog";
 const titles = [
   {
@@ -28,6 +28,10 @@ const titles = [
     label: "Proxima Aplicación",
     key: "date2",
   },
+  {
+    label: "costo",
+    key: "isPayed",
+  },
 ];
 const data = [
   {
@@ -37,6 +41,7 @@ const data = [
     date: "14/02/23",
     weight: "23kg",
     date2: "14/03/23",
+    isPayed: false,
   },
 ];
 const initialState = {
@@ -46,9 +51,6 @@ const initialState = {
   date: "",
   weight: "",
   date2: "",
-};
-const buttonConf = {
-  label: "Añadir Registro",
 };
 
 export default function ParasitosEx() {
@@ -72,13 +74,12 @@ export default function ParasitosEx() {
     console.log(body);
   };
   const buttonConf = {
-    label: "Añadir Producto",
+    label: "Añadir Registro",
     onClick: () => setisOpenModal(true),
   };
 
   return (
     <>
-      
       <Table buttonConf={buttonConf} columns={titles} data={data} />
       <Modal
         onSave={onSave}

@@ -26,6 +26,10 @@ const titles = [
     key: "done",
     isBoolean: true,
   },
+  {
+    label: "Cobro",
+    key: "isPayed",
+  },
 ];
 const data = [
   {
@@ -34,6 +38,7 @@ const data = [
     date: "12/06/22",
     name: "MVZ.Anna",
     done: false,
+    isPayed: false,
   },
 ];
 const initialState = {

@@ -21,6 +21,10 @@ const titles = [
     label: "Fecha",
     key: "date",
   },
+  {
+    label: "cobro",
+    key: "isPayed",
+  },
 ];
 
 const data = [
@@ -29,30 +33,35 @@ const data = [
     cost: "50",
     treatment: "una sobadita de panza",
     date: "12/12/2022",
+    isPayed: true,
   },
   {
     description: "Perrito enfermito",
     cost: "50",
     treatment: "una sobadita de panza",
     date: "12/12/2022",
+    isPayed: false,
   },
   {
     description: "Perrito enfermito",
     cost: "50",
     treatment: "una sobadita de panza",
     date: "12/12/2022",
+    isPayed: false,
   },
   {
     description: "Perrito enfermito",
     cost: "50",
     treatment: "una sobadita de panza",
     date: "12/12/2022",
+    isPayed: false,
   },
   {
     description: "Perrito enfermito",
     cost: "50",
     treatment: "una sobadita de panza",
     date: "12/12/2022",
+    isPayed: true,
   },
 ];
 const initialState = {

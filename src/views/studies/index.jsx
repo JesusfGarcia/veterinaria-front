@@ -26,6 +26,10 @@ const titles = [
     label: "Observaciones",
     key: "observation",
   },
+  {
+    label: "costo",
+    key: "isPayed",
+  },
 ];
 
 const data = [
@@ -35,6 +39,15 @@ const data = [
     cost: "$250",
     study: "biometria",
     observation: "paciente con sintomas de parvovirus",
+    isPayed: true,
+  },
+  {
+    name: "moli",
+    date: "12/12/22",
+    cost: "$250",
+    study: "biometria",
+    observation: "paciente con sintomas de parvovirus",
+    isPayed: false,
   },
 ];
 const initialState = {

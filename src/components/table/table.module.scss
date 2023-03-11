@@ -40,3 +40,26 @@
     }
   }
 }
+
+.addToCar {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  background-color: $green;
+  color: white;
+  padding: 5px 10px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: bold;
+  font-size: 12px;
+  &:hover {
+    opacity: 0.7;
+  }
+}
+
+.payed {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  color: $green;
+}

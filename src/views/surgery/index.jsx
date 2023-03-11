@@ -26,6 +26,10 @@ const title = [
     label: "Fecha",
     key: "date",
   },
+  {
+    label: "cobro",
+    key: "isPayed",
+  },
 ];
 
 const data = [
@@ -35,6 +39,15 @@ const data = [
     category: "esterlización",
     price: "$1500",
     date: "12/04/23",
+    isPayed: true,
+  },
+  {
+    name: "coffee",
+    concept: "realizar cirugia de perro con solo un testiculo",
+    category: "esterlización",
+    price: "$1500",
+    date: "12/04/23",
+    isPayed: false,
   },
 ];
 const initialState = {

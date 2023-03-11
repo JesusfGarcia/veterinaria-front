@@ -17,6 +17,10 @@ const titles = [
     label: "Fecha",
     key: "date",
   },
+  {
+    label: "Cobro",
+    key: "isPayed",
+  },
 ];
 
 const data = [
@@ -25,18 +29,21 @@ const data = [
     cost: "$250",
 
     date: "12/12/2022",
+    isPayed: true,
   },
   {
     description: "baño de  perro grande",
     cost: "$250",
 
     date: "12/12/2022",
+    isPayed: false,
   },
   {
     description: "baño de  perro grande",
     cost: "$250",
 
     date: "12/12/2022",
+    isPayed: false,
   },
 ];
 const initialState = {
