@@ -77,7 +77,6 @@ export default function ParasitosInternos() {
         addToCar({ item: product, origin: "parasitologia" });
       },
     },
-  
   ];
   return (
     <>
