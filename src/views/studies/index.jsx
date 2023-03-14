@@ -5,32 +5,7 @@ import Modal from "../../components/dialog";
 import { TextField } from "@mui/material";
 import Container from "../../components/container";
 
-const titles = [
-  {
-    label: "Nombre",
-    key: "name",
-  },
-  {
-    label: "Fecha",
-    key: "date",
-  },
-  {
-    label: "Costo",
-    key: "cost",
-  },
-  {
-    label: "Tipo de estudio",
-    key: "study",
-  },
-  {
-    label: "Observaciones",
-    key: "observation",
-  },
-  {
-    label: "costo",
-    key: "isPayed",
-  },
-];
+import { CarContext } from "../../components/dashboard";
 
 const data = [
   {
@@ -60,6 +35,7 @@ const initialState = {
 export default function StudiesScreen() {
   const [isOpenModal, setisOpenModal] = React.useState(false);
   const [body, setBody] = React.useState({ ...initialState });
+  const { addToCar } = React.useContext(CarContext);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -81,6 +57,36 @@ export default function StudiesScreen() {
     label: "Añadir Estudio",
     onClick: () => setisOpenModal(true),
   };
+
+  const titles = [
+    {
+      label: "Nombre",
+      key: "name",
+    },
+    {
+      label: "Fecha",
+      key: "date",
+    },
+    {
+      label: "Costo",
+      key: "cost",
+    },
+    {
+      label: "Tipo de estudio",
+      key: "study",
+    },
+    {
+      label: "Observaciones",
+      key: "observation",
+    },
+    {
+      label: "costo",
+      key: "isPayed",
+      onClick: (product) => {
+        addToCar({ item: product, origin: "estudios" });
+      },
+    },
+  ];
 
   return (
     <Container>

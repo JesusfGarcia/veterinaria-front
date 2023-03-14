@@ -5,32 +5,7 @@ import Modal from "../../components/dialog";
 import { TextField } from "@mui/material";
 import Container from "../../components/container";
 
-const title = [
-  {
-    label: "Nombre",
-    key: "name",
-  },
-  {
-    label: "Concepto",
-    key: "concept",
-  },
-  {
-    label: "Categoría",
-    key: "category",
-  },
-  {
-    label: "Precio",
-    key: "price",
-  },
-  {
-    label: "Fecha",
-    key: "date",
-  },
-  {
-    label: "cobro",
-    key: "isPayed",
-  },
-];
+import { CarContext } from "../../components/dashboard";
 
 const data = [
   {
@@ -57,9 +32,11 @@ const initialState = {
   price: "",
   date: "",
 };
+
 export default function SurgeryScreen() {
   const [isOpenModal, setisOpenModal] = React.useState(false);
   const [body, setBody] = React.useState({ ...initialState });
+  const { addToCar } = React.useContext(CarContext);
   const handleChange = (e) => {
     const { name, value } = e.target;
     setBody({
@@ -80,6 +57,37 @@ export default function SurgeryScreen() {
     label: "Añadir Cirugía",
     onClick: () => setisOpenModal(true),
   };
+
+  const title = [
+    {
+      label: "Nombre",
+      key: "name",
+    },
+    {
+      label: "Concepto",
+      key: "concept",
+    },
+    {
+      label: "Categoría",
+      key: "category",
+    },
+    {
+      label: "Precio",
+      key: "price",
+    },
+    {
+      label: "Fecha",
+      key: "date",
+    },
+
+    {
+      label: "cobro",
+      key: "isPayed",
+      onClick: (product) => {
+        addToCar({ item: product, origin: "cirugias" });
+      },
+    },
+  ];
 
   return (
     <Container>

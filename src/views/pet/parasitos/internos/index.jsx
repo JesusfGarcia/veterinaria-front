@@ -2,29 +2,8 @@ import React from "react";
 import Table from "../../../../components/table";
 import { TextField } from "@mui/material";
 import Modal from "../../../../components/dialog";
+import { CarContext } from "../../../../components/dashboard";
 
-const titles = [
-  {
-    label: "Poducto",
-    key: "product",
-  },
-  {
-    label: "Fecha de aplicación",
-    key: "date",
-  },
-  {
-    label: "Peso",
-    key: "weight",
-  },
-  {
-    label: "Proxima Aplicación",
-    key: "date2",
-  },
-  {
-    label: "Cobro",
-    key: "isPayed",
-  },
-];
 const data = [
   {
     product: "nexgar",
@@ -53,7 +32,7 @@ const initialState = {
 export default function ParasitosInternos() {
   const [isOpenModal, setisOpenModal] = React.useState(false);
   const [body, setBody] = React.useState({ ...initialState });
-
+  const { addToCar } = React.useContext(CarContext);
   const handleChange = (e) => {
     const { name, value } = e.target;
     setBody({
@@ -74,6 +53,32 @@ export default function ParasitosInternos() {
     label: "Añadir Producto",
     onClick: () => setisOpenModal(true),
   };
+  const titles = [
+    {
+      label: "Poducto",
+      key: "product",
+    },
+    {
+      label: "Fecha de aplicación",
+      key: "date",
+    },
+    {
+      label: "Peso",
+      key: "weight",
+    },
+    {
+      label: "Proxima Aplicación",
+      key: "date2",
+    },
+    {
+      label: "Cobro",
+      key: "isPayed",
+      onClick: (product) => {
+        addToCar({ item: product, origin: "parasitologia" });
+      },
+    },
+  
+  ];
   return (
     <>
       <Table buttonConf={buttonConf} columns={titles} data={data} />

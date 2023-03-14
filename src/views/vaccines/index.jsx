@@ -5,36 +5,8 @@ import Modal from "../../components/dialog";
 import { TextField } from "@mui/material";
 import Container from "../../components/container";
 
-const titles = [
-  {
-    label: "Nombre",
-    key: "pet",
-  },
-  {
-    label: "Fecha de aplicación",
-    key: "date",
-  },
-  {
-    label: "Nombre de la vacuna",
-    key: "name",
-  },
-  {
-    label: "Laboratorio",
-    key: "lab",
-  },
-  {
-    label: "Medico",
-    key: "name2",
-  },
-  {
-    label: "Proxima vacuna",
-    key: "date2",
-  },
-  {
-    label: "Cobro",
-    key: "isPayed",
-  },
-];
+import { CarContext } from "../../components/dashboard";
+
 const data = [
   {
     pet: "coffee",
@@ -66,6 +38,7 @@ const initialState = {
 export default function VacciensScreen() {
   const [isOpenModal, setisOpenModal] = React.useState(false);
   const [body, setBody] = React.useState({ ...initialState });
+  const { addToCar } = React.useContext(CarContext);
   const handleChange = (e) => {
     const { name, value } = e.target;
     setBody({
@@ -86,6 +59,40 @@ export default function VacciensScreen() {
     label: "Añadir Vacuna",
     onClick: () => setisOpenModal(true),
   };
+
+  const titles = [
+    {
+      label: "Nombre",
+      key: "pet",
+    },
+    {
+      label: "Fecha de aplicación",
+      key: "date",
+    },
+    {
+      label: "Nombre de la vacuna",
+      key: "name",
+    },
+    {
+      label: "Laboratorio",
+      key: "lab",
+    },
+    {
+      label: "Medico",
+      key: "name2",
+    },
+    {
+      label: "Proxima vacuna",
+      key: "date2",
+    },
+    {
+      label: "Cobro",
+      key: "isPayed",
+      onClick: (product) => {
+        addToCar({ item: product, origin: "vacunas" });
+      },
+    },
+  ];
 
   return (
     <Container>

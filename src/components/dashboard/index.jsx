@@ -2,6 +2,7 @@ import React, { Suspense } from "react";
 import Table from "../../components/table";
 
 import {
+  CantIndicator,
   Content,
   DashboardContainer,
   Floating,
@@ -24,7 +25,7 @@ import MenuIcon from "@mui/icons-material/Menu";
 
 export const CarContext = React.createContext({
   products: [],
-  setProducts: () => {},
+  addToCar: () => {},
 });
 
 export default function Dashboard() {
@@ -46,8 +47,32 @@ export default function Dashboard() {
     setShowModal(false);
   };
 
+  const addToCar = ({ item, origin }) => {
+    setProducts([
+      ...products,
+      {
+        ...item,
+        type: getProductType(origin),
+      },
+    ]);
+  };
+
+  const getProductType = (origin) => {
+    const dictionary = {
+      estetica: "groomings",
+      cirugias: "surgeries",
+      estudios: "diagnostics",
+      vacunas: "vaccinations",
+      consultas: "cappointments",
+      parasitologia: "parasitologies",
+      hospital: "hospitals",
+    };
+
+    return dictionary[origin];
+  };
+
   return (
-    <CarContext.Provider value={{ products, setProducts }}>
+    <CarContext.Provider value={{ products, addToCar }}>
       <DashboardContainer showSidebar={showSidebar}>
         <Header>
           <MenuIcon onClick={() => setShowSidebar(!showSidebar)} />
@@ -89,6 +114,9 @@ export default function Dashboard() {
           </Suspense>
         </Content>
         <Floating onClick={() => setShowModal(true)}>
+          {products.length > 0 && (
+            <CantIndicator>{products.length}</CantIndicator>
+          )}
           <LocalGroceryStoreIcon />
         </Floating>
         <Dialog

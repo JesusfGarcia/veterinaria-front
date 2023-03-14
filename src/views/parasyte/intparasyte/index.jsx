@@ -1,29 +1,8 @@
 import React from "react";
 import Table from "../../../components/table";
 
-const titles = [
-  {
-    label: "Poducto",
-    key: "product",
-  },
-  {
-    label: "Fecha de aplicación",
-    key: "date",
-  },
-  {
-    label: "Peso",
-    key: "weight",
-  },
-  {
-    label: "Proxima Aplicación",
-    key: "date2",
-  },
+import { CarContext } from "../../../components/dashboard";
 
-  {
-    label: "Cobro",
-    key: "isPayed",
-  },
-];
 const data = [
   {
     product: "nexgar",
@@ -53,5 +32,32 @@ const buttonConf = {
 };
 
 export default function ParasitosInt() {
+  const { addToCar } = React.useContext(CarContext);
+  const titles = [
+    {
+      label: "Poducto",
+      key: "product",
+    },
+    {
+      label: "Fecha de aplicación",
+      key: "date",
+    },
+    {
+      label: "Peso",
+      key: "weight",
+    },
+    {
+      label: "Proxima Aplicación",
+      key: "date2",
+    },
+
+    {
+      label: "Cobro",
+      key: "isPayed",
+      onClick: (product) => {
+        addToCar({ item: product, origin: "parasitologia" });
+      },
+    },
+  ];
   return <Table buttonConf={buttonConf} columns={titles} data={data} />;
 }

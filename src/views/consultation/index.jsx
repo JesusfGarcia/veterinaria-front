@@ -4,32 +4,8 @@ import Table from "../../components/table";
 import Modal from "../../components/dialog";
 import { TextField } from "@mui/material";
 import Container from "../../components/container";
-const titles = [
-  {
-    label: "Nombre",
-    key: "name",
-  },
-  {
-    label: "Descripción",
-    key: "description",
-  },
-  {
-    label: "Costo",
-    key: "cost",
-  },
-  {
-    label: "Tratamiento",
-    key: "treatment",
-  },
-  {
-    label: "Fecha",
-    key: "date",
-  },
-  {
-    label: "cobro",
-    key: "isPayed",
-  },
-];
+
+import { CarContext } from "../../components/dashboard";
 
 const data = [
   {
@@ -82,6 +58,7 @@ const initialState = {
 export default function ConsultationScreen() {
   const [isOpenModal, setisOpenModal] = React.useState(false);
   const [body, setBody] = React.useState({ ...initialState });
+  const { addToCar } = React.useContext(CarContext);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -104,6 +81,35 @@ export default function ConsultationScreen() {
     onClick: () => setisOpenModal(true),
   };
 
+  const titles = [
+    {
+      label: "Nombre",
+      key: "name",
+    },
+    {
+      label: "Descripción",
+      key: "description",
+    },
+    {
+      label: "Costo",
+      key: "cost",
+    },
+    {
+      label: "Tratamiento",
+      key: "treatment",
+    },
+    {
+      label: "Fecha",
+      key: "date",
+    },
+    {
+      label: "cobro",
+      key: "isPayed",
+      onClick: (product) => {
+        addToCar({ item: product, origin: "consultas" });
+      },
+    },
+  ];
   return (
     <Container>
       <Content title="Consultas">

@@ -2,28 +2,7 @@ import { TextField } from "@mui/material";
 import React from "react";
 import Table from "../../../components/table";
 import Modal from "../../../components/dialog";
-const titles = [
-  {
-    label: "Fecha",
-    key: "date",
-  },
-  {
-    label: "Costo",
-    key: "cost",
-  },
-  {
-    label: "Tipo de estudio",
-    key: "study",
-  },
-  {
-    label: "Observaciones",
-    key: "observation",
-  },
-  {
-    label: "Cobro",
-    key: "isPayed",
-  },
-];
+import { CarContext } from "../../../components/dashboard";
 
 const data = [
   {
@@ -58,7 +37,7 @@ const initialState = {
 export default function Estudios() {
   const [isOpenModal, setisOpenModal] = React.useState(false);
   const [body, setBody] = React.useState({ ...initialState });
-
+  const { addToCar } = React.useContext(CarContext);
   const handleChange = (e) => {
     const { name, value } = e.target;
     setBody({
@@ -79,6 +58,31 @@ export default function Estudios() {
     label: "Añadir Estudio",
     onClick: () => setisOpenModal(true),
   };
+  const titles = [
+    {
+      label: "Fecha",
+      key: "date",
+    },
+    {
+      label: "Costo",
+      key: "cost",
+    },
+    {
+      label: "Tipo de estudio",
+      key: "study",
+    },
+    {
+      label: "Observaciones",
+      key: "observation",
+    },
+    {
+      label: "Cobro",
+      key: "isPayed",
+      onClick: (product) => {
+        addToCar({ item: product, origin: "estudios" });
+      },
+    },
+  ];
   return (
     <>
       <Table buttonConf={buttonConf} columns={titles} data={data} />

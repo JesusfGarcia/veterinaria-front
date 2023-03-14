@@ -11,7 +11,7 @@ import { CarContext } from "../../components/dashboard";
 export default function EstheticScreen() {
   const [isOpenModal, setisOpenModal] = React.useState(false);
   const [body, setBody] = React.useState({ ...initialState });
-  const { setProducts, products } = React.useContext(CarContext);
+  const { addToCar, products } = React.useContext(CarContext);
   const handleChange = (e) => {
     const { name, value } = e.target;
     setBody({
@@ -64,22 +64,7 @@ export default function EstheticScreen() {
       label: "cobro",
       key: "isPayed",
       onClick: (product) => {
-        setProducts([
-          ...products,
-          {
-            name: product.serviceType,
-            price: product.price,
-            id: product.id,
-            quantity: 1,
-            type: "esthetic",
-          },
-        ]);
-        const findId = data.findIndex((item) => item.id === product.id);
-
-        data.splice(findId, 1, {
-          ...product,
-          isPayed: true,
-        });
+        addToCar({ item: product, origin: "estetica" });
       },
     },
   ];

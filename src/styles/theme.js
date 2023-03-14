@@ -5,4 +5,5 @@ export const theme = {
   primaryHover: "#4d6a8d",
   background: "#dddddd",
   textLight: "#f4f4f4",
+  red: "#db4035",
 };

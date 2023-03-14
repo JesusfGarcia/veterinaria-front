@@ -2,29 +2,7 @@ import React from "react";
 import Table from "../../../components/table";
 import Modal from "../../../components/dialog";
 import { TextField } from "@mui/material";
-
-const titles = [
-  {
-    label: "Fecha de ingreso",
-    key: "entryDate",
-  },
-  {
-    label: "Observaciones",
-    key: "observation",
-  },
-  {
-    label: "Tratamiento",
-    key: "treatment",
-  },
-  {
-    label: "Fecha de de alta",
-    key: "dischargeDate",
-  },
-  {
-    label: "Cobro",
-    key: "isPayed",
-  },
-];
+import { CarContext } from "../../../components/dashboard";
 
 const data = [
   {
@@ -46,6 +24,7 @@ const initialState = {
 export default function Hospital() {
   const [isOpenModal, setisOpenModal] = React.useState(false);
   const [body, setBody] = React.useState({ ...initialState });
+  const { addToCar } = React.useContext(CarContext);
   const handleChange = (e) => {
     const { name, value } = e.target;
     setBody({
@@ -66,6 +45,31 @@ export default function Hospital() {
     label: "Ingresar paciente",
     onClick: () => setisOpenModal(true),
   };
+  const titles = [
+    {
+      label: "Fecha de ingreso",
+      key: "entryDate",
+    },
+    {
+      label: "Observaciones",
+      key: "observation",
+    },
+    {
+      label: "Tratamiento",
+      key: "treatment",
+    },
+    {
+      label: "Fecha de de alta",
+      key: "dischargeDate",
+    },
+    {
+      label: "Cobro",
+      key: "isPayed",
+      onClick: (product) => {
+        addToCar({ item: product, origin: "consulta" });
+      },
+    },
+  ];
   return (
     <>
       <Table buttonConf={buttonConf} columns={titles} data={data} />

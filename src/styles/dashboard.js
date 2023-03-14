@@ -78,6 +78,20 @@ export const Content = styled.section`
   background-color: ${theme.background};
 `;
 
+export const CantIndicator = styled.span`
+  position: absolute;
+  right: 0;
+  top: 0;
+  background-color: ${theme.red};
+  width: 25px;
+  height: 25px;
+  border-radius: 25px;
+  color: ${theme.textLight};
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+
 export const Floating = styled.button`
   position: absolute;
   right: 40px;

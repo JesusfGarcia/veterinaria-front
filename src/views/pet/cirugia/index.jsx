@@ -3,34 +3,8 @@ import React from "react";
 import Content from "../../../components/content";
 import Table from "../../../components/table";
 import Modal from "../../../components/dialog";
+import { CarContext } from "../../../components/dashboard";
 
-const titles = [
-  {
-    label: "Categoría",
-    key: "category",
-  },
-  {
-    label: "Precio",
-    key: "price",
-  },
-  {
-    label: "Fecha",
-    key: "date",
-  },
-  {
-    label: "Medico",
-    key: "name",
-  },
-  {
-    label: "Realizada",
-    key: "done",
-    isBoolean: true,
-  },
-  {
-    label: "Cobro",
-    key: "isPayed",
-  },
-];
 const data = [
   {
     category: "Esterilización",
@@ -51,6 +25,7 @@ const initialState = {
 export default function Cirugia() {
   const [isOpenModal, setisOpenModal] = React.useState(false);
   const [body, setBody] = React.useState({ ...initialState });
+  const { addToCar } = React.useContext(CarContext);
   const handleChange = (e) => {
     const { name, value } = e.target;
     setBody({
@@ -71,6 +46,36 @@ export default function Cirugia() {
     label: "Añadir Cirugía",
     onClick: () => setisOpenModal(true),
   };
+  const titles = [
+    {
+      label: "Categoría",
+      key: "category",
+    },
+    {
+      label: "Precio",
+      key: "price",
+    },
+    {
+      label: "Fecha",
+      key: "date",
+    },
+    {
+      label: "Medico",
+      key: "name",
+    },
+    {
+      label: "Realizada",
+      key: "done",
+      isBoolean: true,
+    },
+    {
+      label: "Cobro",
+      key: "isPayed",
+      onClick: (product) => {
+        addToCar({ item: product, origin: "cirugias" });
+      },
+    },
+  ];
   return (
     <>
       <Table buttonConf={buttonConf} columns={titles} data={data} />

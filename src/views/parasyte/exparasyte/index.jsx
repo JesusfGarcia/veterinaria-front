@@ -3,36 +3,9 @@ import React from "react";
 
 import Table from "../../../components/table";
 import Modal from "../../../components/dialog";
-const titles = [
-  {
-    label: "Nombre",
-    key: "name",
-  },
-  {
-    label: "Poducto",
-    key: "product",
-  },
-  {
-    label: "Precio",
-    key: "price",
-  },
-  {
-    label: "Fecha de aplicación",
-    key: "date",
-  },
-  {
-    label: "Peso",
-    key: "weight",
-  },
-  {
-    label: "Proxima Aplicación",
-    key: "date2",
-  },
-  {
-    label: "costo",
-    key: "isPayed",
-  },
-];
+
+import { CarContext } from "../../../components/dashboard";
+
 const data = [
   {
     name: "Bolt",
@@ -56,6 +29,7 @@ const initialState = {
 export default function ParasitosEx() {
   const [isOpenModal, setisOpenModal] = React.useState(false);
   const [body, setBody] = React.useState({ ...initialState });
+  const { addToCar } = React.useContext(CarContext);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -77,6 +51,40 @@ export default function ParasitosEx() {
     label: "Añadir Registro",
     onClick: () => setisOpenModal(true),
   };
+
+  const titles = [
+    {
+      label: "Nombre",
+      key: "name",
+    },
+    {
+      label: "Poducto",
+      key: "product",
+    },
+    {
+      label: "Precio",
+      key: "price",
+    },
+    {
+      label: "Fecha de aplicación",
+      key: "date",
+    },
+    {
+      label: "Peso",
+      key: "weight",
+    },
+    {
+      label: "Proxima Aplicación",
+      key: "date2",
+    },
+    {
+      label: "costo",
+      key: "isPayed",
+      onClick: (product) => {
+        addToCar({ item: product, origin: "parasitologia" });
+      },
+    },
+  ];
 
   return (
     <>

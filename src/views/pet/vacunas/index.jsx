@@ -2,33 +2,8 @@ import React from "react";
 import Table from "../../../components/table";
 import Modal from "../../../components/dialog";
 import { TextField } from "@mui/material";
+import { CarContext } from "../../../components/dashboard";
 
-const titles = [
-  {
-    label: "Fecha de aplicación",
-    key: "date",
-  },
-  {
-    label: "Nombre de la vacuna",
-    key: "name",
-  },
-  {
-    label: "Laboratorio",
-    key: "lab",
-  },
-  {
-    label: "Medico",
-    key: "doctor",
-  },
-  {
-    label: "Proxima vacuna",
-    key: "nextDate",
-  },
-  {
-    label: "Cobro",
-    key: "isPayed",
-  },
-];
 const data = [
   {
     date: "14/02/23",
@@ -57,6 +32,7 @@ const initialState = {
 export default function Vacunas() {
   const [isOpenModal, setisOpenModal] = React.useState(false);
   const [body, setBody] = React.useState({ ...initialState });
+  const { addToCar } = React.useContext(CarContext);
   const handleChange = (e) => {
     const { name, value } = e.target;
     setBody({
@@ -77,7 +53,35 @@ export default function Vacunas() {
     label: "Ingresar paciente",
     onClick: () => setisOpenModal(true),
   };
-
+  const titles = [
+    {
+      label: "Fecha de aplicación",
+      key: "date",
+    },
+    {
+      label: "Nombre de la vacuna",
+      key: "name",
+    },
+    {
+      label: "Laboratorio",
+      key: "lab",
+    },
+    {
+      label: "Medico",
+      key: "doctor",
+    },
+    {
+      label: "Proxima vacuna",
+      key: "nextDate",
+    },
+    {
+      label: "Cobro",
+      key: "isPayed",
+      onClick: (product) => {
+        addToCar({ item: product, origin: "parasitologia" });
+      },
+    },
+  ];
   return (
     <>
       <Table buttonConf={buttonConf} columns={titles} data={data} />
