@@ -1,5 +1,4 @@
 import React, { Suspense } from "react";
-import Table from "../../components/table";
 
 import {
   CantIndicator,
@@ -18,7 +17,7 @@ import LocalGroceryStoreIcon from "@mui/icons-material/LocalGroceryStore";
 
 import { Route, Routes, useLocation, useNavigate } from "react-router-dom";
 
-import { CardContent, Dialog, Slide } from "@mui/material";
+import { Dialog, Slide } from "@mui/material";
 
 import { routes } from "../../routes";
 import MenuIcon from "@mui/icons-material/Menu";
@@ -26,6 +25,7 @@ import MenuIcon from "@mui/icons-material/Menu";
 export const CarContext = React.createContext({
   products: [],
   addToCar: () => {},
+  deleteFromCar: () => {},
 });
 
 export default function Dashboard() {
@@ -57,6 +57,12 @@ export default function Dashboard() {
     ]);
   };
 
+  const deleteFromCar = (idx) => {
+    const productsCopy = [...products];
+    productsCopy.splice(idx, 1);
+    setProducts(productsCopy);
+  };
+
   const getProductType = (origin) => {
     const dictionary = {
       estetica: "groomings",
@@ -72,7 +78,7 @@ export default function Dashboard() {
   };
 
   return (
-    <CarContext.Provider value={{ products, addToCar }}>
+    <CarContext.Provider value={{ products, addToCar, deleteFromCar }}>
       <DashboardContainer showSidebar={showSidebar}>
         <Header>
           <MenuIcon onClick={() => setShowSidebar(!showSidebar)} />

@@ -31,7 +31,7 @@ export default function Table({ columns, data, buttonConf }) {
           {data.map((row, idx) => (
             <tr key={idx}>
               {columns.map((column, id) => (
-                <Td key={`row-${id}`} column={column} item={row} />
+                <Td key={`row-${id}`} column={column} item={row} idx={idx} />
               ))}
             </tr>
           ))}
@@ -40,7 +40,7 @@ export default function Table({ columns, data, buttonConf }) {
     </div>
   );
 }
-const Td = ({ item, column }) => {
+const Td = ({ item, column, idx }) => {
   const { key, type } = column;
   if (type === "actions") {
     return (
@@ -53,7 +53,7 @@ const Td = ({ item, column }) => {
               );
             }
             if (action.label === "delete") {
-              return <DeleteIcon onClick={() => action.onClick(item.id)} />;
+              return <DeleteIcon onClick={() => action.onClick(idx)} />;
             }
           })}
         </div>

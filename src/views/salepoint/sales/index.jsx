@@ -5,7 +5,7 @@ import Button from "../../../components/button";
 import { CarContext } from "../../../components/dashboard";
 
 export default function Sales() {
-  const { products, setProducts } = React.useContext(CarContext);
+  const { products, deleteFromCar } = React.useContext(CarContext);
 
   const titles = [
     {
@@ -27,7 +27,7 @@ export default function Sales() {
       actions: [
         {
           label: "delete",
-          onClick: () => console.log("hola mundo"),
+          onClick: (idx) => deleteFromCar(idx),
         },
       ],
     },

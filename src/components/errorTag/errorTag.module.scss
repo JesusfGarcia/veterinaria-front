@@ -1,0 +1,9 @@
+@import "/src/sass/color.scss";
+
+.tag {
+  background-color: $danger;
+  color: $textLight;
+  font-weight: bold;
+  padding: 5px;
+  border-radius: 4px;
+}
