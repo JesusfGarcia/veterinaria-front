@@ -26,7 +26,7 @@ export default function Sales() {
       type: "actions",
       actions: [
         {
-          label: "delete",
+          label: "deletefromcar",
           onClick: (idx) => deleteFromCar(idx),
         },
       ],

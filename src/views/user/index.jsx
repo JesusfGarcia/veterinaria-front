@@ -51,7 +51,6 @@ const initialState = {
   city: "",
   state: "",
   pet: "",
-
 };
 export default function UsersScreen() {
   const navigate = useNavigate();
@@ -124,62 +123,60 @@ export default function UsersScreen() {
   ];
   return (
     <Container>
+      <Content title="Clientes">
+        <div className="linea"></div>
 
-   
-    <Content title="Clientes">
-      <div className="linea"></div>
-
-      <Table buttonConf={buttonConf} columns={title} data={data} />
-      <Modal
-        onSave={onSave}
-        isOpen={isOpenModal}
-        title="Añadir cliente"
-        onClose={closeForm}
-      >
-        <TextField
-          onChange={handleChange}
-          name="name"
-          value={body.name}
-          size="small"
-          label="Nombre"
-        />
-        <TextField
-          onChange={handleChange}
-          name="number"
-          value={body.number}
-          size="small"
-          label="Número"
-        />
-        <TextField
-          onChange={handleChange}
-          name="address"
-          value={body.address}
-          size="small"
-          label="Dirección"
-        />
-        <TextField
-          onChange={handleChange}
-          name="city"
-          value={body.city}
-          size="small"
-          label="Ciudad"
-        />
-        <TextField
-          onChange={handleChange}
-          name="state"
-          value={body.state}
-          size="small"
-          label="Estado"
-        />
-        <TextField
-          onChange={handleChange}
-          name="pet"
-          value={body.pet}
-          size="small"
-          label="Mascota"
-        />
-      </Modal>
-    </Content>
+        <Table buttonConf={buttonConf} columns={title} data={data} />
+        <Modal
+          onSave={onSave}
+          isOpen={isOpenModal}
+          title="Añadir cliente"
+          onClose={closeForm}
+        >
+          <TextField
+            onChange={handleChange}
+            name="name"
+            value={body.name}
+            size="small"
+            label="Nombre"
+          />
+          <TextField
+            onChange={handleChange}
+            name="number"
+            value={body.number}
+            size="small"
+            label="Número"
+          />
+          <TextField
+            onChange={handleChange}
+            name="address"
+            value={body.address}
+            size="small"
+            label="Dirección"
+          />
+          <TextField
+            onChange={handleChange}
+            name="city"
+            value={body.city}
+            size="small"
+            label="Ciudad"
+          />
+          <TextField
+            onChange={handleChange}
+            name="state"
+            value={body.state}
+            size="small"
+            label="Estado"
+          />
+          <TextField
+            onChange={handleChange}
+            name="pet"
+            value={body.pet}
+            size="small"
+            label="Mascota"
+          />
+        </Modal>
+      </Content>
     </Container>
   );
 }

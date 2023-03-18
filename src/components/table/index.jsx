@@ -8,6 +8,21 @@ import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
 import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
 
 import styles from "./table.module.scss";
+import { theme } from "../../styles/theme";
+
+/* const columnsExample = [
+  {
+    label: "ver",
+    key: "actions",
+    type: "actions",
+    actions: [
+      {
+        label: "see",
+        onClick: (id) => navigate(`${id}`),
+      },
+    ],
+  },
+]; */
 
 export default function Table({ columns, data, buttonConf }) {
   return (
@@ -45,16 +60,36 @@ const Td = ({ item, column, idx }) => {
   if (type === "actions") {
     return (
       <td>
-        <div>
+        <div style={{ display: "flex", gap: 5 }}>
           {column.actions.map((action) => {
             if (action.label === "see") {
               return (
-                <RemoveRedEyeIcon onClick={() => action.onClick(item.id)} />
+                <RemoveRedEyeIcon
+                  color="primary"
+                  style={{ cursor: "pointer" }}
+                  onClick={() => action.onClick(item.id)}
+                />
+              );
+            }
+            if (action.label === "deletefromcar") {
+              return (
+                <DeleteIcon
+                  style={{ cursor: "pointer" }}
+                  color="error"
+                  onClick={() => action.onClick(idx)}
+                />
               );
             }
             if (action.label === "delete") {
-              return <DeleteIcon onClick={() => action.onClick(idx)} />;
+              return (
+                <DeleteIcon
+                  style={{ cursor: "pointer" }}
+                  color="error"
+                  onClick={() => action.onClick(item.id)}
+                />
+              );
             }
+            return null;
           })}
         </div>
       </td>

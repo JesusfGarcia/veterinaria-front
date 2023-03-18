@@ -54,6 +54,9 @@ export default function Login() {
           value={state.user.email}
           label="Correo electrónico"
           defaultValue={state.user.email}
+          InputLabelProps={{
+            shrink: true,
+          }}
         />
         <TextField
           name="password"
@@ -61,6 +64,9 @@ export default function Login() {
           label="Contraseña"
           type="password"
           onChange={handleChange}
+          InputLabelProps={{
+            shrink: true,
+          }}
         />
         <ErrorTag text={state.errorText} />
         <Button
