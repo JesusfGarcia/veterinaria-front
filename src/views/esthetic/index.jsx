@@ -26,7 +26,7 @@ export default function EstheticScreen() {
   };
 
   const onSave = () => {
-    console.log(body);
+
   };
 
   const buttonConf = {

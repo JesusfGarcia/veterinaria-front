@@ -51,7 +51,7 @@ export default function SurgeryScreen() {
   };
 
   const onSave = () => {
-    console.log(body);
+  
   };
   const buttonConf = {
     label: "Añadir Cirugía",

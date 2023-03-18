@@ -47,7 +47,7 @@ export default function Vacunas() {
   };
 
   const onSave = () => {
-    console.log(body);
+  
   };
   const buttonConf = {
     label: "Ingresar paciente",

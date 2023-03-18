@@ -53,7 +53,7 @@ export default function Estetica() {
   };
 
   const onSave = () => {
-    console.log(body);
+  
   };
 
   const buttonConf = {

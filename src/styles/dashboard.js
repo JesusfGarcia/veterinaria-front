@@ -26,6 +26,7 @@ export const Header = styled.header`
   padding: 10px;
   color: ${theme.background};
   gap: 20px;
+  justify-content: space-between;
 `;
 
 export const Sidebard = styled.aside`

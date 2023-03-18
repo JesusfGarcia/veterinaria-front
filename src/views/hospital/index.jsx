@@ -57,7 +57,7 @@ export default function HospitalScreen() {
   };
 
   const onSave = () => {
-    console.log(body);
+
   };
   const buttonConf = {
     label: "Ingresar paciente",

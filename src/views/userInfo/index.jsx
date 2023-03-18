@@ -18,7 +18,7 @@ export default function UserInfo(){
             return data.find(item => item.id === id)
     },[])
 
-    console.log(myUser)
+
 
     return(
     

@@ -51,7 +51,7 @@ export default function StudiesScreen() {
   };
 
   const onSave = () => {
-    console.log(body);
+    
   };
   const buttonConf = {
     label: "Añadir Estudio",

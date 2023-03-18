@@ -73,7 +73,7 @@ export default function UsersScreen() {
   };
 
   const onSave = () => {
-    console.log(body);
+   
   };
   const buttonConf = {
     label: "Añadir Cliente",

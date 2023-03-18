@@ -25,7 +25,7 @@ export default function ConfigurationScreen() {
           method: "GET",
           url: "/users",
         });
-        console.log("data =>", data);
+       
         dispatch({ type: actions.GET_DATA_SUCCESS, payload: data });
       } catch (error) {
         dispatch({

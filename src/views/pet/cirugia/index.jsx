@@ -40,7 +40,7 @@ export default function Cirugia() {
   };
 
   const onSave = () => {
-    console.log(body);
+   
   };
   const buttonConf = {
     label: "Añadir Cirugía",

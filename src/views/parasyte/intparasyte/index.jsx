@@ -44,7 +44,7 @@ export default function ParasitosInt() {
   const [isOpenModal, setisOpenModal] = React.useState(false);
   const [body, setBody] = React.useState({ ...initialState });
   const onSave = () => {
-    console.log(body);
+   
   };
   const handleChange = (e) => {
     const { name, value } = e.target;

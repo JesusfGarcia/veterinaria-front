@@ -39,7 +39,7 @@ export default function Hospital() {
   };
 
   const onSave = () => {
-    console.log(body);
+  
   };
   const buttonConf = {
     label: "Ingresar paciente",

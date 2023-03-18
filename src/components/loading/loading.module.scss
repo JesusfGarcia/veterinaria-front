@@ -1,0 +1,13 @@
+@import "../../sass/color.scss";
+
+
+.container{
+background-color:$primaryLight;
+height: 100vh;
+display: flex;
+flex-direction: column;
+justify-content: center;
+align-items: center;
+color:$background;
+font-size: 25px;
+}

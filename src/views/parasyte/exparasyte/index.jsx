@@ -45,7 +45,7 @@ export default function ParasitosEx() {
   };
 
   const onSave = () => {
-    console.log(body);
+
   };
   const buttonConf = {
     label: "Añadir Registro",

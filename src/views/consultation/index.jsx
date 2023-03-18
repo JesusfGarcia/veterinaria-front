@@ -74,7 +74,7 @@ export default function ConsultationScreen() {
   };
 
   const onSave = () => {
-    console.log(body);
+
   };
   const buttonConf = {
     label: "Añadir Consulta",

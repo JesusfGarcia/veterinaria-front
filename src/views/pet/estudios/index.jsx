@@ -52,7 +52,7 @@ export default function Estudios() {
   };
 
   const onSave = () => {
-    console.log(body);
+  
   };
   const buttonConf = {
     label: "Añadir Estudio",

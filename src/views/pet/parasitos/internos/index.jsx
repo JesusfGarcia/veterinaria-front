@@ -47,7 +47,7 @@ export default function ParasitosInternos() {
   };
 
   const onSave = () => {
-    console.log(body);
+    
   };
   const buttonConf = {
     label: "Añadir Producto",

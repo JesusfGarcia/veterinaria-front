@@ -16,7 +16,7 @@ export const reducer = (
       newState.errorText = "";
       break;
     case actions.LOGIN_SUCCESS:
-      localStorage.setItem("token", action.payload);
+      localStorage.setItem("token", action.payload.response.token);
       newState.isLoading = false;
       newState.isSuccess = true;
       break;

@@ -68,7 +68,7 @@ export default function Consults() {
   };
 
   const onSave = () => {
-    console.log(body);
+
   };
   const buttonConf = {
     label: "Añadir Consulta",

@@ -14,6 +14,7 @@ import {
 import SalePoint from "../../views/salepoint";
 
 import LocalGroceryStoreIcon from "@mui/icons-material/LocalGroceryStore";
+import ExitToAppIcon from "@mui/icons-material/ExitToApp";
 
 import { Route, Routes, useLocation, useNavigate } from "react-router-dom";
 
@@ -21,6 +22,8 @@ import { Dialog, Slide } from "@mui/material";
 
 import { routes } from "../../routes";
 import MenuIcon from "@mui/icons-material/Menu";
+
+import { authContext } from "../../App";
 
 export const CarContext = React.createContext({
   products: [],
@@ -33,6 +36,7 @@ export default function Dashboard() {
   const [showModal, setShowModal] = React.useState(false);
   const navigate = useNavigate();
   const location = useLocation();
+  const {handleLogout} = React.useContext(authContext)
 
   const [products, setProducts] = React.useState([]);
 
@@ -81,8 +85,18 @@ export default function Dashboard() {
     <CarContext.Provider value={{ products, addToCar, deleteFromCar }}>
       <DashboardContainer showSidebar={showSidebar}>
         <Header>
-          <MenuIcon onClick={() => setShowSidebar(!showSidebar)} />
-          <h2>SAN JOSÉ</h2>
+          <div style={{
+            display: "flex",
+            flexDirection: "row",
+            gap: "10px",
+            alignItems: "center"
+
+          }}>
+            <MenuIcon onClick={() => setShowSidebar(!showSidebar)} />
+            <h2>SAN JOSÉ</h2>
+          </div>
+
+          <ExitToAppIcon  onClick={handleLogout}/>
         </Header>
         <Sidebard>
           {routes

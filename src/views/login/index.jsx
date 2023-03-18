@@ -1,5 +1,5 @@
 import { Card, TextField } from "@mui/material";
-import React from "react";
+import React, { useContext } from "react";
 import { useNavigate } from "react-router-dom";
 
 import Button from "../../components/button";
@@ -12,8 +12,11 @@ import { reducer } from "./reducer";
 import apiConsumer from "../../services";
 import ErrorTag from "../../components/errorTag";
 
+import { authContext } from "../../App";
+
 export default function Login() {
   const navigate = useNavigate();
+  const { handleLogin } = useContext(authContext);
   const [state, dispatch] = React.useReducer(reducer, initialState);
 
   const handleChange = (e) => {
@@ -24,12 +27,21 @@ export default function Login() {
   const tryLogin = async () => {
     try {
       dispatch({ type: actions.LOGIN });
-      const response = await apiConsumer({
+      const { data } = await apiConsumer({
         url: "/login",
         data: state.user,
         method: "POST",
       });
-      dispatch({ type: actions.LOGIN_SUCCESS, payload: response.data.token });
+      localStorage.setItem("email", state.user.email);
+      localStorage.setItem("password", state.user.password);
+      handleLogin(data.payload);
+
+      dispatch({
+        type: actions.LOGIN_SUCCESS,
+        payload: {
+          response: data,
+        },
+      });
     } catch (error) {
       dispatch({
         type: actions.LOGIN_ERROR,

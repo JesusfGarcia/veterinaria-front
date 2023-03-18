@@ -53,7 +53,7 @@ export default function VacciensScreen() {
   };
 
   const onSave = () => {
-    console.log(body);
+   
   };
   const buttonConf = {
     label: "Añadir Vacuna",

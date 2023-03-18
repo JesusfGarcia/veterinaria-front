@@ -94,7 +94,7 @@ export default function StockScreen() {
   };
 
   const onSave = () => {
-    console.log(body);
+    
   };
   const buttonConf = {
     label: "Añadir Producto",
