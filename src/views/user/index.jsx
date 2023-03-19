@@ -6,78 +6,65 @@ import Modal from "../../components/dialog";
 import { TextField } from "@mui/material";
 import Container from "../../components/container";
 
-export const data = [
-  {
-    name: "Anna Soto Ochoa",
-    number: "6681335606",
-    address: "calle cerro de san antonio NO.2160",
-    city: "Los Mochis",
-    state: "Sinaloa",
-    pet: "coffee Soto",
-    id: "4589",
-  },
-  {
-    name: "Alhely Lugo Celaya",
-    number: "66898754",
-    address: "calle cerro de san antonio NO.2160",
-    city: "Los Mochis",
-    state: "Sinaloa",
-    pet: "Frida Lugo",
-    id: "1989",
-  },
-  {
-    name: "Jesús García",
-    number: "66836598",
-    address: "calle cerro de san antonio NO.2160",
-    city: "Los Mochis",
-    state: "Sinaloa",
-    pet: "Chester García",
-    id: "9852",
-  },
-  {
-    name: "Felipe Martinez",
-    number: "668987523",
-    address: "calle cerro de san antonio NO.2160",
-    city: "Los Mochis",
-    state: "Sinaloa",
-    pet: "nachito martinez",
-    id: "7942",
-  },
-];
-const initialState = {
-  name: "",
-  number: "",
-  address: "",
-  city: "",
-  state: "",
-  pet: "",
-};
+import { initialState } from "./reducer/constants";
+import { actions } from "./reducer/actions";
+import { reducer } from "./reducer";
+
+import apiConsumer from "../../services";
+
 export default function UsersScreen() {
   const navigate = useNavigate();
+  const [state, dispatch] = React.useReducer(reducer, initialState);
 
-  const [isOpenModal, setisOpenModal] = React.useState(false);
+  React.useEffect(() => {
+    const getList = async () => {
+      try {
+        dispatch({ type: actions.GET_LIST });
+        const { data } = await apiConsumer({
+          method: "GET",
+          url: "/clients",
+        });
+        dispatch({ type: actions.GET_LIST_SUCCESSS, payload: data });
+      } catch (error) {
+        dispatch({
+          type: actions.SAVE_USER_ERROR,
+          payload: error.response?.data?.errors || "Error en el servidor",
+        });
+      }
+    };
 
-  const [body, setBody] = React.useState({ ...initialState });
+    getList();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [state.reload]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setBody({
-      ...body,
-      [name]: value,
-    });
+    dispatch({ type: actions.HANDLE_CHANGE, payload: { name, value } });
   };
 
   const closeForm = () => {
-    setisOpenModal(false);
-    setBody({ ...initialState });
+    dispatch({ type: actions.CLOSE_MODAL });
   };
 
-  const onSave = () => {
-   
+  const onSave = async () => {
+    try {
+      dispatch({ type: actions.SAVE_USER });
+      await apiConsumer({
+        method: "POST",
+        data: state.client,
+        url: "/clients",
+      });
+      dispatch({ type: actions.SAVE_USER_SUCCESS });
+    } catch (error) {
+      dispatch({
+        type: actions.SAVE_USER_ERROR,
+        payload: error.response?.data?.errors || "Error en el servidor",
+      });
+    }
   };
   const buttonConf = {
     label: "Añadir Cliente",
-    onClick: () => setisOpenModal(true),
+    onClick: () => dispatch({ type: actions.OPEN_MODAL }),
   };
 
   const title = [
@@ -86,8 +73,12 @@ export default function UsersScreen() {
       key: "name",
     },
     {
+      label: "Nombre",
+      key: "lastName",
+    },
+    {
       label: "Número de telefono",
-      key: "number",
+      key: "phone",
     },
     {
       label: "Dirección",
@@ -100,14 +91,6 @@ export default function UsersScreen() {
     {
       label: "Estado",
       key: "state",
-    },
-    {
-      label: "Mascota",
-      key: "pet",
-    },
-    {
-      label: "ID",
-      key: "id",
     },
     {
       label: "ver",
@@ -125,55 +108,56 @@ export default function UsersScreen() {
     <Container>
       <Content title="Clientes">
         <div className="linea"></div>
-
-        <Table buttonConf={buttonConf} columns={title} data={data} />
+        <Table buttonConf={buttonConf} columns={title} data={state.list} />
         <Modal
           onSave={onSave}
-          isOpen={isOpenModal}
+          isOpen={state.showModal}
           title="Añadir cliente"
           onClose={closeForm}
+          errorText={state.textErrorSave}
+          isLoading={state.isLoadingSave}
         >
           <TextField
             onChange={handleChange}
             name="name"
-            value={body.name}
+            value={state.client.name}
             size="small"
             label="Nombre"
           />
           <TextField
             onChange={handleChange}
-            name="number"
-            value={body.number}
+            name="lastName"
+            value={state.client.lastName}
             size="small"
-            label="Número"
+            label="Apellido"
+          />
+          <TextField
+            onChange={handleChange}
+            name="phone"
+            value={state.client.phone}
+            size="small"
+            label="Número de telefono"
           />
           <TextField
             onChange={handleChange}
             name="address"
-            value={body.address}
+            value={state.client.address}
             size="small"
             label="Dirección"
           />
           <TextField
             onChange={handleChange}
             name="city"
-            value={body.city}
+            value={state.client.city}
             size="small"
             label="Ciudad"
           />
           <TextField
             onChange={handleChange}
             name="state"
-            value={body.state}
+            value={state.client.state}
             size="small"
             label="Estado"
-          />
-          <TextField
-            onChange={handleChange}
-            name="pet"
-            value={body.pet}
-            size="small"
-            label="Mascota"
           />
         </Modal>
       </Content>
