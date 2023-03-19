@@ -6,4 +6,11 @@ export const initialState = {
   errorText: "",
   isLoading: false,
   isSuccess: false,
+  showModal: false,
+  forgot: {
+    email: "",
+  },
+  isLoadingForgot: false,
+  errorTextForgot: "",
+  isSuccessForgot: false,
 };

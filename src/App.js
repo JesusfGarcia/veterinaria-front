@@ -7,6 +7,7 @@ import "./sass/global.scss";
 import Redirect from "./components/Redirect";
 import apiConsumer from "./services";
 import Loading from "./components/loading";
+import RestorePassword from "./views/restorePassword";
 
 export const authContext = React.createContext({
   user: null,
@@ -26,8 +27,8 @@ function App() {
     localStorage.removeItem("email");
     localStorage.removeItem("password");
     localStorage.removeItem("token");
-    setUser(null)
-  }
+    setUser(null);
+  };
 
   const tryLogin = async () => {
     try {
@@ -39,11 +40,11 @@ function App() {
         },
         method: "POST",
       });
-
+      localStorage.setItem("token", data.token);
       handleLogin(data.payload);
-      setIsLoading(false)
+      setIsLoading(false);
     } catch (error) {
-      setIsLoading(false)
+      setIsLoading(false);
     }
   };
 
@@ -51,9 +52,8 @@ function App() {
     tryLogin();
   }, []);
 
-
-  if(isLoading) {
-    return <Loading />
+  if (isLoading) {
+    return <Loading />;
   }
 
   return (
@@ -63,6 +63,10 @@ function App() {
           {!user ? (
             <>
               <Route path="/" element={<Login />} />
+              <Route
+                path="/resetPassword/:token"
+                element={<RestorePassword />}
+              />
               <Route path="*" element={<Navigate to="/" replace={true} />} />
             </>
           ) : (

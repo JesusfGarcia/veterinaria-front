@@ -1,0 +1,9 @@
+@import "../../sass/color.scss";
+
+.tag {
+  background-color: $green;
+  color: $textLight;
+  font-weight: bold;
+  padding: 5px;
+  border-radius: 4px;
+}
