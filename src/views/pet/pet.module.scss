@@ -49,6 +49,7 @@
   display: flex;
   flex-direction: row;
   align-items: center;
+  justify-content: space-between;
   padding: 10px;
   gap: 15px;
 }
@@ -68,4 +69,68 @@
   padding: 10px;
   font-weight: bold;
   height: 30px;
+}
+
+.left_header {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  align-items: center;
+}
+
+.pet_selector {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+}
+
+.add_pet {
+  height: 55px;
+  width: 55px;
+  border-radius: 150px;
+  border: 0px;
+  font-size: 30px;
+  background-color: $primaryHover;
+  color: $textLight;
+  cursor: pointer;
+  &:hover {
+    opacity: 0.8;
+  }
+}
+
+.pet {
+  height: 55px;
+  width: 55px;
+  border-radius: 150px;
+  border: 0px;
+  color: $primaryHover;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 2px solid $primaryHover;
+  font-weight: bold;
+  cursor: pointer;
+  &:hover {
+    opacity: 0.8;
+  }
+}
+
+.pet_selected {
+  height: 55px;
+  width: 55px;
+  border-radius: 150px;
+  border: 0px;
+  color: $primaryHover;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 2px solid $primaryHover;
+  font-weight: bold;
+  cursor: pointer;
+  -webkit-box-shadow: 0px 0px 7px 2px rgba(1, 108, 185, 1);
+  -moz-box-shadow: 0px 0px 7px 2px rgba(1, 108, 185, 1);
+  box-shadow: 0px 0px 7px 2px rgba(1, 108, 185, 1);
+  &:hover {
+    opacity: 0.8;
+  }
 }

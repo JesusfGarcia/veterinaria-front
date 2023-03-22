@@ -11,6 +11,7 @@ import { actions } from "./reducer/actions";
 import { reducer } from "./reducer";
 
 import apiConsumer from "../../services";
+import { getServerError } from "../../helpers/getServerError";
 
 export default function UsersScreen() {
   const navigate = useNavigate();
@@ -28,7 +29,7 @@ export default function UsersScreen() {
       } catch (error) {
         dispatch({
           type: actions.SAVE_USER_ERROR,
-          payload: error.response?.data?.errors || "Error en el servidor",
+          payload: getServerError(error),
         });
       }
     };
@@ -58,7 +59,7 @@ export default function UsersScreen() {
     } catch (error) {
       dispatch({
         type: actions.SAVE_USER_ERROR,
-        payload: error.response?.data?.errors || "Error en el servidor",
+        payload: getServerError(error),
       });
     }
   };
