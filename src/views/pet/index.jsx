@@ -28,8 +28,22 @@ import Modal from "../../components/dialog";
 import { TextField } from "@mui/material";
 import { getServerError } from "../../helpers/getServerError";
 
+export const petContext = React.createContext({
+  pet: {
+    id: 0,
+    name: "",
+    specie: "",
+    race: "",
+    sex: "",
+    color: "",
+    birthDate: "",
+    allergies: "",
+  },
+});
+
 export default function PetsScreen() {
   const [state, dispatch] = React.useReducer(reducer, initialState);
+
   const { id } = useParams();
 
   React.useEffect(() => {
@@ -166,8 +180,10 @@ export default function PetsScreen() {
       </div>
       {state.petSelected !== null && (
         <Container>
-          {items[state.screenPosition] !== undefined &&
-            items[state.screenPosition].component}
+          <petContext.Provider value={{ pet: petBody }}>
+            {items[state.screenPosition] !== undefined &&
+              items[state.screenPosition].component}
+          </petContext.Provider>
         </Container>
       )}
       <Modal
