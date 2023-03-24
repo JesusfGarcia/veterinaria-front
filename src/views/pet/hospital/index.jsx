@@ -1,49 +1,112 @@
 import React from "react";
 import Table from "../../../components/table";
-import Modal from "../../../components/dialog";
+import Modal, { DeleteDialog } from "../../../components/dialog";
 import { TextField } from "@mui/material";
 import { CarContext } from "../../../components/dashboard";
 
-const data = [
-  {
-    entryDate: "12/12/22",
-    observation: "perrito aja con algo ",
-    treatment: "yo que se no le se",
-    dischargeDate: "12/3/23",
-    isPayed: false,
-  },
-];
+import { reducer } from "./reducer";
+import { actions } from "./reducer/actions";
+import { initialState } from "./reducer/constants";
 
-const initialState = {
-  name: "",
-  date1: "",
-  obs: "",
-  trata: "",
-  date: "",
-};
+import SelectVet from "../../../components/selectVet";
+import apiConsumer from "../../../services";
+
+import { petContext } from "..";
+import { getServerError } from "../../../helpers/getServerError";
+
 export default function Hospital() {
-  const [isOpenModal, setisOpenModal] = React.useState(false);
-  const [body, setBody] = React.useState({ ...initialState });
+  const [state, dispatch] = React.useReducer(reducer, initialState);
+  const { pet } = React.useContext(petContext);
   const { addToCar } = React.useContext(CarContext);
+
+  React.useEffect(() => {
+    const getList = async () => {
+      try {
+        dispatch({ type: actions.GET_LIST });
+        const { data } = await apiConsumer({
+          method: "GET",
+          url: `/hospitals?petId=${pet.id}`,
+        });
+
+        dispatch({ type: actions.GET_LIST_SUCCESS, payload: data });
+      } catch (error) {
+        dispatch({
+          type: actions.GET_LIST_ERROR,
+          payload: getServerError(error),
+        });
+      }
+    };
+    getList();
+  }, [state.reload, pet.id]);
+
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setBody({
-      ...body,
-      [name]: value,
-    });
+    dispatch({ type: actions.HANDLE_CHANGE, payload: { name, value } });
   };
 
   const closeForm = () => {
-    setisOpenModal(false);
-    setBody({ ...initialState });
+    dispatch({ type: actions.CLOSE_MODAL });
   };
 
-  const onSave = () => {
-  
+  const onSave = async () => {
+    try {
+      dispatch({ type: actions.SAVE_LIST });
+      await apiConsumer({
+        method: "POST",
+        url: "/hospitals",
+        data: {
+          ...state.body,
+          petId: pet.id,
+        },
+      });
+      dispatch({ type: actions.SAVE_LIST_SUCCESS });
+    } catch (error) {
+      dispatch({
+        type: actions.SAVE_LIST_ERROR,
+        payload: getServerError(error),
+      });
+    }
   };
+
+  const onUpdate = async () => {
+    try {
+      dispatch({ type: actions.SAVE_LIST });
+      await apiConsumer({
+        method: "PUT",
+        url: `/hospitals/${state.body.id}`,
+        data: {
+          ...state.body,
+          petId: pet.id,
+        },
+      });
+      dispatch({ type: actions.SAVE_LIST_SUCCESS });
+    } catch (error) {
+      dispatch({
+        type: actions.SAVE_LIST_ERROR,
+        payload: getServerError(error),
+      });
+    }
+  };
+
+  const onDelete = async () => {
+    try {
+      dispatch({ type: actions.SAVE_LIST });
+      await apiConsumer({
+        method: "DELETE",
+        url: `/hospitals/${state.body.id}`,
+      });
+      dispatch({ type: actions.SAVE_LIST_SUCCESS });
+    } catch (error) {
+      dispatch({
+        type: actions.SAVE_LIST_ERROR,
+        payload: getServerError(error),
+      });
+    }
+  };
+
   const buttonConf = {
     label: "Ingresar paciente",
-    onClick: () => setisOpenModal(true),
+    onClick: () => dispatch({ type: actions.OPEN_MODAL }),
   };
   const titles = [
     {
@@ -69,60 +132,101 @@ export default function Hospital() {
         addToCar({ item: product, origin: "consulta" });
       },
     },
+    {
+      label: "Acciones",
+      key: "actions",
+      type: "actions",
+      actions: [
+        {
+          label: "see",
+          onClick: (id) => {
+            const edithospital = state.list.find(
+              (hospital) => hospital.id === id
+            );
+            dispatch({ type: actions.ON_EDIT, payload: edithospital });
+          },
+        },
+        {
+          label: "delete",
+          onClick: (id) => {
+            const deletehospital = state.list.find(
+              (hospital) => hospital.id === id
+            );
+            dispatch({
+              type: actions.OPEN_DELETE_MODAL,
+              payload: deletehospital,
+            });
+          },
+        },
+      ],
+    },
   ];
   return (
     <>
-      <Table buttonConf={buttonConf} columns={titles} data={data} />
+      <Table buttonConf={buttonConf} columns={titles} data={state.list} />
       <Modal
-        onSave={onSave}
-        title="Ingresar paciente"
-        isOpen={isOpenModal}
+        onSave={state.isEdit ? onUpdate : onSave}
+        title={
+          state.isEdit ? "Editar Hospitalización" : `Añadir Hospitalización`
+        }
+        isOpen={state.showModal}
         onClose={closeForm}
+        errorText={state.errorTextSaveList}
+        isLoading={state.loadingSaveList}
       >
         <TextField
           onChange={handleChange}
-          name="name"
-          value={body.name}
-          size="small"
-          label="Nombre"
-        />
-        <TextField
-          onChange={handleChange}
-          name="name"
-          value={body.name}
-          size="samll"
-          label="Nombre"
-        />
-
-        <TextField
-          onChange={handleChange}
-          name="date1"
-          value={body.date1}
-          size="samll"
-          label="Fecha de ingreso"
-        />
-        <TextField
-          onChange={handleChange}
-          name="obs"
-          value={body.obs}
-          size="small"
-          label="Observaciones"
-        />
-        <TextField
-          onChange={handleChange}
-          name="trata"
-          value={body.trata}
+          name="treatment"
+          value={state.body.treatment}
           size="small"
           label="Tratamiento"
         />
         <TextField
           onChange={handleChange}
-          name="date"
-          value={body.date}
+          name="observations"
+          value={state.body.observations}
           size="small"
-          label="Fecha"
+          label="Observaciones"
         />
+        <TextField
+          onChange={handleChange}
+          name="price"
+          value={state.body.price}
+          size="small"
+          label="Costo"
+        />
+        <TextField
+          onChange={handleChange}
+          name="admissionDate"
+          value={state.body.admissionDate}
+          size="small"
+          type="date"
+          label="Fecha De ingreso"
+          InputLabelProps={{
+            shrink: true,
+          }}
+        />
+        <TextField
+          onChange={handleChange}
+          name="departureDate"
+          value={state.body.departureDate}
+          size="small"
+          type="date"
+          label="Fecha de salida"
+          InputLabelProps={{
+            shrink: true,
+          }}
+        />
+        <SelectVet value={state.body.vetId} onChange={handleChange} />
       </Modal>
+      <DeleteDialog
+        onSave={onDelete}
+        title={`¿Seguro que desea eliminar esta hospitalización?`}
+        isOpen={state.showDeleteModal}
+        onClose={() => dispatch({ type: actions.CLOSE_DELETE_MODAL })}
+        isLoading={state.loadingSaveList}
+        errorText={state.errorTextSaveList}
+      ></DeleteDialog>
     </>
   );
 }
