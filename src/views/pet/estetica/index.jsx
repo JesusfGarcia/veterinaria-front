@@ -1,75 +1,126 @@
 import React from "react";
 import Table from "../../../components/table";
-import Modal from "../../../components/dialog";
-import { TextField } from "@mui/material";
+import Modal, { DeleteDialog } from "../../../components/dialog";
+import { MenuItem, Select, TextField } from "@mui/material";
 import { CarContext } from "../../../components/dashboard";
 
-const data = [
-  {
-    description: "baño de  perro grande",
-    cost: "$250",
+import { reducer } from "./reducer";
+import { actions } from "./reducer/actions";
+import { initialState } from "./reducer/constants";
 
-    date: "12/12/2022",
-    isPayed: true,
-  },
-  {
-    description: "baño de  perro grande",
-    cost: "$250",
+import { petContext } from "..";
+import apiConsumer from "../../../services";
+import { getServerError } from "../../../helpers/getServerError";
 
-    date: "12/12/2022",
-    isPayed: false,
-  },
-  {
-    description: "baño de  perro grande",
-    cost: "$250",
-
-    date: "12/12/2022",
-    isPayed: false,
-  },
-];
-const initialState = {
-  serviceType: "",
-  date: "",
-  price: "",
-  observations: "",
-  phone: "",
-};
+import SelectVet from "../../../components/selectVet";
 
 export default function Estetica() {
-  const [isOpenModal, setisOpenModal] = React.useState(false);
-  const [body, setBody] = React.useState({ ...initialState });
   const { addToCar } = React.useContext(CarContext);
+  const [state, dispatch] = React.useReducer(reducer, initialState);
+  const { pet } = React.useContext(petContext);
+
+  React.useEffect(() => {
+    const getList = async () => {
+      try {
+        dispatch({ type: actions.GET_LIST });
+        const { data } = await apiConsumer({
+          method: "GET",
+          url: `/groomings?petId=${pet.id}`,
+        });
+
+        dispatch({ type: actions.GET_LIST_SUCCESS, payload: data });
+      } catch (error) {
+        dispatch({
+          type: actions.GET_LIST_ERROR,
+          payload: getServerError(error),
+        });
+      }
+    };
+    getList();
+  }, [state.reload, pet.id]);
+
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setBody({
-      ...body,
-      [name]: value,
-    });
+    dispatch({ type: actions.HANDLE_CHANGE, payload: { name, value } });
   };
 
   const closeForm = () => {
-    setisOpenModal(false);
-    setBody({ ...initialState });
+    dispatch({ type: actions.CLOSE_MODAL });
   };
 
-  const onSave = () => {
-  
+  const onSave = async () => {
+    try {
+      dispatch({ type: actions.SAVE_LIST });
+      await apiConsumer({
+        method: "POST",
+        url: "/groomings",
+        data: {
+          ...state.body,
+          petId: pet.id,
+        },
+      });
+      dispatch({ type: actions.SAVE_LIST_SUCCESS });
+    } catch (error) {
+      dispatch({
+        type: actions.SAVE_LIST_ERROR,
+        payload: getServerError(error),
+      });
+    }
+  };
+
+  const onUpdate = async () => {
+    try {
+      dispatch({ type: actions.SAVE_LIST });
+      await apiConsumer({
+        method: "PUT",
+        url: `/groomings/${state.body.id}`,
+        data: {
+          ...state.body,
+          petId: pet.id,
+        },
+      });
+      dispatch({ type: actions.SAVE_LIST_SUCCESS });
+    } catch (error) {
+      dispatch({
+        type: actions.SAVE_LIST_ERROR,
+        payload: getServerError(error),
+      });
+    }
+  };
+
+  const onDelete = async () => {
+    try {
+      dispatch({ type: actions.SAVE_LIST });
+      await apiConsumer({
+        method: "DELETE",
+        url: `/groomings/${state.body.id}`,
+      });
+      dispatch({ type: actions.SAVE_LIST_SUCCESS });
+    } catch (error) {
+      dispatch({
+        type: actions.SAVE_LIST_ERROR,
+        payload: getServerError(error),
+      });
+    }
   };
 
   const buttonConf = {
     label: "Añadir Visita",
-    onClick: () => setisOpenModal(true),
+    onClick: () => dispatch({ type: actions.OPEN_MODAL }),
   };
   const titles = [
     {
-      label: "Descripción",
-      key: "description",
+      label: "Observaciones",
+      key: "observations",
     },
     {
       label: "Costo",
-      key: "cost",
+      key: "price",
     },
-
+    {
+      label: "Tipo",
+      key: "serviceType",
+    },
     {
       label: "Fecha",
       key: "date",
@@ -81,52 +132,92 @@ export default function Estetica() {
         addToCar({ item: product, origin: "estetica" });
       },
     },
+    {
+      label: "Acciones",
+      key: "actions",
+      type: "actions",
+      actions: [
+        {
+          label: "see",
+          onClick: (id) => {
+            const editgrooming = state.list.find(
+              (grooming) => grooming.id === id
+            );
+            dispatch({ type: actions.ON_EDIT, payload: editgrooming });
+          },
+        },
+        {
+          label: "delete",
+          onClick: (id) => {
+            const deletegrooming = state.list.find(
+              (grooming) => grooming.id === id
+            );
+            dispatch({
+              type: actions.OPEN_DELETE_MODAL,
+              payload: deletegrooming,
+            });
+          },
+        },
+      ],
+    },
   ];
   return (
     <>
-      <Table buttonConf={buttonConf} columns={titles} data={data} />
+      <Table buttonConf={buttonConf} columns={titles} data={state.list} />
       <Modal
-        onSave={onSave}
-        title="Añadir Visita"
-        isOpen={isOpenModal}
+        onSave={state.isEdit ? onUpdate : onSave}
+        title={state.isEdit ? "Editar Visita" : `Añadir Visita`}
+        isOpen={state.showModal}
         onClose={closeForm}
+        errorText={state.errorTextSaveList}
+        isLoading={state.loadingSaveList}
       >
-        <TextField
+        <Select
+          value={state.body.serviceType}
           onChange={handleChange}
           name="serviceType"
-          value={body.serviceType}
+        >
+          <MenuItem value="tipo de servicio">Tipo de Servicio</MenuItem>
+          <MenuItem value="baño">baño</MenuItem>
+          <MenuItem value="corte y baño">corte y baño</MenuItem>
+        </Select>
+        <TextField
+          onChange={handleChange}
+          name="price"
+          value={state.body.price}
           size="small"
-          label="Tipo de servicio"
+          label="Costo"
         />
         <TextField
           onChange={handleChange}
           name="date"
-          value={body.date}
+          value={state.body.date}
           size="small"
+          type="date"
           label="Fecha"
+          InputLabelProps={{
+            shrink: true,
+          }}
         />
         <TextField
-          onChange={handleChange}
-          value={body.price}
-          size="small"
-          label="Precio"
-          name="price"
-        />
-        <TextField
-          value={body.observations}
-          size="small"
-          label="Observaciones"
           onChange={handleChange}
           name="observations"
-        />
-        <TextField
-          onChange={handleChange}
-          value={body.phone}
+          value={state.body.observations}
           size="small"
-          label="Telefono"
-          name="phone"
+          label="Descripción"
+          multiline
+          minRows={3}
         />
+        <SelectVet value={state.body.vetId} onChange={handleChange} />
       </Modal>
+      <DeleteDialog
+        onSave={onDelete}
+        title={`¿Seguro que desea eliminar esta visita?`}
+        isOpen={state.showDeleteModal}
+        onClose={() => dispatch({ type: actions.CLOSE_DELETE_MODAL })}
+        isLoading={state.loadingSaveList}
+        errorText={state.errorTextSaveList}
+      ></DeleteDialog>
     </>
   );
 }

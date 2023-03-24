@@ -1,0 +1,19 @@
+export const initialState = {
+  list: [],
+  loadingGetList: false,
+  errorTextGetList: "",
+  showModal: false,
+  body: {
+    petId: 2,
+    vetId: 0,
+    date: "",
+    serviceType: "tipo de servicio",
+    price: 0,
+    observations: "",
+  },
+  loadingSaveList: false,
+  errorTextSaveList: "",
+  reload: false,
+  isEdit: false,
+  showDeleteModal: false,
+};
