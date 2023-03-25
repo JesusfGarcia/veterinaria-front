@@ -2,70 +2,164 @@ import React from "react";
 
 import Content from "../../components/content";
 import Table from "../../components/table";
-import Modal from "../../components/dialog";
-import { TextField } from "@mui/material";
+import Modal, { DeleteDialog } from "../../components/dialog";
+import { MenuItem, Select, TextField } from "@mui/material";
 import Container from "../../components/container";
 
 import { CarContext } from "../../components/dashboard";
 
+import { reducer } from "./reducer";
+import { actions } from "./reducer/actions";
+import { initialState } from "./reducer/constants";
+
+import apiConsumer from "../../services";
+import { getServerError } from "../../helpers/getServerError";
+
+import SelectVet from "../../components/selectVet";
+
 export default function EstheticScreen() {
-  const [isOpenModal, setisOpenModal] = React.useState(false);
-  const [body, setBody] = React.useState({ ...initialState });
-  const { addToCar, products } = React.useContext(CarContext);
+  const [state, dispatch] = React.useReducer(reducer, initialState);
+  const { addToCar } = React.useContext(CarContext);
+
+  React.useEffect(() => {
+    const getList = async () => {
+      try {
+        dispatch({ type: actions.GET_LIST });
+        const { data } = await apiConsumer({
+          method: "GET",
+          url: `/groomings?advanced=${state.filterText}`,
+        });
+        dispatch({ type: actions.GET_LIST_SUCCESS, payload: data });
+      } catch (error) {
+        dispatch({
+          type: actions.GET_LIST_ERROR,
+          payload: getServerError(error),
+        });
+      }
+    };
+
+    const delay = setTimeout(() => {
+      getList();
+    }, 500);
+
+    return () => clearTimeout(delay);
+  }, [state.filterText,state.reload]);
+
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setBody({
-      ...body,
-      [name]: value,
-    });
+    dispatch({ type: actions.HANDLE_CHANGE, payload: { name, value } });
   };
 
   const closeForm = () => {
-    setisOpenModal(false);
-    setBody({ ...initialState });
+    dispatch({ type: actions.CLOSE_MODAL });
   };
 
-  const onSave = () => {
+  const onSave = async () => {
+    try {
+      dispatch({ type: actions.SAVE_LIST });
+      await apiConsumer({
+        method: "POST",
+        url: "/groomings",
+        data: state.body,
+      });
+      dispatch({ type: actions.SAVE_LIST_SUCCESS });
+    } catch (error) {
+      dispatch({
+        type: actions.SAVE_LIST_ERROR,
+        payload: getServerError(error),
+      });
+    }
+  };
 
+  const onUpdate = async () => {
+    try {
+      dispatch({ type: actions.SAVE_LIST });
+      await apiConsumer({
+        method: "PUT",
+        url: `/groomings/${state.body.id}`,
+        data: state.body,
+      });
+      dispatch({ type: actions.SAVE_LIST_SUCCESS });
+    } catch (error) {
+      dispatch({
+        type: actions.SAVE_LIST_ERROR,
+        payload: getServerError(error),
+      });
+    }
+  };
+
+  const onDelete = async () => {
+    try {
+      dispatch({ type: actions.SAVE_LIST });
+      await apiConsumer({
+        method: "DELETE",
+        url: `/groomings/${state.body.id}`,
+      });
+      dispatch({ type: actions.SAVE_LIST_SUCCESS });
+    } catch (error) {
+      dispatch({
+        type: actions.SAVE_LIST_ERROR,
+        payload: getServerError(error),
+      });
+    }
   };
 
   const buttonConf = {
     label: "Añadir Visita",
-    onClick: () => setisOpenModal(true),
+    onClick: () => dispatch({ type: actions.OPEN_MODAL }),
   };
 
   const titles = [
     {
-      label: "Nombre",
-      key: "name",
+      label: "Observaciones",
+      key: "observations",
     },
     {
-      label: "Tipo de servicio",
+      label: "Costo",
+      key: "price",
+    },
+    {
+      label: "Tipo",
       key: "serviceType",
     },
     {
       label: "Fecha",
       key: "date",
     },
-
     {
-      label: "Precio",
-      key: "price",
-    },
-    {
-      label: "Observaciones",
-      key: "observations",
-    },
-    {
-      label: "Teléfono",
-      key: "phone",
-    },
-    {
-      label: "cobro",
+      label: "Cobro",
       key: "isPayed",
       onClick: (product) => {
         addToCar({ item: product, origin: "estetica" });
       },
+    },
+    {
+      label: "Acciones",
+      key: "actions",
+      type: "actions",
+      actions: [
+        {
+          label: "see",
+          onClick: (id) => {
+            const editgrooming = state.list.find(
+              (grooming) => grooming.id === id
+            );
+            dispatch({ type: actions.ON_EDIT, payload: editgrooming });
+          },
+        },
+        {
+          label: "delete",
+          onClick: (id) => {
+            const deletegrooming = state.list.find(
+              (grooming) => grooming.id === id
+            );
+            dispatch({
+              type: actions.OPEN_DELETE_MODAL,
+              payload: deletegrooming,
+            });
+          },
+        },
+      ],
     },
   ];
 
@@ -73,99 +167,70 @@ export default function EstheticScreen() {
     <Container>
       <Content title="Estetica">
         <div className="linea"></div>
-        <Table buttonConf={buttonConf} columns={titles} data={data} />
+        <Table
+          buttonConf={buttonConf}
+          columns={titles}
+          data={state.list}
+          filter={state.filterText}
+          setFilter={(text) =>
+            dispatch({ type: actions.HANDLE_FILTER_TEXT, payload: text })
+          }
+        />
         <Modal
-          onSave={onSave}
-          title="Añadir Visita"
-          isOpen={isOpenModal}
+          onSave={state.isEdit ? onUpdate : onSave}
+          title={state.isEdit ? "Editar Visita" : `Añadir Visita`}
+          isOpen={state.showModal}
           onClose={closeForm}
+          errorText={state.errorTextSaveList}
+          isLoading={state.loadingSaveList}
         >
-          <TextField
-            onChange={handleChange}
-            name="name"
-            value={body.name}
-            size="small"
-            label="Nombre"
-          />
-          <TextField
+          <Select
+            value={state.body.serviceType}
             onChange={handleChange}
             name="serviceType"
-            value={body.serviceType}
+          >
+            <MenuItem value="tipo de servicio">Tipo de Servicio</MenuItem>
+            <MenuItem value="baño">baño</MenuItem>
+            <MenuItem value="corte y baño">corte y baño</MenuItem>
+          </Select>
+          <TextField
+            onChange={handleChange}
+            name="price"
+            value={state.body.price}
             size="small"
-            label="Tipo de servicio"
+            label="Costo"
           />
           <TextField
             onChange={handleChange}
             name="date"
-            value={body.date}
+            value={state.body.date}
             size="small"
+            type="date"
             label="Fecha"
+            InputLabelProps={{
+              shrink: true,
+            }}
           />
           <TextField
-            onChange={handleChange}
-            value={body.price}
-            size="small"
-            label="Precio"
-            name="price"
-          />
-          <TextField
-            value={body.observations}
-            size="small"
-            label="Observaciones"
             onChange={handleChange}
             name="observations"
-          />
-          <TextField
-            onChange={handleChange}
-            value={body.phone}
+            value={state.body.observations}
             size="small"
-            label="Telefono"
-            name="phone"
+            label="Descripción"
+            multiline
+            minRows={3}
           />
+          <SelectVet value={state.body.vetId} onChange={handleChange} />
         </Modal>
+        <DeleteDialog
+          onSave={onDelete}
+          title={`¿Seguro que desea eliminar esta visita?`}
+          isOpen={state.showDeleteModal}
+          onClose={() => dispatch({ type: actions.CLOSE_DELETE_MODAL })}
+          isLoading={state.loadingSaveList}
+          errorText={state.errorTextSaveList}
+        ></DeleteDialog>
       </Content>
     </Container>
   );
 }
-
-const data = [
-  {
-    name: "Chester García",
-    serviceType: "Baño Grande",
-    date: "12/04/23",
-    price: "$200",
-    observations: "Nervioso",
-    phone: "668156498",
-    isPayed: false,
-    id: 1,
-  },
-  {
-    name: "Nicky Lugo",
-    serviceType: "Baño Grande",
-    date: "7/04/23",
-    price: "$300",
-    observations: "Usar Bozal",
-    phone: "668156498",
-    isPayed: true,
-    id: 2,
-  },
-  {
-    name: "Coffee Soto",
-    serviceType: "Baño chico",
-    date: "22/07/22",
-    price: "$150",
-    observations: "Nerviosa",
-    phone: "668156498",
-    isPayed: false,
-    id: 3,
-  },
-];
-
-const initialState = {
-  name: "",
-  serviceType: "",
-  date: "",
-  price: "",
-  observations: "",
-  phone: "",
-};

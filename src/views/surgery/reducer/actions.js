@@ -13,3 +13,4 @@ export const actions = {
     CLOSE_DELETE_MODAL: "CLOSE_DELETE_MODAL",
     HANDLE_FILTER_TEXT: "HANDLE_FILTER_TEXT",
   };
+  

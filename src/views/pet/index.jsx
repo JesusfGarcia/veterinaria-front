@@ -57,7 +57,6 @@ export default function PetsScreen() {
           url: `/clients/${id}`,
           method: "GET",
         });
-        console.log("response =>", data);
         dispatch({ type: actions.GET_USER_INFO_SUCCESS, payload: data });
       } catch (error) {
         dispatch({
@@ -151,7 +150,10 @@ export default function PetsScreen() {
   };
 
   const petBody = React.useMemo(() => {
-    return state.user.pets[state.petSelected];
+    console.log("petSelected =>", state.petSelected);
+    const findPet = state.user.pets.find((pet) => pet.id === state.petSelected);
+    console.log("findPet =>", findPet);
+    return findPet;
   }, [state.petSelected, state.user.pets]);
 
   return (
@@ -196,18 +198,21 @@ export default function PetsScreen() {
           </div>
 
           <div className={styles.pet_selector}>
-            {state.user.pets.map((pet, idx) => {
+            {state.user.pets.map((pet) => {
               return (
                 <>
                   {pet.photo ? (
                     <>
                       <img
                         onClick={() =>
-                          dispatch({ type: actions.SELECT_PET, payload: idx })
+                          dispatch({
+                            type: actions.SELECT_PET,
+                            payload: pet.id,
+                          })
                         }
                         alt="pet"
                         className={
-                          state.petSelected === idx
+                          state.petSelected === pet.id
                             ? styles.pet_img_selected
                             : styles.pet_img
                         }
@@ -217,10 +222,10 @@ export default function PetsScreen() {
                   ) : (
                     <div
                       onClick={() =>
-                        dispatch({ type: actions.SELECT_PET, payload: idx })
+                        dispatch({ type: actions.SELECT_PET, payload: pet.id })
                       }
                       className={
-                        state.petSelected === idx
+                        state.petSelected === pet.id
                           ? styles.pet_selected
                           : styles.pet
                       }

@@ -13,8 +13,9 @@ export const reducer = (
       newState.errorTextUserInfo = "";
       break;
     case actions.GET_USER_INFO_SUCCESS:
-      if (action.payload.pets.length !== 0) {
-        newState.petSelected = 0;
+      if (action.payload.pets.length !== 0 && !state.initialLoad) {
+        newState.petSelected = action.payload.pets[0].id;
+        newState.initialLoad = true;
       }
       newState.isLoadingUserInfo = false;
       newState.user = {

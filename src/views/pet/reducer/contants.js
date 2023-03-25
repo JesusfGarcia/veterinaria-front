@@ -30,4 +30,5 @@ export const initialState = {
   },
   petSelected: null,
   isEdit: false,
+  initialLoad: false,
 };

@@ -1,6 +1,6 @@
 import { initialState } from "./constants";
 import { actions } from "./actions";
-import { getFormatedDate } from "../../../../helpers/getFormatedDate";
+import { getFormatedDate } from "../../../helpers/getFormatedDate";
 
 export const reducer = (
   state = initialState,
@@ -10,7 +10,6 @@ export const reducer = (
   }
 ) => {
   const newState = structuredClone(state);
-
   switch (action.type) {
     case actions.GET_LIST:
       newState.loadingGetList = true;
@@ -81,4 +80,4 @@ export const reducer = (
   }
 
   return newState;
-};
+}

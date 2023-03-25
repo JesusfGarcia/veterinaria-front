@@ -2,7 +2,7 @@ import { TextField } from "@mui/material";
 import React from "react";
 import Table from "../../../components/table";
 import Modal, { DeleteDialog } from "../../../components/dialog";
-import { MenuItem, Select, CarContext } from "../../../components/dashboard";
+import { CarContext } from "../../../components/dashboard";
 
 import { reducer } from "./reducer";
 import { actions } from "./reducer/actions";
@@ -25,7 +25,7 @@ export default function Cirugia() {
         dispatch({ type: actions.GET_LIST });
         const { data } = await apiConsumer({
           method: "GET",
-          url: `/surgeries?petId=${pet.id}`,
+          url: `/surgeries?petId=${pet.id}&advanced=${state.filterText}`,
         });
 
         dispatch({ type: actions.GET_LIST_SUCCESS, payload: data });
@@ -36,8 +36,12 @@ export default function Cirugia() {
         });
       }
     };
-    getList();
-  }, [state.reload, pet.id]);
+    const delay = setTimeout(() => {
+      getList();
+    }, 500);
+
+    return () => clearTimeout(delay);
+  }, [state.reload, pet.id, state.filterText]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -163,7 +167,15 @@ export default function Cirugia() {
 
   return (
     <>
-      <Table buttonConf={buttonConf} columns={titles} data={state.list} />
+      <Table
+        filter={state.filterText}
+        setFilter={(text) =>
+          dispatch({ type: actions.HANDLE_FILTER_TEXT, payload: text })
+        }
+        buttonConf={buttonConf}
+        columns={titles}
+        data={state.list}
+      />
       <Modal
         onSave={state.isEdit ? onUpdate : onSave}
         title={state.isEdit ? "Editar Cirugia" : `Añadir Cirugia`}

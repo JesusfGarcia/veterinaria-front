@@ -25,7 +25,7 @@ export default function Estetica() {
         dispatch({ type: actions.GET_LIST });
         const { data } = await apiConsumer({
           method: "GET",
-          url: `/groomings?petId=${pet.id}`,
+          url: `/groomings?petId=${pet.id}&advanced=${state.filterText}`,
         });
 
         dispatch({ type: actions.GET_LIST_SUCCESS, payload: data });
@@ -36,8 +36,12 @@ export default function Estetica() {
         });
       }
     };
-    getList();
-  }, [state.reload, pet.id]);
+    const delay = setTimeout(() => {
+      getList();
+    }, 500);
+
+    return () => clearTimeout(delay);
+  }, [state.reload, pet.id, state.filterText]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -163,7 +167,15 @@ export default function Estetica() {
   ];
   return (
     <>
-      <Table buttonConf={buttonConf} columns={titles} data={state.list} />
+      <Table
+        filter={state.filterText}
+        setFilter={(text) =>
+          dispatch({ type: actions.HANDLE_FILTER_TEXT, payload: text })
+        }
+        buttonConf={buttonConf}
+        columns={titles}
+        data={state.list}
+      />
       <Modal
         onSave={state.isEdit ? onUpdate : onSave}
         title={state.isEdit ? "Editar Visita" : `Añadir Visita`}

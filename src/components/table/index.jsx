@@ -8,27 +8,18 @@ import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
 import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
 
 import styles from "./table.module.scss";
-import { theme } from "../../styles/theme";
 
-/* const columnsExample = [
-  {
-    label: "ver",
-    key: "actions",
-    type: "actions",
-    actions: [
-      {
-        label: "see",
-        onClick: (id) => navigate(`${id}`),
-      },
-    ],
-  },
-]; */
-
-export default function Table({ columns, data, buttonConf }) {
+export default function Table({
+  columns,
+  data,
+  buttonConf,
+  filter,
+  setFilter,
+}) {
   return (
     <div className={styles.container}>
       <div className={styles.row}>
-        <SearchInput />
+        <SearchInput value={filter} onChange={setFilter} />
         {buttonConf && (
           <Button onClick={buttonConf.onClick} text={buttonConf.label} />
         )}

@@ -73,6 +73,9 @@ export const reducer = (
       newState.showDeleteModal = false;
       newState.body = { ...initialState.body };
       break;
+      case actions.HANDLE_FILTER_TEXT:
+        newState.filterText = action.payload;
+        break;
     default:
       break;
   }
