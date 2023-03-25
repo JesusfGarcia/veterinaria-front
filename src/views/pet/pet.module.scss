@@ -115,6 +115,21 @@
   }
 }
 
+.pet_img {
+  height: 55px;
+  width: 55px;
+  border-radius: 150px;
+  border: 0px;
+  color: $primaryHover;
+  border: 2px solid $primaryHover;
+  cursor: pointer;
+  object-fit: cover;
+  object-position: center;
+  &:hover {
+    opacity: 0.8;
+  }
+}
+
 .pet_selected {
   height: 55px;
   width: 55px;
@@ -133,4 +148,29 @@
   &:hover {
     opacity: 0.8;
   }
+}
+
+.pet_img_selected {
+  height: 55px;
+  width: 55px;
+  border-radius: 150px;
+  border: 0px;
+  color: $primaryHover;
+  border: 2px solid $primaryHover;
+  cursor: pointer;
+  object-fit: cover;
+  object-position: center;
+  -webkit-box-shadow: 0px 0px 7px 2px rgba(1, 108, 185, 1);
+  -moz-box-shadow: 0px 0px 7px 2px rgba(1, 108, 185, 1);
+  box-shadow: 0px 0px 7px 2px rgba(1, 108, 185, 1);
+  &:hover {
+    opacity: 0.8;
+  }
+}
+
+.info_row {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  align-items: center;
 }

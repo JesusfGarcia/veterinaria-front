@@ -1,0 +1,47 @@
+@import "../../sass/color.scss";
+
+.inputFile {
+  display: none;
+}
+
+.inputLabel {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  background-color: $primary;
+  color: $textLight;
+  padding: 10px 20px;
+  border-radius: 8px;
+  width: fit-content;
+
+  cursor: pointer;
+  &:hover {
+    opacity: 0.9;
+  }
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  align-items: center;
+}
+
+.img {
+  width: 150px;
+  height: 150px;
+  border-radius: 150px;
+  object-fit: cover;
+}
+
+.imgDefault {
+  width: 150px;
+  height: 150px;
+  border-radius: 150px;
+  border: 1px solid #cacaca;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}

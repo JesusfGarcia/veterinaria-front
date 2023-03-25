@@ -25,6 +25,9 @@ export const initialState = {
     color: "",
     birthDate: "",
     allergies: "",
+    weight: 0,
+    photo: "",
   },
   petSelected: null,
+  isEdit: false,
 };

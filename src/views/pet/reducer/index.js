@@ -17,7 +17,10 @@ export const reducer = (
         newState.petSelected = 0;
       }
       newState.isLoadingUserInfo = false;
-      newState.user = action.payload;
+      newState.user = {
+        ...action.payload,
+        pets: action.payload.pets.sort((a, b) => a.id - b.id),
+      };
       break;
     case actions.GET_USER_INFO_ERROR:
       newState.isLoadingUserInfo = false;
@@ -29,8 +32,9 @@ export const reducer = (
     case actions.CLOSE_MODAL:
       newState.showModal = false;
       newState.pet = { ...initialState.pet };
-      newState.errorTextSavePet = false;
+      newState.errorTextSavePet = "";
       newState.isLoadingSavePet = false;
+      newState.isEdit = false;
       break;
     case actions.HANDLE_INPUT_CHANGE:
       newState.pet[action.payload.name] = action.payload.value;
@@ -43,6 +47,7 @@ export const reducer = (
       newState.isLoadingSavePet = false;
       newState.showModal = false;
       newState.reload = !state.reload;
+      newState.isEdit = false;
       break;
     case actions.SAVE_PET_INFO_ERROR:
       newState.isLoadingSavePet = false;
@@ -53,6 +58,12 @@ export const reducer = (
       break;
     case actions.SELECT_PET:
       newState.petSelected = action.payload;
+      break;
+    case actions.EDIT_PET:
+      newState.pet = action.payload;
+      newState.isEdit = true;
+      newState.showModal = true;
+      newState.errorTextSavePet = "";
       break;
     default:
       break;

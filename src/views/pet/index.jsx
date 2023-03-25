@@ -8,6 +8,8 @@ import ScienceIcon from "@mui/icons-material/Science";
 import BugReportIcon from "@mui/icons-material/BugReport";
 import LocalHospitalIcon from "@mui/icons-material/LocalHospital";
 
+import EditIcon from "@mui/icons-material/Edit";
+
 import styles from "./pet.module.scss";
 import Cirugia from "./cirugia";
 import Consults from "./consultas";
@@ -25,8 +27,9 @@ import { initialState } from "./reducer/contants";
 import { actions } from "./reducer/actions";
 import { reducer } from "./reducer";
 import Modal from "../../components/dialog";
-import { TextField } from "@mui/material";
+import { TextField, Tooltip } from "@mui/material";
 import { getServerError } from "../../helpers/getServerError";
+import InputFile from "../../components/inputfile";
 
 export const petContext = React.createContext({
   pet: {
@@ -54,6 +57,7 @@ export default function PetsScreen() {
           url: `/clients/${id}`,
           method: "GET",
         });
+        console.log("response =>", data);
         dispatch({ type: actions.GET_USER_INFO_SUCCESS, payload: data });
       } catch (error) {
         dispatch({
@@ -93,6 +97,16 @@ export default function PetsScreen() {
     });
   };
 
+  const handlePetImage = (base64) => {
+    dispatch({
+      type: actions.HANDLE_INPUT_CHANGE,
+      payload: {
+        name: "photo",
+        value: base64,
+      },
+    });
+  };
+
   const CreatePet = async () => {
     try {
       dispatch({ type: actions.SAVE_PET_INFO });
@@ -115,9 +129,30 @@ export default function PetsScreen() {
     }
   };
 
+  const updatePet = async () => {
+    try {
+      dispatch({ type: actions.SAVE_PET_INFO });
+      await apiConsumer({
+        data: {
+          ...state.pet,
+        },
+        method: "put",
+        url: `/pets/${petBody.id}`,
+      });
+      dispatch({
+        type: actions.SAVE_PET_INFO_SUCCESS,
+      });
+    } catch (error) {
+      dispatch({
+        type: actions.SAVE_PET_INFO_ERROR,
+        payload: getServerError(error),
+      });
+    }
+  };
+
   const petBody = React.useMemo(() => {
     return state.user.pets[state.petSelected];
-  }, [state.petSelected]);
+  }, [state.petSelected, state.user.pets]);
 
   return (
     <div className={styles.content}>
@@ -126,15 +161,32 @@ export default function PetsScreen() {
           <div className={styles.left_header}>
             {state.petSelected !== null && (
               <>
-                <div className={styles.pet}>{petBody.name[0]}</div>
+                {petBody.photo ? (
+                  <img
+                    alt="pet"
+                    className={styles.pet_img}
+                    src={`http://${process.env.REACT_APP_URL}${petBody?.photo}`}
+                  />
+                ) : (
+                  <div className={styles.pet}>{petBody.name[0]}</div>
+                )}
+
                 <div className={styles.col}>
-                  <div>
+                  <div className={styles.info_row}>
                     <span className={styles.title}>{petBody.name} </span>
                     <span className={styles.caption}>{petBody.birthDate}</span>
+                    <Tooltip title="Editar">
+                      <EditIcon
+                        onClick={() =>
+                          dispatch({ type: actions.EDIT_PET, payload: petBody })
+                        }
+                        sx={{ cursor: "pointer" }}
+                      />
+                    </Tooltip>
                   </div>
                   <span className={styles.subTitle}>{petBody.race}</span>
 
-                  <div>
+                  <div className={styles.info_row}>
                     <span className={styles.subTitle}>{petBody.specie} </span>
                     <span className={styles.caption}>{petBody.sex}</span>
                   </div>
@@ -146,16 +198,37 @@ export default function PetsScreen() {
           <div className={styles.pet_selector}>
             {state.user.pets.map((pet, idx) => {
               return (
-                <div
-                  onClick={() =>
-                    dispatch({ type: actions.SELECT_PET, payload: idx })
-                  }
-                  className={
-                    state.petSelected === idx ? styles.pet_selected : styles.pet
-                  }
-                >
-                  {pet.name[0]}
-                </div>
+                <>
+                  {pet.photo ? (
+                    <>
+                      <img
+                        onClick={() =>
+                          dispatch({ type: actions.SELECT_PET, payload: idx })
+                        }
+                        alt="pet"
+                        className={
+                          state.petSelected === idx
+                            ? styles.pet_img_selected
+                            : styles.pet_img
+                        }
+                        src={`http://${process.env.REACT_APP_URL}${pet.photo}`}
+                      />
+                    </>
+                  ) : (
+                    <div
+                      onClick={() =>
+                        dispatch({ type: actions.SELECT_PET, payload: idx })
+                      }
+                      className={
+                        state.petSelected === idx
+                          ? styles.pet_selected
+                          : styles.pet
+                      }
+                    >
+                      {pet.name[0]}
+                    </div>
+                  )}
+                </>
               );
             })}
             <button
@@ -190,9 +263,9 @@ export default function PetsScreen() {
         isOpen={state.showModal}
         onClose={() => dispatch({ type: actions.CLOSE_MODAL })}
         isLoading={state.isLoadingSavePet}
-        title="Agregar Mascota"
+        title={state.isEdit ? "Editar Mascota" : "Agregar Mascota"}
         errorText={state.errorTextSavePet}
-        onSave={CreatePet}
+        onSave={state.isEdit ? updatePet : CreatePet}
       >
         <TextField
           name="name"
@@ -241,12 +314,21 @@ export default function PetsScreen() {
           }}
         />
         <TextField
+          name="weight"
+          value={state.pet.weight}
+          size="small"
+          label="Peso (kgs)"
+          onChange={handlePetChange}
+          type="number"
+        />
+        <TextField
           name="allergies"
           value={state.pet.allergies}
           size="small"
           label="Alergias"
           onChange={handlePetChange}
         />
+        <InputFile value={state.pet.photo} setValue={handlePetImage} />
       </Modal>
     </div>
   );
