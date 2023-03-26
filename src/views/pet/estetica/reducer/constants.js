@@ -1,6 +1,6 @@
 export const initialState = {
   list: [],
-  loadingGetList: false,
+  loadingGetList: true,
   errorTextGetList: "",
   showModal: false,
   body: {

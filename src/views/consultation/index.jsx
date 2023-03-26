@@ -164,6 +164,7 @@ export default function ConsultationScreen() {
       <Content title="Consultas">
         <div className="linea"></div>
         <Table
+         isLoading={state.loadingGetList}
           filter={state.filterText}
           setFilter={(text) =>
             dispatch({ type: actions.HANDLE_FILTER_TEXT, payload: text })

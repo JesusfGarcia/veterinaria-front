@@ -99,7 +99,9 @@ export default function HospitalScreen() {
     <Container>
       <Content title="Hospital">
         <div className="linea"></div>
-        <Table buttonConf={buttonConf} columns={title} data={data} />
+        <Table 
+         
+        buttonConf={buttonConf} columns={title} data={data} />
         <Modal
           onSave={onSave}
           title="Ingresar paciente"

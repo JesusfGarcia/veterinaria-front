@@ -8,6 +8,7 @@ import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
 import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
 
 import styles from "./table.module.scss";
+import { Skeleton } from "@mui/material";
 
 export default function Table({
   columns,
@@ -15,6 +16,7 @@ export default function Table({
   buttonConf,
   filter,
   setFilter,
+  isLoading,
 }) {
   return (
     <div className={styles.container}>
@@ -24,25 +26,42 @@ export default function Table({
           <Button onClick={buttonConf.onClick} text={buttonConf.label} />
         )}
       </div>
+      {isLoading ? (
+        <div className={styles.loading}>
+        <div className={styles.ldsroller}>
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+        </div>
+        <span className={styles.title}>Cargando...</span>
+        </div>
+        
 
-      <table className={styles.table_container}>
-        <thead>
-          <tr>
-            {columns.map((title, indice) => (
-              <th key={`column${indice}`}>{title.label}</th>
-            ))}
-          </tr>
-        </thead>
-        <tbody>
-          {data.map((row, idx) => (
-            <tr key={idx}>
-              {columns.map((column, id) => (
-                <Td key={`row-${id}`} column={column} item={row} idx={idx} />
+      ) : (
+        <table className={styles.table_container}>
+          <thead>
+            <tr>
+              {columns.map((title, indice) => (
+                <th key={`column${indice}`}>{title.label}</th>
               ))}
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {data.map((row, idx) => (
+              <tr key={idx}>
+                {columns.map((column, id) => (
+                  <Td key={`row-${id}`} column={column} item={row} idx={idx} />
+                ))}
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      )}
     </div>
   );
 }

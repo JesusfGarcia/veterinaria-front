@@ -31,7 +31,7 @@ export const reducer = (state = initialState, action) => {
       newState.isEdit = false;
       break;
     case actions.HANDLE_CHANGE:
-      newState.form[action.payload.name] = action.payload.value;
+      newState.body[action.payload.name] = action.payload.value;
       break;
     case actions.SAVE_USER:
       newState.isSaveLoading = true;
@@ -39,7 +39,7 @@ export const reducer = (state = initialState, action) => {
       break;
     case actions.SAVE_USER_SUCCESS:
       newState.isSaveLoading = false;
-      newState.form = { ...initialState.form };
+      newState.body = { ...initialState.body };
       newState.reload = !newState.reload;
       newState.isEdit = false;
       newState.showModal = false;
@@ -49,19 +49,25 @@ export const reducer = (state = initialState, action) => {
       newState.isSaveLoading = false;
       newState.saveErrorText = action.payload;
       break;
-    default:
     case actions.ON_EDIT:
       newState.isEdit = true;
       newState.showModal = true;
-      newState.form = action.payload;
+      newState.body = action.payload;
       break;
     case actions.OPEN_DELETE_MODAL:
       newState.showDeleteModal = true;
-      newState.form = action.payload;
+      newState.body = action.payload;
       break;
     case actions.CLOSE_DELETE_MODAL:
       newState.showDeleteModal = false;
+      break;
+      case actions.HANDLE_FILTER_TEXT:
+      newState.filterText = action.payload;
+      break;
+    default:
+      break;
   }
+  
 
   return newState;
 };
