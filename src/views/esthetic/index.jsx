@@ -168,6 +168,7 @@ export default function EstheticScreen() {
       <Content title="Estetica">
         <div className="linea"></div>
         <Table
+         isLoading={state.loadingGetList}
           buttonConf={buttonConf}
           columns={titles}
           data={state.list}

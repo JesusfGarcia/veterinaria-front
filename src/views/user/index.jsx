@@ -23,7 +23,7 @@ export default function UsersScreen() {
         dispatch({ type: actions.GET_LIST });
         const { data } = await apiConsumer({
           method: "GET",
-          url: "/clients",
+          url: `/clients?advanced=${state.filterText}`,
         });
         dispatch({ type: actions.GET_LIST_SUCCESSS, payload: data });
       } catch (error) {
@@ -34,9 +34,13 @@ export default function UsersScreen() {
       }
     };
 
-    getList();
+    const delay = setTimeout(() => {
+      getList();
+    }, 500);
+
+    return () => clearTimeout(delay);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [state.reload]);
+  }, [state.filterText, state.reload]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -74,7 +78,7 @@ export default function UsersScreen() {
       key: "name",
     },
     {
-      label: "Nombre",
+      label: "Apellido",
       key: "lastName",
     },
     {
@@ -109,7 +113,16 @@ export default function UsersScreen() {
     <Container>
       <Content title="Clientes">
         <div className="linea"></div>
-        <Table buttonConf={buttonConf} columns={title} data={state.list} />
+        <Table
+          isLoading={state.isLoading}
+          buttonConf={buttonConf}
+          columns={title}
+          data={state.list}
+          filter={state.filterText}
+          setFilter={(text) =>
+            dispatch({ type: actions.HANDLE_FILTER_TEXT, payload: text })
+          }
+        />
         <Modal
           onSave={onSave}
           isOpen={state.showModal}

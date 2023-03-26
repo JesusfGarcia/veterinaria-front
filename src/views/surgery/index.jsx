@@ -163,6 +163,7 @@ export default function SurgeryScreen() {
       <Content title="Cirugías">
         <div className="linea"></div>
         <Table
+         isLoading={state.loadingGetList}
           buttonConf={buttonConf}
           columns={title}
           data={state.list}

@@ -168,6 +168,7 @@ export default function Estetica() {
   return (
     <>
       <Table
+       isLoading={state.loadingGetList}
         filter={state.filterText}
         setFilter={(text) =>
           dispatch({ type: actions.HANDLE_FILTER_TEXT, payload: text })
