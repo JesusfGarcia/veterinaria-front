@@ -167,7 +167,7 @@ export default function PetsScreen() {
                   <img
                     alt="pet"
                     className={styles.pet_img}
-                    src={`http://${process.env.REACT_APP_URL}${petBody?.photo}`}
+                    src={`${process.env.REACT_APP_URL}${petBody?.photo}`}
                   />
                 ) : (
                   <div className={styles.pet}>{petBody.name[0]}</div>
@@ -216,7 +216,7 @@ export default function PetsScreen() {
                             ? styles.pet_img_selected
                             : styles.pet_img
                         }
-                        src={`http://${process.env.REACT_APP_URL}${pet.photo}`}
+                        src={`${process.env.REACT_APP_URL}${pet.photo}`}
                       />
                     </>
                   ) : (

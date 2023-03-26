@@ -44,7 +44,7 @@ export default function InputFile({ value = "", setValue = () => {} }) {
             <img
               className={styles.img}
               alt="imagen"
-              src={`http://${process.env.REACT_APP_URL}${value}`}
+              src={`${process.env.REACT_APP_URL}${value}`}
             />
           )}
         </>
