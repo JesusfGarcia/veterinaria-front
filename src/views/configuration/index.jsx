@@ -11,7 +11,7 @@ import Checkbox from "@mui/material/Checkbox";
 import { initialState } from "./reducer/contants";
 import { actions } from "./reducer/actions";
 import { reducer } from "./reducer";
-
+import { getServerError } from "../../helpers/getServerError";
 import apiConsumer from "../../services";
 
 export default function ConfigurationScreen() {
@@ -23,19 +23,23 @@ export default function ConfigurationScreen() {
         dispatch({ type: actions.GET_DATA });
         const { data } = await apiConsumer({
           method: "GET",
-          url: "/users",
+          url: `/users?advanced=${state.filterText}`,
         });
-       
+
         dispatch({ type: actions.GET_DATA_SUCCESS, payload: data });
       } catch (error) {
         dispatch({
           type: actions.GET_DATA_ERROR,
-          payload: error.response?.data?.errors || "Error en el servidor",
+          payload: getServerError(error),
         });
       }
     };
-    getData();
-  }, [state.reload]);
+    const delay = setTimeout(() => {
+      getData();
+    }, 500);
+
+    return () => clearTimeout(delay);
+  }, [state.filterText, state.reload]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -51,14 +55,14 @@ export default function ConfigurationScreen() {
       dispatch({ type: actions.SAVE_USER });
       await apiConsumer({
         method: "post",
-        data: state.form,
+        data: state.body,
         url: "/users",
       });
       dispatch({ type: actions.SAVE_USER_SUCCESS });
     } catch (error) {
       dispatch({
         type: actions.SAVE_USER_ERROR,
-        payload: error.response?.data?.errors || "Error en el servidor",
+        payload: getServerError(error),
       });
     }
   };
@@ -75,7 +79,7 @@ export default function ConfigurationScreen() {
     } catch (error) {
       dispatch({
         type: actions.SAVE_USER_ERROR,
-        payload: error.response?.data?.errors || "Error en el servidor",
+        payload: getServerError(error),
       });
     }
   };
@@ -92,7 +96,7 @@ export default function ConfigurationScreen() {
     } catch (error) {
       dispatch({
         type: actions.SAVE_USER_ERROR,
-        payload: error.response?.data?.errors || "Error en el servidor",
+        payload: getServerError(error),
       });
     }
   };
@@ -102,56 +106,63 @@ export default function ConfigurationScreen() {
     onClick: () => dispatch({ type: actions.OPEN_MODAL }),
   };
 
-  const titles = React.useMemo(() => {
-    return [
-      {
-        label: "Nombre",
-        key: "name",
-      },
-      {
-        label: "Apellido",
-        key: "lastName",
-      },
-      {
-        label: "Correo",
-        key: "email",
-      },
-      {
-        label: "Tipo",
-        key: "type",
-      },
-      {
-        label: "Acciones",
-        key: "actions",
-        type: "actions",
-        actions: [
-          {
-            label: "see",
-            onClick: (id) => {
-              const editUser = state.list.find((user) => user.id === id);
-              dispatch({ type: actions.ON_EDIT, payload: editUser });
-            },
+  const titles = [
+    {
+      label: "Nombre",
+      key: "name",
+    },
+    {
+      label: "Apellido",
+      key: "lastName",
+    },
+    {
+      label: "Correo",
+      key: "email",
+    },
+    {
+      label: "Tipo",
+      key: "type",
+    },
+    {
+      label: "Acciones",
+      key: "actions",
+      type: "actions",
+      actions: [
+        {
+          label: "see",
+          onClick: (id) => {
+            const edituser = state.list.find((users) => users.id === id);
+            dispatch({ type: actions.ON_EDIT, payload: edituser });
           },
-          {
-            label: "delete",
-            onClick: (id) => {
-              const deleteUser = state.list.find((user) => user.id === id);
-              dispatch({
-                type: actions.OPEN_DELETE_MODAL,
-                payload: deleteUser,
-              });
-            },
+        },
+        {
+          label: "delete",
+          onClick: (id) => {
+            const edituser = state.list.find((users) => users.id === id);
+            dispatch({
+              type: actions.OPEN_DELETE_MODAL,
+              payload: edituser,
+            });
           },
-        ],
-      },
-    ];
-  }, [state.list]);
+        },
+      ],
+    },
+  ];
 
   return (
     <Container>
       <Content title="Lista de Usuarios">
         <div className="linea"></div>
-        <Table buttonConf={buttonConf} columns={titles} data={state.list} />
+        <Table
+        isLoading={state.isLoading}
+          buttonConf={buttonConf}
+          columns={titles}
+          data={state.list}
+          filter={state.filterText}
+          setFilter={(text) =>
+            dispatch({ type: actions.HANDLE_FILTER_TEXT, payload: text })
+          }
+        />
         <Modal
           onSave={state.isEdit ? onEdit : onSave}
           title={state.isEdit ? "Editar Usuario" : "Añadir Usuario"}
@@ -163,21 +174,21 @@ export default function ConfigurationScreen() {
           <TextField
             onChange={handleChange}
             name="name"
-            value={state.form.name}
+            value={state.body.name}
             size="small"
             label="Nombre"
           />
           <TextField
             onChange={handleChange}
             name="lastName"
-            value={state.form.lastName}
+            value={state.body.lastName}
             size="small"
             label="Apellido"
           />
           <TextField
             onChange={handleChange}
             name="email"
-            value={state.form.email}
+            value={state.body.email}
             size="small"
             label="Correo"
           />
@@ -185,12 +196,12 @@ export default function ConfigurationScreen() {
             <FormControlLabel
               control={
                 <Checkbox
-                  checked={state.form.isAdmin}
+                  checked={state.body.isAdmin}
                   onChange={() =>
                     handleChange({
                       target: {
                         name: "isAdmin",
-                        value: !state.form.isAdmin,
+                        value: !state.body.isAdmin,
                       },
                     })
                   }
@@ -202,7 +213,7 @@ export default function ConfigurationScreen() {
         </Modal>
         <DeleteDialog
           onSave={onDelete}
-          title={`¿Seguro que desea eliminar a ${state.form.name}?`}
+          title={`¿Seguro que desea eliminar a ${state.body.name}?`}
           isOpen={state.showDeleteModal}
           onClose={() => dispatch({ type: actions.CLOSE_DELETE_MODAL })}
           isLoading={state.isSaveLoading}

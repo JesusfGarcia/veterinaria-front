@@ -80,7 +80,9 @@ export default function ParasitosExternos() {
   ];
   return (
     <>
-      <Table buttonConf={buttonConf} columns={titles} data={data} />
+      <Table 
+       
+       buttonConf={buttonConf} columns={titles} data={data} />
       <Modal
         onSave={onSave}
         title="Añadir Producto"

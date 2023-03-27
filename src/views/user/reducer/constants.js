@@ -1,6 +1,6 @@
 export const initialState = {
   list: [],
-  isLoading: false,
+  isLoading: true,
   textError: "",
   showModal: false,
   client: {
@@ -14,4 +14,5 @@ export const initialState = {
   isLoadingSave: false,
   textErrorSave: "",
   reload: false,
+  filterText: "",
 };

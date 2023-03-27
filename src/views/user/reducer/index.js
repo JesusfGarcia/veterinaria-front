@@ -46,6 +46,9 @@ export const reducer = (
       newState.isLoadingSave = false;
       newState.textErrorSave = action.payload;
       break;
+    case actions.HANDLE_FILTER_TEXT:
+      newState.filterText = action.payload;
+      break;
     default:
       break;
   }

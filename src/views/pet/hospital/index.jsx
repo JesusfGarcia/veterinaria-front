@@ -163,7 +163,8 @@ export default function Hospital() {
   ];
   return (
     <>
-      <Table buttonConf={buttonConf} columns={titles} data={state.list} />
+      <Table  isLoading={state.isLoading}
+      buttonConf={buttonConf} columns={titles} data={state.list} />
       <Modal
         onSave={state.isEdit ? onUpdate : onSave}
         title={

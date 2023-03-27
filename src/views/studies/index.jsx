@@ -165,6 +165,7 @@ export default function StudiesScreen() {
       <Content title="Estudios">
         <div className="linea"></div>
         <Table
+          isLoading={state.loadingGetList}
           filter={state.filterText}
           setFilter={(text) =>
             dispatch({ type: actions.HANDLE_FILTER_TEXT, payload: text })
