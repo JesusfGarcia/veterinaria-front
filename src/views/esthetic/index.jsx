@@ -3,7 +3,7 @@ import React from "react";
 import Content from "../../components/content";
 import Table from "../../components/table";
 import Modal, { DeleteDialog } from "../../components/dialog";
-import { MenuItem, Select, TextField } from "@mui/material";
+import { MenuItem, Pagination, Select, TextField } from "@mui/material";
 import Container from "../../components/container";
 
 import { CarContext } from "../../components/dashboard";
@@ -28,8 +28,9 @@ export default function EstheticScreen() {
         dispatch({ type: actions.GET_LIST });
         const { data } = await apiConsumer({
           method: "GET",
-          url: `/groomings?advanced=${state.filterText}`,
+          url: `/groomings?page=${state.page}&pageSize=${state.pageSize}&advanced=${state.filterText}`,
         });
+        console.log("data =>", data);
         dispatch({ type: actions.GET_LIST_SUCCESS, payload: data });
       } catch (error) {
         dispatch({
@@ -44,7 +45,7 @@ export default function EstheticScreen() {
     }, 500);
 
     return () => clearTimeout(delay);
-  }, [state.filterText, state.reload]);
+  }, [state.filterText, state.reload, state.page, state.pageSize]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -178,6 +179,23 @@ export default function EstheticScreen() {
             dispatch({ type: actions.HANDLE_FILTER_TEXT, payload: text })
           }
         />
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "row",
+            justifyContent: "center",
+          }}
+        >
+          <Pagination
+            page={state.page}
+            onChange={(e, value) =>
+              dispatch({ type: actions.CHANGE_PAGE, payload: value })
+            }
+            count={state.count}
+            color="primary"
+          />
+        </div>
+
         <Modal
           onSave={state.isEdit ? onUpdate : onSave}
           title={state.isEdit ? "Editar Visita" : `Añadir Visita`}

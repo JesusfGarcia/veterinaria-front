@@ -3,7 +3,7 @@ import Content from "../../components/content";
 import Container from "../../components/container";
 import Table from "../../components/table";
 import Modal, { DeleteDialog } from "../../components/dialog";
-import { TextField } from "@mui/material";
+import { TextField, Pagination } from "@mui/material";
 import FormGroup from "@mui/material/FormGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Checkbox from "@mui/material/Checkbox";
@@ -23,7 +23,7 @@ export default function ConfigurationScreen() {
         dispatch({ type: actions.GET_DATA });
         const { data } = await apiConsumer({
           method: "GET",
-          url: `/users?advanced=${state.filterText}`,
+          url: `/users?page=${state.page}&pageSize=${state.pageSize}&advanced=${state.filterText}`,
         });
 
         dispatch({ type: actions.GET_DATA_SUCCESS, payload: data });
@@ -39,7 +39,7 @@ export default function ConfigurationScreen() {
     }, 500);
 
     return () => clearTimeout(delay);
-  }, [state.filterText, state.reload]);
+  }, [state.filterText, state.reload, state.page, state.pageSize]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -154,7 +154,7 @@ export default function ConfigurationScreen() {
       <Content title="Lista de Usuarios">
         <div className="linea"></div>
         <Table
-        isLoading={state.isLoading}
+          isLoading={state.isLoading}
           buttonConf={buttonConf}
           columns={titles}
           data={state.list}
@@ -163,6 +163,22 @@ export default function ConfigurationScreen() {
             dispatch({ type: actions.HANDLE_FILTER_TEXT, payload: text })
           }
         />
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "row",
+            justifyContent: "center",
+          }}
+        >
+          <Pagination
+            page={state.page}
+            onChange={(e, value) =>
+              dispatch({ type: actions.CHANGE_PAGE, payload: value })
+            }
+            count={state.count}
+            color="primary"
+          />
+        </div>
         <Modal
           onSave={state.isEdit ? onEdit : onSave}
           title={state.isEdit ? "Editar Usuario" : "Añadir Usuario"}

@@ -16,8 +16,12 @@ export const reducer = (
       newState.errorTextGetList = "";
       break;
     case actions.GET_LIST_SUCCESS:
+      //pagination
+      const totalPages = Math.ceil(action.payload.count / state.pageSize);
+      newState.count = totalPages;
+      //......
       newState.loadingGetList = false;
-      newState.list = action.payload.map((item) => {
+      newState.list = action.payload.rows.map((item) => {
         return {
           ...item,
           date: getFormatedDate(item.date),
@@ -74,6 +78,9 @@ export const reducer = (
       break;
     case actions.HANDLE_FILTER_TEXT:
       newState.filterText = action.payload;
+      break;
+    case actions.CHANGE_PAGE:
+      newState.page = action.payload;
       break;
     default:
       break;

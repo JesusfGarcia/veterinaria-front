@@ -61,13 +61,15 @@ export const reducer = (state = initialState, action) => {
     case actions.CLOSE_DELETE_MODAL:
       newState.showDeleteModal = false;
       break;
-      case actions.HANDLE_FILTER_TEXT:
+    case actions.HANDLE_FILTER_TEXT:
       newState.filterText = action.payload;
+      break;
+    case actions.CHANGE_PAGE:
+      newState.page = action.payload;
       break;
     default:
       break;
   }
-  
 
   return newState;
 };
