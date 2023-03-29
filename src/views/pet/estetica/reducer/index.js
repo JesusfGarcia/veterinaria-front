@@ -10,7 +10,6 @@ export const reducer = (
   }
 ) => {
   const newState = structuredClone(state);
-
   switch (action.type) {
     case actions.GET_LIST:
       newState.loadingGetList = true;

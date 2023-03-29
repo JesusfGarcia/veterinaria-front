@@ -17,6 +17,7 @@ export default function SelectVet({ value, onChange }) {
     };
     getData();
   }, []);
+
   return (
     <Select onChange={onChange} name="vetId" value={value}>
       <MenuItem value={0}>seleccione al usuario que atendió</MenuItem>

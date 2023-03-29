@@ -13,6 +13,7 @@ import { initialState } from "./reducer/constants";
 import apiConsumer from "../../services";
 import { getServerError } from "../../helpers/getServerError";
 import SelectVet from "../../components/selectVet";
+import SearchPet from "../../components/searchPet";
 
 export default function ConsultationScreen() {
   const [state, dispatch] = React.useReducer(reducer, initialState);
@@ -164,7 +165,7 @@ export default function ConsultationScreen() {
       <Content title="Consultas">
         <div className="linea"></div>
         <Table
-         isLoading={state.loadingGetList}
+          isLoading={state.loadingGetList}
           filter={state.filterText}
           setFilter={(text) =>
             dispatch({ type: actions.HANDLE_FILTER_TEXT, payload: text })
@@ -216,6 +217,7 @@ export default function ConsultationScreen() {
             }}
           />
           <SelectVet value={state.body.vetId} onChange={handleChange} />
+          <SearchPet value={state.body.petId} onChange={handleChange} />
         </Modal>
         <DeleteDialog
           onSave={onDelete}

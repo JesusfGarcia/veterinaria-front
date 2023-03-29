@@ -169,7 +169,7 @@ export default function EstheticScreen() {
       <Content title="Estetica">
         <div className="linea"></div>
         <Table
-         isLoading={state.loadingGetList}
+          isLoading={state.loadingGetList}
           buttonConf={buttonConf}
           columns={titles}
           data={state.list}
@@ -223,7 +223,7 @@ export default function EstheticScreen() {
             minRows={3}
           />
           <SelectVet value={state.body.vetId} onChange={handleChange} />
-          <SearchPet value={state.body.petId} onChange={handleChange}/>
+          <SearchPet value={state.body.petId} onChange={handleChange} />
         </Modal>
         <DeleteDialog
           onSave={onDelete}

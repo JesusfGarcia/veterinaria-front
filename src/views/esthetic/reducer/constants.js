@@ -17,4 +17,6 @@ export const initialState = {
   isEdit: false,
   showDeleteModal: false,
   filterText: "",
+  page: 1,
+  pageSize: 5,
 };

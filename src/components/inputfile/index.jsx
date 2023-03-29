@@ -13,7 +13,6 @@ export default function InputFile({ value = "", setValue = () => {} }) {
     reader.onloadend = () => {
       setBase64(reader.result);
       setValue(reader.result);
-      console.log(reader.result);
     };
 
     reader.readAsDataURL(file);

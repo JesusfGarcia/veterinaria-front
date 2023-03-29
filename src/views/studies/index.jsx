@@ -13,6 +13,7 @@ import { CarContext } from "../../components/dashboard";
 import apiConsumer from "../../services";
 import { getServerError } from "../../helpers/getServerError";
 import SelectVet from "../../components/selectVet";
+import SearchPet from "../../components/searchPet";
 
 export default function StudiesScreen() {
   const { addToCar } = React.useContext(CarContext);
@@ -217,6 +218,7 @@ export default function StudiesScreen() {
             minRows={3}
           />
           <SelectVet value={state.body.vetId} onChange={handleChange} />
+          <SearchPet value={state.body.petId} onChange={handleChange} />
         </Modal>
         <DeleteDialog
           onSave={onDelete}
