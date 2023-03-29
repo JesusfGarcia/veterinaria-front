@@ -41,16 +41,15 @@ export default function SearchPet({ value, onChange }) {
 
   const autocompleteValue = React.useMemo(() => {
     const defaultValue = list.find(
-      (item) => parseInt(item.id) == parseInt(value)
+      (item) => parseInt(item.id) === parseInt(value)
     );
 
-    if(defaultValue){
-        return `${defaultValue.name} ${defaultValue.lastName}`
+    if (defaultValue) {
+      return `${defaultValue.name} ${defaultValue.lastName}`;
     }
-
   }, [value, list]);
 
-  console.log(autocompleteValue)
+  console.log(autocompleteValue);
 
   return (
     <Autocomplete

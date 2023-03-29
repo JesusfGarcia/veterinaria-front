@@ -1,66 +1,121 @@
 import React from "react";
 import Table from "../../../../components/table";
 import { TextField } from "@mui/material";
-import Modal from "../../../../components/dialog";
+import Modal, { DeleteDialog } from "../../../../components/dialog";
 import { CarContext } from "../../../../components/dashboard";
+import { reducer } from "./reducer";
+import { actions } from "./reducer/actions";
+import { initialState } from "./reducer/constants";
 
-const data = [
-  {
-    product: "nexgar",
-    date: "14/02/23",
-    weight: "23kg",
-    date2: "14/03/23",
-    isPayed: false,
-  },
-  {
-    product: "nexgar",
-    date: "14/02/23",
-    weight: "23kg",
-    date2: "14/03/23",
-    isPayed: false,
-  },
-];
+import apiConsumer from "../../../../services";
 
-const initialState = {
-  product: "",
-  price: "",
-  date: "",
-  weight: "",
-  date2: "",
-};
+import SelectVet from "../../../../components/selectVet";
+import { getServerError } from "../../../../helpers/getServerError";
+import { petContext } from "../..";
 
 export default function ParasitosExternos() {
-  const [isOpenModal, setisOpenModal] = React.useState(false);
-  const [body, setBody] = React.useState({ ...initialState });
   const { addToCar } = React.useContext(CarContext);
+  const [state, dispatch] = React.useReducer(reducer, initialState);
+  const { pet } = React.useContext(petContext);
+  React.useEffect(() => {
+    const getList = async () => { 
+      try {
+        dispatch({ type: actions.GET_LIST });
+        const { data } = await apiConsumer({
+          method: "GET",
+          url: `/parasitologies?petId=${pet.id}&advanced=${state.filterText}`,
+        });
+
+        dispatch({ type: actions.GET_LIST_SUCCESS, payload: data });
+      } catch (error) {
+        dispatch({
+          type: actions.GET_LIST_ERROR,
+          payload: getServerError(error),
+        });
+      }
+    };
+    const delay = setTimeout(() => {
+      getList();
+    }, 500);
+
+    return () => clearTimeout(delay);
+  }, [state.reload, pet.id, state.filterText]);
+
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setBody({
-      ...body,
-      [name]: value,
-    });
+    dispatch({ type: actions.HANDLE_CHANGE, payload: { name, value } });
   };
 
   const closeForm = () => {
-    setisOpenModal(false);
-    setBody({ ...initialState });
-  };
-
-  const onSave = () => {
-  
+    dispatch({ type: actions.CLOSE_MODAL });
   };
   const buttonConf = {
-    label: "Añadir Producto",
-    onClick: () => setisOpenModal(true),
+    label: "Añadir Aplicacion",
+    onClick: () => dispatch({ type: actions.OPEN_MODAL }),
+  };
+  const onSave = async () => {
+    try {
+      dispatch({ type: actions.SAVE_LIST });
+      await apiConsumer({
+        method: "POST",
+        url: "/parasitologies",
+        data: {
+          ...state.body,
+          petId: pet.id,
+        },
+      });
+      dispatch({ type: actions.SAVE_LIST_SUCCESS });
+    } catch (error) {
+      dispatch({
+        type: actions.SAVE_LIST_ERROR,
+        payload: getServerError(error),
+      });
+    }
+  };
+
+  const onUpdate = async () => {
+    try {
+      dispatch({ type: actions.SAVE_LIST });
+      await apiConsumer({
+        method: "PUT",
+        url: `/parasitologies/${state.body.id}`,
+        data: {
+          ...state.body,
+          petId: pet.id,
+        },
+      });
+      dispatch({ type: actions.SAVE_LIST_SUCCESS });
+    } catch (error) {
+      dispatch({
+        type: actions.SAVE_LIST_ERROR,
+        payload: getServerError(error),
+      });
+    }
+  };
+
+  const onDelete = async () => {
+    try {
+      dispatch({ type: actions.SAVE_LIST });
+      await apiConsumer({
+        method: "DELETE",
+        url: `/parasitologies/${state.body.id}`,
+      });
+      dispatch({ type: actions.SAVE_LIST_SUCCESS });
+    } catch (error) {
+      dispatch({
+        type: actions.SAVE_LIST_ERROR,
+        payload: getServerError(error),
+      });
+    }
   };
   const titles = [
     {
       label: "Poducto",
-      key: "product",
+      key: "type",
     },
     {
       label: "Fecha de aplicación",
-      key: "date",
+      key: "dateApplication",
     },
     {
       label: "Peso",
@@ -68,7 +123,7 @@ export default function ParasitosExternos() {
     },
     {
       label: "Proxima Aplicación",
-      key: "date2",
+      key: "nextApplication",
     },
     {
       label: "Cobro",
@@ -77,54 +132,108 @@ export default function ParasitosExternos() {
         addToCar({ item: product, origin: "parasitologia" });
       },
     },
+    {
+      label: "Acciones",
+      key: "actions",
+      type: "actions",
+      actions: [
+        {
+          label: "see",
+          onClick: (id) => {
+            const editdiagnostics = state.list.find(
+              (diagnostics) => diagnostics.id === id
+            );
+            dispatch({ type: actions.ON_EDIT, payload: editdiagnostics });
+          },
+        },
+        {
+          label: "delete",
+          onClick: (id) => {
+            const deletediagnostics = state.list.find(
+              (diagnostics) => diagnostics.id === id
+            );
+            dispatch({
+              type: actions.OPEN_DELETE_MODAL,
+              payload: deletediagnostics,
+            });
+          },
+        },
+      ],
+    },
   ];
   return (
     <>
-      <Table 
-       
-       buttonConf={buttonConf} columns={titles} data={data} />
+      <Table
+        isLoading={state.loadingGetList}
+        filter={state.filterText}
+        setFilter={(text) =>
+          dispatch({ type: actions.HANDLE_FILTER_TEXT, payload: text })
+        }
+        buttonConf={buttonConf}
+        columns={titles}
+        data={state.list}
+      />
       <Modal
-        onSave={onSave}
-        title="Añadir Producto"
-        isOpen={isOpenModal}
+        onSave={state.isEdit ? onUpdate : onSave}
+        title={state.isEdit ? "Editar Estudios" : `Añadir Estudios`}
+        isOpen={state.showModal}
         onClose={closeForm}
+        errorText={state.errorTextSaveList}
+        isLoading={state.loadingSaveList}
       >
         <TextField
           onChange={handleChange}
-          name="product"
-          value={body.product}
+          name="type"
+          value={state.body.type}
           size="small"
           label="Producto"
         />
         <TextField
           onChange={handleChange}
           name="price"
-          value={body.price}
+          value={state.body.price}
           size="small"
           label="Precio"
         />
         <TextField
           onChange={handleChange}
-          name="date"
-          value={body.date}
+          name="dateApplication"
+          value={state.body.dateApplication}
           size="small"
           label="Fecha"
+          type="date"
+          InputLabelProps={{
+            shrink: true,
+          }}
         />
         <TextField
           onChange={handleChange}
           name="weight"
-          value={body.weight}
+          value={state.body.weight}
           size="small"
           label="Peso"
         />
         <TextField
           onChange={handleChange}
-          name=" date2"
-          value={body.date2}
+          name=" nextApplication"
+          value={state.body.nextApplication}
           size="small"
           label="Proxima Fecha de aplicación"
+          type="date"
+          InputLabelProps={{
+            shrink: true,
+          }}
         />
+        <SelectVet value={state.body.vetId} onChange={handleChange} />
       </Modal>
+      <DeleteDialog
+        onSave={onDelete}
+        title={`¿Seguro que desea eliminar este estudio?`}
+        isOpen={state.showDeleteModal}
+        onClose={() => dispatch({ type: actions.CLOSE_DELETE_MODAL })}
+        isLoading={state.loadingSaveList}
+        errorText={state.errorTextSaveList}
+      ></DeleteDialog>
     </>
   );
 }
