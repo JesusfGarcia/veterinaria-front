@@ -6,15 +6,17 @@ export const initialState = {
   body: {
     petId: 0,
     vetId: 0,
-    date: "",
-    studyType: "",
+    name: "",
     price: 0,
-    observations: "",
+    date: "",
+    laboratory: "",
+    nextVaccine: "",
+    nextVaccineDate: "",
   },
   loadingSaveList: false,
   errorTextSaveList: "",
   reload: false,
   isEdit: false,
   showDeleteModal: false,
-  filterText: "",
+  filterText: ""
 };

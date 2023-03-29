@@ -167,10 +167,31 @@
     opacity: 0.8;
   }
 }
-
+.weight{
+  
+  
+}
 .info_row {
   display: flex;
   flex-direction: row;
   gap: 10px;
   align-items: center;
+}
+.titlePet {
+  font-size: 20px;
+  color: $primaryLight;
+  font-weight: bold;
+}
+.titleContainer {
+  gap: 20px;
+  padding: 30px;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: $primary;
+  font-size: 30px;
+  font-weight: bolder;
+  background-color: $background;
 }

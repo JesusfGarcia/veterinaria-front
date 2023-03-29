@@ -16,6 +16,7 @@ import apiConsumer from "../../services";
 import { getServerError } from "../../helpers/getServerError";
 
 import SelectVet from "../../components/selectVet";
+import SearchPet from "../../components/searchPet";
 
 export default function EstheticScreen() {
   const [state, dispatch] = React.useReducer(reducer, initialState);
@@ -43,7 +44,7 @@ export default function EstheticScreen() {
     }, 500);
 
     return () => clearTimeout(delay);
-  }, [state.filterText,state.reload]);
+  }, [state.filterText, state.reload]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -222,6 +223,7 @@ export default function EstheticScreen() {
             minRows={3}
           />
           <SelectVet value={state.body.vetId} onChange={handleChange} />
+          <SearchPet value={state.body.petId} onChange={handleChange}/>
         </Modal>
         <DeleteDialog
           onSave={onDelete}

@@ -12,7 +12,7 @@ import { Skeleton } from "@mui/material";
 
 export default function Table({
   columns,
-  data,
+  data = [],
   buttonConf,
   filter,
   setFilter,
@@ -28,39 +28,50 @@ export default function Table({
       </div>
       {isLoading ? (
         <div className={styles.loading}>
-        <div className={styles.ldsroller}>
-          <div></div>
-          <div></div>
-          <div></div>
-          <div></div>
-          <div></div>
-          <div></div>
-          <div></div>
-          <div></div>
+          <div className={styles.ldsroller}>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+          </div>
+          <span className={styles.title}>Cargando...</span>
         </div>
-        <span className={styles.title}>Cargando...</span>
-        </div>
-        
-
       ) : (
-        <table className={styles.table_container}>
-          <thead>
-            <tr>
-              {columns.map((title, indice) => (
-                <th key={`column${indice}`}>{title.label}</th>
-              ))}
-            </tr>
-          </thead>
-          <tbody>
-            {data.map((row, idx) => (
-              <tr key={idx}>
-                {columns.map((column, id) => (
-                  <Td key={`row-${id}`} column={column} item={row} idx={idx} />
+        <>
+          {data.length ? (
+            <table className={styles.table_container}>
+              <thead>
+                <tr>
+                  {columns.map((title, indice) => (
+                    <th key={`column${indice}`}>{title.label}</th>
+                  ))}
+                </tr>
+              </thead>
+              <tbody>
+                {data.map((row, idx) => (
+                  <tr key={idx}>
+                    {columns.map((column, id) => (
+                      <Td
+                        key={`row-${id}`}
+                        column={column}
+                        item={row}
+                        idx={idx}
+                      />
+                    ))}
+                  </tr>
                 ))}
-              </tr>
-            ))}
-          </tbody>
-        </table>
+              </tbody>
+            </table>
+          ) : (
+            <div className={styles.tableText}>
+              No hay registros en esta tabla
+            </div>
+          )}
+        </>
       )}
     </div>
   );

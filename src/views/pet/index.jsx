@@ -39,6 +39,7 @@ export const petContext = React.createContext({
     race: "",
     sex: "",
     color: "",
+    weight: "",
     birthDate: "",
     allergies: "",
   },
@@ -160,42 +161,57 @@ export default function PetsScreen() {
     <div className={styles.content}>
       <div className={styles.header}>
         <div className={styles.info}>
-          <div className={styles.left_header}>
-            {state.petSelected !== null && (
-              <>
-                {petBody.photo ? (
-                  <img
-                    alt="pet"
-                    className={styles.pet_img}
-                    src={`${process.env.REACT_APP_URL}${petBody?.photo}`}
-                  />
-                ) : (
-                  <div className={styles.pet}>{petBody.name[0]}</div>
-                )}
+          {state.user.pets.length === 0 ? (
+            <div className={styles.titlePet}>
+              El usuario no tiene mascotas registradas
+            </div>
+          ) : (
+            <div className={styles.left_header}>
+              {state.petSelected !== null && (
+                <>
+                  {petBody.photo ? (
+                    <img
+                      alt="pet"
+                      className={styles.pet_img}
+                      src={`${process.env.REACT_APP_URL}${petBody?.photo}`}
+                    />
+                  ) : (
+                    <div className={styles.pet}>{petBody.name[0]}</div>
+                  )}
 
-                <div className={styles.col}>
-                  <div className={styles.info_row}>
-                    <span className={styles.title}>{petBody.name} </span>
-                    <span className={styles.caption}>{petBody.birthDate}</span>
-                    <Tooltip title="Editar">
-                      <EditIcon
-                        onClick={() =>
-                          dispatch({ type: actions.EDIT_PET, payload: petBody })
-                        }
-                        sx={{ cursor: "pointer" }}
-                      />
-                    </Tooltip>
+                  <div className={styles.col}>
+                    <div className={styles.info_row}>
+                      <span className={styles.title}>{petBody.name} </span>
+                      <span className={styles.caption}>
+                        {petBody.birthDate}
+                      </span>
+                      <Tooltip title="Editar">
+                        <EditIcon
+                          onClick={() =>
+                            dispatch({
+                              type: actions.EDIT_PET,
+                              payload: petBody,
+                            })
+                          }
+                          sx={{ cursor: "pointer" }}
+                        />
+                      </Tooltip>
+                    </div>
+                    <div className={styles.info_row}>
+                      <span className={styles.subTitle}>{petBody.race} </span>
+                      <span className={styles.caption}>
+                        {petBody.weight} kg
+                      </span>
+                    </div>
+                    <div className={styles.info_row}>
+                      <span className={styles.subTitle}>{petBody.specie} </span>
+                      <span className={styles.caption}>{petBody.sex}</span>
+                    </div>
                   </div>
-                  <span className={styles.subTitle}>{petBody.race}</span>
-
-                  <div className={styles.info_row}>
-                    <span className={styles.subTitle}>{petBody.specie} </span>
-                    <span className={styles.caption}>{petBody.sex}</span>
-                  </div>
-                </div>
-              </>
-            )}
-          </div>
+                </>
+              )}
+            </div>
+          )}
 
           <div className={styles.pet_selector}>
             {state.user.pets.map((pet) => {
@@ -236,12 +252,14 @@ export default function PetsScreen() {
                 </>
               );
             })}
-            <button
-              onClick={() => dispatch({ type: actions.OPEN_MODAL })}
-              className={styles.add_pet}
-            >
-              +
-            </button>
+            <Tooltip title="Añadir mascota">
+              <button
+                onClick={() => dispatch({ type: actions.OPEN_MODAL })}
+                className={styles.add_pet}
+              >
+                +
+              </button>
+            </Tooltip>
           </div>
         </div>
         {state.petSelected !== null && (
@@ -256,6 +274,19 @@ export default function PetsScreen() {
           </div>
         )}
       </div>
+      {state.user.pets.length === 0 && (
+        <div className={styles.titleContainer}>
+          Registrar nueva mascota
+          <Tooltip title="Añadir mascota">
+            <button
+              onClick={() => dispatch({ type: actions.OPEN_MODAL })}
+              className={styles.add_pet}
+            >
+              +
+            </button>
+          </Tooltip>
+        </div>
+      )}
       {state.petSelected !== null && (
         <Container>
           <petContext.Provider value={{ pet: petBody }}>
