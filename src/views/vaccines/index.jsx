@@ -37,7 +37,7 @@ export default function VacciensScreen() {
       dispatch({ type: actions.SAVE_LIST });
       await apiConsumer({
         method: "POST",
-        url: "/vaccination",
+        url: "/vaccinations",
         data: state.body,
       });
       dispatch({ type: actions.SAVE_LIST_SUCCESS });
@@ -53,7 +53,7 @@ export default function VacciensScreen() {
       dispatch({ type: actions.SAVE_LIST });
       await apiConsumer({
         method: "PUT",
-        url: `/vaccination/${state.body.id}`,
+        url: `/vaccinations/${state.body.id}`,
         data: state.body,
       });
       dispatch({ type: actions.SAVE_LIST_SUCCESS });
@@ -70,7 +70,7 @@ export default function VacciensScreen() {
       dispatch({ type: actions.SAVE_LIST });
       await apiConsumer({
         method: "DELETE",
-        url: `/vaccination/${state.body.id}`,
+        url: `/vaccinations/${state.body.id}`,
       });
       dispatch({ type: actions.SAVE_LIST_SUCCESS });
     } catch (error) {
@@ -103,6 +103,10 @@ export default function VacciensScreen() {
     {
       label: "Proxima vacuna",
       key: "nextVaccine",
+    },
+    {
+      label: "price",
+      key: "Precio",
     },
     {
       label: "Cobro",
@@ -138,6 +142,7 @@ export default function VacciensScreen() {
     return {
       ...item,
       date: getFormatedDate(item.date),
+      nextVaccine: getFormatedDate(item.nextVaccine),
     };
   };
   return (
@@ -146,7 +151,7 @@ export default function VacciensScreen() {
         <div className="linea"></div>
         <Table
           listFormatter={listFormatter}
-          endpoint="/vaccination"
+          endpoint="/vaccinations"
           buttonConf={buttonConf}
           columns={titles}
         />
@@ -164,6 +169,10 @@ export default function VacciensScreen() {
             value={state.body.date}
             size="small"
             label="Fecha de aplicación"
+            type="date"
+            InputLabelProps={{
+              shrink: true,
+            }}
           />
           <TextField
             onChange={handleChange}
@@ -174,20 +183,49 @@ export default function VacciensScreen() {
           />
           <TextField
             onChange={handleChange}
-            name="lab"
-            value={state.body.lab}
+            name="laboratory"
+            value={state.body.laboratory}
             size="small"
             label="Laboratorio"
           />
-
+   <TextField
+            onChange={handleChange}
+            name="nextVaccineDate"
+            value={state.body.nextVaccineDate}
+            size="small"
+            label="Proxima aplicación"
+            type="date"
+            InputLabelProps={{
+              shrink: true,
+            }}
+          />
           <TextField
             onChange={handleChange}
             name="nextVaccine"
             value={state.body.nextVaccine}
             size="small"
             label="Proxima aplicación"
+            
           />
+
+          <TextField
+            onChange={handleChange}
+            name="price"
+            value={state.body.price}
+            size="small"
+            label="Precio"
+          />
+          <SelectVet value={state.body.vetId} onChange={handleChange} />
+          <SearchPet value={state.body.petId} onChange={handleChange} />
         </Modal>
+        <DeleteDialog
+          onSave={onDelete}
+          title={`¿Seguro que desea eliminar esta visita?`}
+          isOpen={state.showDeleteModal}
+          onClose={() => dispatch({ type: actions.CLOSE_DELETE_MODAL })}
+          isLoading={state.loadingSaveList}
+          errorText={state.errorTextSaveList}
+        ></DeleteDialog>
       </Content>
     </Container>
   );
