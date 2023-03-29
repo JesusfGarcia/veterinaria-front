@@ -1,70 +1,92 @@
 import React from "react";
+
 import Content from "../../components/content";
 import Table from "../../components/table";
-import Modal from "../../components/dialog";
+import Modal, { DeleteDialog } from "../../components/dialog";
 import { TextField } from "@mui/material";
 import Container from "../../components/container";
 
 import { CarContext } from "../../components/dashboard";
 
-const data = [
-  {
-    pet: "coffee",
-    date: "14/02/23",
-    name: "Sextuple",
-    lab: "Merial",
-    name2: "MVZ.Thelma",
-    date2: "25/02/23",
-    isPayed: true,
-  },
-  {
-    pet: "sisi",
-    date: "14/02/23",
-    name: "Sextuple",
-    lab: "Merial",
-    name2: "MVZ.Thelma",
-    date2: "25/02/23",
-    isPayed: false,
-  },
-];
-const initialState = {
-  pet: "",
-  date: "",
-  name: "",
-  lab: "",
-  name2: "",
-  date2: "",
-};
+import { reducer } from "./reducer";
+import { actions } from "./reducer/actions";
+import { initialState } from "./reducer/constants";
+
+import apiConsumer from "../../services";
+import { getServerError } from "../../helpers/getServerError";
+
+import SelectVet from "../../components/selectVet";
+import SearchPet from "../../components/searchPet";
+import { getFormatedDate } from "../../helpers/getFormatedDate";
+
 export default function VacciensScreen() {
-  const [isOpenModal, setisOpenModal] = React.useState(false);
-  const [body, setBody] = React.useState({ ...initialState });
+  const [state, dispatch] = React.useReducer(reducer, initialState);
   const { addToCar } = React.useContext(CarContext);
+
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setBody({
-      ...body,
-      [name]: value,
-    });
+    dispatch({ type: actions.HANDLE_CHANGE, payload: { name, value } });
   };
 
   const closeForm = () => {
-    setisOpenModal(false);
-    setBody({ ...initialState });
+    dispatch({ type: actions.CLOSE_MODAL });
   };
 
-  const onSave = () => {
-   
+  const onSave = async () => {
+    try {
+      dispatch({ type: actions.SAVE_LIST });
+      await apiConsumer({
+        method: "POST",
+        url: "/vaccination",
+        data: state.body,
+      });
+      dispatch({ type: actions.SAVE_LIST_SUCCESS });
+    } catch (error) {
+      dispatch({
+        type: actions.SAVE_LIST_ERROR,
+        payload: getServerError(error),
+      });
+    }
   };
+  const onUpdate = async () => {
+    try {
+      dispatch({ type: actions.SAVE_LIST });
+      await apiConsumer({
+        method: "PUT",
+        url: `/vaccination/${state.body.id}`,
+        data: state.body,
+      });
+      dispatch({ type: actions.SAVE_LIST_SUCCESS });
+    } catch (error) {
+      dispatch({
+        type: actions.SAVE_LIST_ERROR,
+        payload: getServerError(error),
+      });
+    }
+  };
+
+  const onDelete = async () => {
+    try {
+      dispatch({ type: actions.SAVE_LIST });
+      await apiConsumer({
+        method: "DELETE",
+        url: `/vaccination/${state.body.id}`,
+      });
+      dispatch({ type: actions.SAVE_LIST_SUCCESS });
+    } catch (error) {
+      dispatch({
+        type: actions.SAVE_LIST_ERROR,
+        payload: getServerError(error),
+      });
+    }
+  };
+
   const buttonConf = {
-    label: "Añadir Vacuna",
-    onClick: () => setisOpenModal(true),
+    label: "Añadir Visita",
+    onClick: () => dispatch({ type: actions.OPEN_MODAL }),
   };
 
   const titles = [
-    {
-      label: "Nombre",
-      key: "pet",
-    },
     {
       label: "Fecha de aplicación",
       key: "date",
@@ -75,15 +97,12 @@ export default function VacciensScreen() {
     },
     {
       label: "Laboratorio",
-      key: "lab",
+      key: "laboratory",
     },
-    {
-      label: "Medico",
-      key: "name2",
-    },
+
     {
       label: "Proxima vacuna",
-      key: "date2",
+      key: "nextVaccine",
     },
     {
       label: "Cobro",
@@ -92,58 +111,79 @@ export default function VacciensScreen() {
         addToCar({ item: product, origin: "vacunas" });
       },
     },
+    {
+      label: "Acciones",
+      key: "actions",
+      type: "actions",
+      actions: [
+        {
+          label: "see",
+          onClick: (vaccination) => {
+            dispatch({ type: actions.ON_EDIT, payload: vaccination });
+          },
+        },
+        {
+          label: "delete",
+          onClick: (vaccination) => {
+            dispatch({
+              type: actions.OPEN_DELETE_MODAL,
+              payload: vaccination,
+            });
+          },
+        },
+      ],
+    },
   ];
-
+  const listFormatter = (item) => {
+    return {
+      ...item,
+      date: getFormatedDate(item.date),
+    };
+  };
   return (
     <Container>
       <Content title="Vacunas">
         <div className="linea"></div>
-        <Table buttonConf={buttonConf} columns={titles} data={data} />
+        <Table
+          listFormatter={listFormatter}
+          endpoint="/vaccination"
+          buttonConf={buttonConf}
+          columns={titles}
+        />
         <Modal
-          onSave={onSave}
-          title="Añadir Vacuna"
-          isOpen={isOpenModal}
+          onSave={state.isEdit ? onUpdate : onSave}
+          title={state.isEdit ? "Editar Visita" : `Añadir Visita`}
+          isOpen={state.showModal}
           onClose={closeForm}
+          errorText={state.errorTextSaveList}
+          isLoading={state.loadingSaveList}
         >
           <TextField
             onChange={handleChange}
-            name="pet"
-            value={body.pet}
-            size="small"
-            label="Nombre"
-          />
-          <TextField
-            onChange={handleChange}
             name="date"
-            value={body.date}
+            value={state.body.date}
             size="small"
             label="Fecha de aplicación"
           />
           <TextField
             onChange={handleChange}
             name="name"
-            value={body.name}
+            value={state.body.name}
             size="small"
             label="Nombre de la vacuna"
           />
           <TextField
             onChange={handleChange}
             name="lab"
-            value={body.lab}
+            value={state.body.lab}
             size="small"
             label="Laboratorio"
           />
+
           <TextField
             onChange={handleChange}
-            name="name2"
-            value={body.name2}
-            size="small"
-            label="Medico"
-          />
-          <TextField
-            onChange={handleChange}
-            name="date2"
-            value={body.date2}
+            name="nextVaccine"
+            value={state.body.nextVaccine}
             size="small"
             label="Proxima aplicación"
           />

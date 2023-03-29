@@ -17,33 +17,11 @@ import { getServerError } from "../../helpers/getServerError";
 
 import SelectVet from "../../components/selectVet";
 import SearchPet from "../../components/searchPet";
+import { getFormatedDate } from "../../helpers/getFormatedDate";
 
 export default function SurgeryScreen() {
   const [state, dispatch] = React.useReducer(reducer, initialState);
   const { addToCar } = React.useContext(CarContext);
-
-  React.useEffect(() => {
-    const getList = async () => {
-      try {
-        dispatch({ type: actions.GET_LIST });
-        const { data } = await apiConsumer({
-          method: "GET",
-          url: `/surgeries?advanced=${state.filterText}`,
-        });
-        dispatch({ type: actions.GET_LIST_SUCCESS, payload: data });
-      } catch (error) {
-        dispatch({
-          type: actions.GET_LIST_ERROR,
-          payload: getServerError(error),
-        });
-      }
-    };
-    const delay = setTimeout(() => {
-      getList();
-    }, 500);
-
-    return () => clearTimeout(delay);
-  }, [state.filterText, state.reload]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -138,20 +116,15 @@ export default function SurgeryScreen() {
       actions: [
         {
           label: "see",
-          onClick: (id) => {
-            const editsurgery = state.list.find((surgery) => surgery.id === id);
-            dispatch({ type: actions.ON_EDIT, payload: editsurgery });
-          },
+          onClick: (surgery) =>
+            dispatch({ type: actions.ON_EDIT, payload: surgery }),
         },
         {
           label: "delete",
-          onClick: (id) => {
-            const deleteSurgery = state.list.find(
-              (surgery) => surgery.id === id
-            );
+          onClick: (surgery) => {
             dispatch({
               type: actions.OPEN_DELETE_MODAL,
-              payload: deleteSurgery,
+              payload: surgery,
             });
           },
         },
@@ -159,19 +132,22 @@ export default function SurgeryScreen() {
     },
   ];
 
+  const listFormatter = (item) => {
+    return {
+      ...item,
+      date: getFormatedDate(item.date),
+    };
+  };
+
   return (
     <Container>
       <Content title="Cirugías">
         <div className="linea"></div>
         <Table
-         isLoading={state.loadingGetList}
           buttonConf={buttonConf}
           columns={title}
-          data={state.list}
-          filter={state.filterText}
-          setFilter={(text) =>
-            dispatch({ type: actions.HANDLE_FILTER_TEXT, payload: text })
-          }
+          endpoint="/surgeries"
+          listFormatter={listFormatter}
         />
         <Modal
           onSave={state.isEdit ? onUpdate : onSave}
@@ -217,7 +193,6 @@ export default function SurgeryScreen() {
           />
           <SelectVet value={state.body.vetId} onChange={handleChange} />
           <SearchPet value={state.body.petId} onChange={handleChange} />
-      
         </Modal>
         <DeleteDialog
           onSave={onDelete}

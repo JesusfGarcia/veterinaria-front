@@ -12,7 +12,8 @@ export default function SelectVet({ value, onChange }) {
           method: "GET",
           url: "/users",
         });
-        setUsers(data);
+
+        setUsers(data.rows);
       } catch (error) {}
     };
     getData();

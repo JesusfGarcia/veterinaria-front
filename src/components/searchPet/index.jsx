@@ -13,7 +13,7 @@ export default function SearchPet({ value, onChange }) {
           url: "pets",
         });
         setList(
-          data.map((item) => {
+          data.rows.map((item) => {
             return {
               ...item,
               label: `${item.name} ${item.lastName}`,

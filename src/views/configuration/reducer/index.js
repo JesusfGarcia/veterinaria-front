@@ -12,7 +12,10 @@ export const reducer = (state = initialState, action) => {
       break;
     case actions.GET_DATA_SUCCESS:
       newState.isLoading = false;
-      newState.list = action.payload.map((item) => {
+      const totalPages = Math.ceil(action.payload.count / state.pageSize);
+      newState.count = totalPages;
+      console.log("payload", action.payload);
+      newState.list = action.payload.rows.map((item) => {
         return {
           ...item,
           type: item.isAdmin ? "Administrador" : "Empleado",

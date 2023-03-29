@@ -14,34 +14,11 @@ import apiConsumer from "../../services";
 import { getServerError } from "../../helpers/getServerError";
 import SelectVet from "../../components/selectVet";
 import SearchPet from "../../components/searchPet";
+import { getFormatedDate } from "../../helpers/getFormatedDate";
 
 export default function ConsultationScreen() {
   const [state, dispatch] = React.useReducer(reducer, initialState);
   const { addToCar } = React.useContext(CarContext);
-
-  React.useEffect(() => {
-    const getList = async () => {
-      try {
-        dispatch({ type: actions.GET_LIST });
-        const { data } = await apiConsumer({
-          method: "GET",
-          url: `/appointments?advanced=${state.filterText}`,
-        });
-
-        dispatch({ type: actions.GET_LIST_SUCCESS, payload: data });
-      } catch (error) {
-        dispatch({
-          type: actions.GET_LIST_ERROR,
-          payload: getServerError(error),
-        });
-      }
-    };
-    const delay = setTimeout(() => {
-      getList();
-    }, 500);
-
-    return () => clearTimeout(delay);
-  }, [state.reload, state.filterText]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -138,42 +115,40 @@ export default function ConsultationScreen() {
       actions: [
         {
           label: "see",
-          onClick: (id) => {
-            const editAppointment = state.list.find(
-              (appointment) => appointment.id === id
-            );
-            dispatch({ type: actions.ON_EDIT, payload: editAppointment });
+          onClick: (appointments) => {
+            dispatch({ type: actions.ON_EDIT, payload: appointments });
           },
         },
         {
           label: "delete",
-          onClick: (id) => {
-            const deleteAppointment = state.list.find(
-              (appointment) => appointment.id === id
-            );
+          onClick: (appointments) => {
             dispatch({
               type: actions.OPEN_DELETE_MODAL,
-              payload: deleteAppointment,
+              payload: appointments,
             });
           },
         },
       ],
     },
   ];
+
+  const listFormatter = (item) => {
+    return {
+      ...item,
+      date: getFormatedDate(item.date),
+    };
+  };
   return (
     <Container>
       <Content title="Consultas">
         <div className="linea"></div>
         <Table
-          isLoading={state.loadingGetList}
-          filter={state.filterText}
-          setFilter={(text) =>
-            dispatch({ type: actions.HANDLE_FILTER_TEXT, payload: text })
-          }
+          listFormatter={listFormatter}
+          endpoint="/appointments"
           buttonConf={buttonConf}
           columns={titles}
-          data={state.list}
         />
+
         <Modal
           onSave={state.isEdit ? onUpdate : onSave}
           title={state.isEdit ? "Editar Consulta" : `Añadir Consulta`}
