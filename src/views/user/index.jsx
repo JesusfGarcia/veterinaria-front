@@ -96,6 +96,7 @@ export default function UsersScreen() {
           onClose={closeForm}
           errorText={state.textErrorSave}
           isLoading={state.isLoadingSave}
+          reload={state.reload}
         >
           <TextField
             onChange={handleChange}

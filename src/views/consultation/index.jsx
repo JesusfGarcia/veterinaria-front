@@ -147,6 +147,7 @@ export default function ConsultationScreen() {
           endpoint="/appointments"
           buttonConf={buttonConf}
           columns={titles}
+          reload={state.reload}
         />
 
         <Modal
@@ -156,6 +157,7 @@ export default function ConsultationScreen() {
           onClose={closeForm}
           errorText={state.errorTextSaveList}
           isLoading={state.loadingSaveList}
+          reload={state.reload}
         >
           <TextField
             onChange={handleChange}

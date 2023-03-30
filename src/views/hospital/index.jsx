@@ -147,6 +147,7 @@ export default function HospitalScreen() {
           endpoint="/hospitals"
           buttonConf={buttonConf}
           columns={titles}
+          reload={state.reload}
         />
         <Modal
           onSave={state.isEdit ? onUpdate : onSave}
@@ -155,6 +156,7 @@ export default function HospitalScreen() {
           onClose={closeForm}
           errorText={state.errorTextSaveList}
           isLoading={state.loadingSaveList}
+          reload={state.reload}
         >
           <TextField
             onChange={handleChange}

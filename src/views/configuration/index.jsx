@@ -158,6 +158,7 @@ export default function ConfigurationScreen() {
           buttonConf={buttonConf}
           columns={titles}
           data={state.list}
+          reload={state.reload}
           filter={state.filterText}
           setFilter={(text) =>
             dispatch({ type: actions.HANDLE_FILTER_TEXT, payload: text })

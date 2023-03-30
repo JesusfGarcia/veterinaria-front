@@ -140,6 +140,7 @@ export default function Estudios() {
         buttonConf={buttonConf}
         columns={titles}
         endpoint={`/diagnostics?petId=${pet.id}`}
+        reload={state.reload}
       />
       <Modal
         onSave={state.isEdit ? onUpdate : onSave}
