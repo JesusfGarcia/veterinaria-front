@@ -12,23 +12,6 @@ export const reducer = (
   const newState = structuredClone(state);
 
   switch (action.type) {
-    case actions.GET_LIST:
-      newState.loadingGetList = true;
-      newState.errorTextGetList = "";
-      break;
-    case actions.GET_LIST_SUCCESS:
-      newState.loadingGetList = false;
-      newState.list = action.payload.map((item) => {
-        return {
-          ...item,
-          date: getFormatedDate(item.date),
-        };
-      });
-      break;
-    case actions.GET_LIST_ERROR:
-      newState.loadingGetList = false;
-      newState.errorTextGetList = action.payload;
-      break;
     case actions.HANDLE_CHANGE:
       newState.body[action.payload.name] = action.payload.value;
       break;
@@ -72,9 +55,6 @@ export const reducer = (
     case actions.CLOSE_DELETE_MODAL:
       newState.showDeleteModal = false;
       newState.body = { ...initialState.body };
-      break;
-    case actions.HANDLE_FILTER_TEXT:
-      newState.filterText = action.payload;
       break;
     default:
       break;

@@ -151,9 +151,7 @@ export default function PetsScreen() {
   };
 
   const petBody = React.useMemo(() => {
-    console.log("petSelected =>", state.petSelected);
     const findPet = state.user.pets.find((pet) => pet.id === state.petSelected);
-    console.log("findPet =>", findPet);
     return findPet;
   }, [state.petSelected, state.user.pets]);
 

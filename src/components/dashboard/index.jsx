@@ -36,7 +36,7 @@ export default function Dashboard() {
   const [showModal, setShowModal] = React.useState(false);
   const navigate = useNavigate();
   const location = useLocation();
-  const {handleLogout} = React.useContext(authContext)
+  const { handleLogout } = React.useContext(authContext);
 
   const [products, setProducts] = React.useState([]);
 
@@ -85,18 +85,19 @@ export default function Dashboard() {
     <CarContext.Provider value={{ products, addToCar, deleteFromCar }}>
       <DashboardContainer showSidebar={showSidebar}>
         <Header>
-          <div style={{
-            display: "flex",
-            flexDirection: "row",
-            gap: "10px",
-            alignItems: "center"
-
-          }}>
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "row",
+              gap: "10px",
+              alignItems: "center",
+            }}
+          >
             <MenuIcon onClick={() => setShowSidebar(!showSidebar)} />
             <h2>SAN JOSÉ</h2>
           </div>
 
-          <ExitToAppIcon  onClick={handleLogout}/>
+          <ExitToAppIcon onClick={handleLogout} />
         </Header>
         <Sidebard>
           {routes
@@ -111,6 +112,7 @@ export default function Dashboard() {
                 onClick={handleSidebarClick}
                 pathname={location.pathname}
                 path={path}
+                key={`sidebar${path}`}
               />
             ))}
         </Sidebard>
@@ -175,6 +177,7 @@ const SidebarItemRender = ({
         childrens.map((child) => {
           return (
             <SidebarChild
+              key={`sidebarchild-${child.path}`}
               showSidebar={showSidebar}
               isSelected={pathname.includes(child.path)}
               onClick={() => onClick(child.path)}

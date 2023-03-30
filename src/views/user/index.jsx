@@ -17,31 +17,6 @@ export default function UsersScreen() {
   const navigate = useNavigate();
   const [state, dispatch] = React.useReducer(reducer, initialState);
 
-  React.useEffect(() => {
-    const getList = async () => {
-      try {
-        dispatch({ type: actions.GET_LIST });
-        const { data } = await apiConsumer({
-          method: "GET",
-          url: `/clients?advanced=${state.filterText}`,
-        });
-        dispatch({ type: actions.GET_LIST_SUCCESSS, payload: data });
-      } catch (error) {
-        dispatch({
-          type: actions.SAVE_USER_ERROR,
-          payload: getServerError(error),
-        });
-      }
-    };
-
-    const delay = setTimeout(() => {
-      getList();
-    }, 500);
-
-    return () => clearTimeout(delay);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [state.filterText, state.reload]);
-
   const handleChange = (e) => {
     const { name, value } = e.target;
     dispatch({ type: actions.HANDLE_CHANGE, payload: { name, value } });
@@ -104,7 +79,7 @@ export default function UsersScreen() {
       actions: [
         {
           label: "see",
-          onClick: (id) => navigate(`${id}`),
+          onClick: (item) => navigate(`${item.id}`),
         },
       ],
     },
@@ -113,16 +88,7 @@ export default function UsersScreen() {
     <Container>
       <Content title="Clientes">
         <div className="linea"></div>
-        <Table
-          isLoading={state.isLoading}
-          buttonConf={buttonConf}
-          columns={title}
-          data={state.list}
-          filter={state.filterText}
-          setFilter={(text) =>
-            dispatch({ type: actions.HANDLE_FILTER_TEXT, payload: text })
-          }
-        />
+        <Table endpoint="/clients" buttonConf={buttonConf} columns={title} />
         <Modal
           onSave={onSave}
           isOpen={state.showModal}

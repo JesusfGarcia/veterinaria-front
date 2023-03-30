@@ -19,30 +19,6 @@ export default function Consults() {
   const { addToCar } = React.useContext(CarContext);
   const { pet } = React.useContext(petContext);
 
-  React.useEffect(() => {
-    const getList = async () => {
-      try {
-        dispatch({ type: actions.GET_LIST });
-        const { data } = await apiConsumer({
-          method: "GET",
-          url: `/appointments?petId=${pet.id}&advanced=${state.filterText}`,
-        });
-
-        dispatch({ type: actions.GET_LIST_SUCCESS, payload: data });
-      } catch (error) {
-        dispatch({
-          type: actions.GET_LIST_ERROR,
-          payload: getServerError(error),
-        });
-      }
-    };
-    const delay = setTimeout(() => {
-      getList();
-    }, 500);
-
-    return () => clearTimeout(delay);
-  }, [state.reload, pet.id, state.filterText]);
-
   const handleChange = (e) => {
     const { name, value } = e.target;
     dispatch({ type: actions.HANDLE_CHANGE, payload: { name, value } });
@@ -143,22 +119,16 @@ export default function Consults() {
       actions: [
         {
           label: "see",
-          onClick: (id) => {
-            const editAppointment = state.list.find(
-              (appointment) => appointment.id === id
-            );
-            dispatch({ type: actions.ON_EDIT, payload: editAppointment });
+          onClick: (item) => {
+            dispatch({ type: actions.ON_EDIT, payload: item });
           },
         },
         {
           label: "delete",
-          onClick: (id) => {
-            const deleteAppointment = state.list.find(
-              (appointment) => appointment.id === id
-            );
+          onClick: (item) => {
             dispatch({
               type: actions.OPEN_DELETE_MODAL,
-              payload: deleteAppointment,
+              payload: item,
             });
           },
         },
@@ -168,14 +138,9 @@ export default function Consults() {
   return (
     <>
       <Table
-       isLoading={state.loadingGetList}
-        filter={state.filterText}
-        setFilter={(text) =>
-          dispatch({ type: actions.HANDLE_FILTER_TEXT, payload: text })
-        }
+        endpoint={`/appointments?petId=${pet.id}`}
         buttonConf={buttonConf}
         columns={titles}
-        data={state.list}
       />
       <Modal
         onSave={state.isEdit ? onUpdate : onSave}

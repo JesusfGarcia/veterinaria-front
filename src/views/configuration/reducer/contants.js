@@ -10,4 +10,8 @@ export const initialState = {
   isEdit: false,
   showDeleteModal: false,
   filterText: "",
+  //pagination
+  page: 1,
+  pageSize: 3,
+  count: 0,
 };

@@ -17,7 +17,7 @@ export default function ParasitosExternos() {
   const { addToCar } = React.useContext(CarContext);
   const [state, dispatch] = React.useReducer(reducer, initialState);
   const { pet } = React.useContext(petContext);
-  React.useEffect(() => {
+  /*   React.useEffect(() => {
     const getList = async () => { 
       try {
         dispatch({ type: actions.GET_LIST });
@@ -39,7 +39,7 @@ export default function ParasitosExternos() {
     }, 500);
 
     return () => clearTimeout(delay);
-  }, [state.reload, pet.id, state.filterText]);
+  }, [state.reload, pet.id, state.filterText]); */
 
   const handleChange = (e) => {
     const { name, value } = e.target;

@@ -12,11 +12,13 @@ export default function SelectVet({ value, onChange }) {
           method: "GET",
           url: "/users",
         });
-        setUsers(data);
+
+        setUsers(data.rows);
       } catch (error) {}
     };
     getData();
   }, []);
+
   return (
     <Select onChange={onChange} name="vetId" value={value}>
       <MenuItem value={0}>seleccione al usuario que atendió</MenuItem>

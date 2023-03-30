@@ -3,7 +3,6 @@ import React from "react";
 import apiConsumer from "../../services";
 
 export default function SearchPet({ value, onChange }) {
-  const [text, setText] = React.useState("");
   const [list, setList] = React.useState([]);
 
   React.useEffect(() => {
@@ -14,7 +13,7 @@ export default function SearchPet({ value, onChange }) {
           url: "pets",
         });
         setList(
-          data.map((item) => {
+          data.rows.map((item) => {
             return {
               ...item,
               label: `${item.name} ${item.lastName}`,
@@ -45,11 +44,10 @@ export default function SearchPet({ value, onChange }) {
     );
 
     if (defaultValue) {
-      return `${defaultValue.name} ${defaultValue.lastName}`;
+      return defaultValue?.label;
     }
+    return "sin mascota";
   }, [value, list]);
-
-  console.log(autocompleteValue);
 
   return (
     <Autocomplete

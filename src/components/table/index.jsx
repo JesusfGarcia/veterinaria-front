@@ -8,25 +8,77 @@ import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
 import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
 
 import styles from "./table.module.scss";
-import { Skeleton } from "@mui/material";
 
+import { actions } from "./reducer/actions";
+import { initialState } from "./reducer/constants";
+import { reducer } from "./reducer";
+import apiConsumer from "../../services";
+import { getServerError } from "../../helpers/getServerError";
+import { Pagination } from "@mui/material";
 export default function Table({
   columns,
-  data = [],
   buttonConf,
-  filter,
-  setFilter,
-  isLoading,
+  endpoint,
+  listFormatter,
 }) {
+  const [state = initialState, dispatch] = React.useReducer(
+    reducer,
+    initialState
+  );
+
+  React.useEffect(() => {
+    const getList = async () => {
+      try {
+        dispatch({ type: actions.GET_LIST });
+
+        const signquerie = endpoint.includes("?") ? "&" : "?";
+        const { data } = await apiConsumer({
+          method: "GET",
+          url: `${endpoint}${signquerie}page=${state.page}&pageSize=${state.pageSize}&advanced=${state.filterText}`,
+        });
+        if (listFormatter) {
+          dispatch({
+            type: actions.GET_LIST_SUCCESS,
+            payload: {
+              ...data,
+              rows: data.rows.map(listFormatter),
+            },
+          });
+        } else {
+          dispatch({ type: actions.GET_LIST_SUCCESS, payload: data });
+        }
+      } catch (error) {
+        dispatch({
+          type: actions.GET_LIST_ERROR,
+          payload: getServerError(error),
+        });
+      }
+    };
+    const delay = setTimeout(() => {
+      getList();
+    }, 300);
+
+    return () => clearTimeout(delay);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [state.filterText, state.reload, state.page, state.pageSize, endpoint]);
+
   return (
     <div className={styles.container}>
       <div className={styles.row}>
-        <SearchInput value={filter} onChange={setFilter} />
+        <SearchInput
+          value={state.filterText}
+          onChange={(value) =>
+            dispatch({
+              type: actions.HANDLE_FILTER_TEXT,
+              payload: value,
+            })
+          }
+        />
         {buttonConf && (
           <Button onClick={buttonConf.onClick} text={buttonConf.label} />
         )}
       </div>
-      {isLoading ? (
+      {state.loadingGetList ? (
         <div className={styles.loading}>
           <div className={styles.ldsroller}>
             <div></div>
@@ -42,7 +94,7 @@ export default function Table({
         </div>
       ) : (
         <>
-          {data.length ? (
+          {state.list.length ? (
             <table className={styles.table_container}>
               <thead>
                 <tr>
@@ -52,7 +104,7 @@ export default function Table({
                 </tr>
               </thead>
               <tbody>
-                {data.map((row, idx) => (
+                {state.list.map((row, idx) => (
                   <tr key={idx}>
                     {columns.map((column, id) => (
                       <Td
@@ -73,9 +125,26 @@ export default function Table({
           )}
         </>
       )}
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "row",
+          justifyContent: "center",
+        }}
+      >
+        <Pagination
+          page={state.page}
+          onChange={(e, value) =>
+            dispatch({ type: actions.CHANGE_PAGE, payload: value })
+          }
+          count={state.count}
+          color="primary"
+        />
+      </div>
     </div>
   );
 }
+
 const Td = ({ item, column, idx }) => {
   const { key, type } = column;
   if (type === "actions") {
@@ -88,7 +157,7 @@ const Td = ({ item, column, idx }) => {
                 <RemoveRedEyeIcon
                   color="primary"
                   style={{ cursor: "pointer" }}
-                  onClick={() => action.onClick(item.id)}
+                  onClick={() => action.onClick(item)}
                 />
               );
             }
@@ -106,7 +175,7 @@ const Td = ({ item, column, idx }) => {
                 <DeleteIcon
                   style={{ cursor: "pointer" }}
                   color="error"
-                  onClick={() => action.onClick(item.id)}
+                  onClick={() => action.onClick(item)}
                 />
               );
             }

@@ -17,34 +17,11 @@ import { getServerError } from "../../helpers/getServerError";
 
 import SelectVet from "../../components/selectVet";
 import SearchPet from "../../components/searchPet";
+import { getFormatedDate } from "../../helpers/getFormatedDate";
 
 export default function EstheticScreen() {
   const [state, dispatch] = React.useReducer(reducer, initialState);
   const { addToCar } = React.useContext(CarContext);
-
-  React.useEffect(() => {
-    const getList = async () => {
-      try {
-        dispatch({ type: actions.GET_LIST });
-        const { data } = await apiConsumer({
-          method: "GET",
-          url: `/groomings?advanced=${state.filterText}`,
-        });
-        dispatch({ type: actions.GET_LIST_SUCCESS, payload: data });
-      } catch (error) {
-        dispatch({
-          type: actions.GET_LIST_ERROR,
-          payload: getServerError(error),
-        });
-      }
-    };
-
-    const delay = setTimeout(() => {
-      getList();
-    }, 500);
-
-    return () => clearTimeout(delay);
-  }, [state.filterText, state.reload]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -141,22 +118,16 @@ export default function EstheticScreen() {
       actions: [
         {
           label: "see",
-          onClick: (id) => {
-            const editgrooming = state.list.find(
-              (grooming) => grooming.id === id
-            );
-            dispatch({ type: actions.ON_EDIT, payload: editgrooming });
+          onClick: (grooming) => {
+            dispatch({ type: actions.ON_EDIT, payload: grooming });
           },
         },
         {
           label: "delete",
-          onClick: (id) => {
-            const deletegrooming = state.list.find(
-              (grooming) => grooming.id === id
-            );
+          onClick: (grooming) => {
             dispatch({
               type: actions.OPEN_DELETE_MODAL,
-              payload: deletegrooming,
+              payload: grooming,
             });
           },
         },
@@ -164,19 +135,22 @@ export default function EstheticScreen() {
     },
   ];
 
+  const listFormatter = (item) => {
+    return {
+      ...item,
+      date: getFormatedDate(item.date),
+    };
+  };
+
   return (
     <Container>
       <Content title="Estetica">
         <div className="linea"></div>
         <Table
-         isLoading={state.loadingGetList}
+          listFormatter={listFormatter}
+          endpoint="/groomings"
           buttonConf={buttonConf}
           columns={titles}
-          data={state.list}
-          filter={state.filterText}
-          setFilter={(text) =>
-            dispatch({ type: actions.HANDLE_FILTER_TEXT, payload: text })
-          }
         />
         <Modal
           onSave={state.isEdit ? onUpdate : onSave}
@@ -223,7 +197,7 @@ export default function EstheticScreen() {
             minRows={3}
           />
           <SelectVet value={state.body.vetId} onChange={handleChange} />
-          <SearchPet value={state.body.petId} onChange={handleChange}/>
+          <SearchPet value={state.body.petId} onChange={handleChange} />
         </Modal>
         <DeleteDialog
           onSave={onDelete}

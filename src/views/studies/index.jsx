@@ -13,34 +13,12 @@ import { CarContext } from "../../components/dashboard";
 import apiConsumer from "../../services";
 import { getServerError } from "../../helpers/getServerError";
 import SelectVet from "../../components/selectVet";
+import SearchPet from "../../components/searchPet";
+import { getFormatedDate } from "../../helpers/getFormatedDate";
 
 export default function StudiesScreen() {
   const { addToCar } = React.useContext(CarContext);
   const [state, dispatch] = React.useReducer(reducer, initialState);
-
-  React.useEffect(() => {
-    const getList = async () => {
-      try {
-        dispatch({ type: actions.GET_LIST });
-        const { data } = await apiConsumer({
-          method: "GET",
-          url: `/diagnostics?advanced=${state.filterText}`,
-        });
-
-        dispatch({ type: actions.GET_LIST_SUCCESS, payload: data });
-      } catch (error) {
-        dispatch({
-          type: actions.GET_LIST_ERROR,
-          payload: getServerError(error),
-        });
-      }
-    };
-    const delay = setTimeout(() => {
-      getList();
-    }, 500);
-
-    return () => clearTimeout(delay);
-  }, [state.reload, state.filterText]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -137,42 +115,37 @@ export default function StudiesScreen() {
       actions: [
         {
           label: "see",
-          onClick: (id) => {
-            const editdiagnostics = state.list.find(
-              (diagnostics) => diagnostics.id === id
-            );
-            dispatch({ type: actions.ON_EDIT, payload: editdiagnostics });
+          onClick: (diagnostics) => {
+            dispatch({ type: actions.ON_EDIT, payload: diagnostics });
           },
         },
         {
           label: "delete",
-          onClick: (id) => {
-            const deletediagnostics = state.list.find(
-              (diagnostics) => diagnostics.id === id
-            );
+          onClick: (diagnostics) => {
             dispatch({
               type: actions.OPEN_DELETE_MODAL,
-              payload: deletediagnostics,
+              payload: diagnostics,
             });
           },
         },
       ],
     },
   ];
-
+  const listFormatter = (item) => {
+    return {
+      ...item,
+      date: getFormatedDate(item.date),
+    };
+  };
   return (
     <Container>
       <Content title="Estudios">
         <div className="linea"></div>
         <Table
-          isLoading={state.loadingGetList}
-          filter={state.filterText}
-          setFilter={(text) =>
-            dispatch({ type: actions.HANDLE_FILTER_TEXT, payload: text })
-          }
+          listFormatter={listFormatter}
+          endpoint="/diagnostics"
           buttonConf={buttonConf}
           columns={titles}
-          data={state.list}
         />
         <Modal
           onSave={state.isEdit ? onUpdate : onSave}
@@ -217,6 +190,7 @@ export default function StudiesScreen() {
             minRows={3}
           />
           <SelectVet value={state.body.vetId} onChange={handleChange} />
+          <SearchPet value={state.body.petId} onChange={handleChange} />
         </Modal>
         <DeleteDialog
           onSave={onDelete}

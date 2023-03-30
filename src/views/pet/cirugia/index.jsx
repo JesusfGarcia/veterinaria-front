@@ -19,30 +19,6 @@ export default function Cirugia() {
   const { pet } = React.useContext(petContext);
   const { addToCar } = React.useContext(CarContext);
 
-  React.useEffect(() => {
-    const getList = async () => {
-      try {
-        dispatch({ type: actions.GET_LIST });
-        const { data } = await apiConsumer({
-          method: "GET",
-          url: `/surgeries?petId=${pet.id}&advanced=${state.filterText}`,
-        });
-
-        dispatch({ type: actions.GET_LIST_SUCCESS, payload: data });
-      } catch (error) {
-        dispatch({
-          type: actions.GET_LIST_ERROR,
-          payload: getServerError(error),
-        });
-      }
-    };
-    const delay = setTimeout(() => {
-      getList();
-    }, 500);
-
-    return () => clearTimeout(delay);
-  }, [state.reload, pet.id, state.filterText]);
-
   const handleChange = (e) => {
     const { name, value } = e.target;
     dispatch({ type: actions.HANDLE_CHANGE, payload: { name, value } });
@@ -142,22 +118,16 @@ export default function Cirugia() {
       actions: [
         {
           label: "see",
-          onClick: (id) => {
-            const editdiagnostics = state.list.find(
-              (diagnostics) => diagnostics.id === id
-            );
-            dispatch({ type: actions.ON_EDIT, payload: editdiagnostics });
+          onClick: (item) => {
+            dispatch({ type: actions.ON_EDIT, payload: item });
           },
         },
         {
           label: "delete",
-          onClick: (id) => {
-            const deletediagnostics = state.list.find(
-              (diagnostics) => diagnostics.id === id
-            );
+          onClick: (item) => {
             dispatch({
               type: actions.OPEN_DELETE_MODAL,
-              payload: deletediagnostics,
+              payload: item,
             });
           },
         },
@@ -168,14 +138,9 @@ export default function Cirugia() {
   return (
     <>
       <Table
-      isLoading={state.loadingGetList}
-        filter={state.filterText}
-        setFilter={(text) =>
-          dispatch({ type: actions.HANDLE_FILTER_TEXT, payload: text })
-        }
+        endpoint={`/surgeries?petId=${pet.id}`}
         buttonConf={buttonConf}
         columns={titles}
-        data={state.list}
       />
       <Modal
         onSave={state.isEdit ? onUpdate : onSave}
