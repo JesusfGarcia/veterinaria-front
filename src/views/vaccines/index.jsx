@@ -105,8 +105,8 @@ export default function VacciensScreen() {
       key: "nextVaccine",
     },
     {
-      label: "price",
-      key: "Precio",
+      label: "Precio",
+      key: "price",
     },
     {
       label: "Cobro",
@@ -154,6 +154,7 @@ export default function VacciensScreen() {
           endpoint="/vaccinations"
           buttonConf={buttonConf}
           columns={titles}
+          reload={state.reload}
         />
         <Modal
           onSave={state.isEdit ? onUpdate : onSave}
@@ -188,7 +189,7 @@ export default function VacciensScreen() {
             size="small"
             label="Laboratorio"
           />
-   <TextField
+          <TextField
             onChange={handleChange}
             name="nextVaccineDate"
             value={state.body.nextVaccineDate}
@@ -205,7 +206,6 @@ export default function VacciensScreen() {
             value={state.body.nextVaccine}
             size="small"
             label="Proxima aplicación"
-            
           />
 
           <TextField

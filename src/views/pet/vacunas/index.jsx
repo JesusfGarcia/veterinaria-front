@@ -12,6 +12,7 @@ import apiConsumer from "../../../services";
 
 import { petContext } from "..";
 import { getServerError } from "../../../helpers/getServerError";
+import { getFormatedDate } from "../../../helpers/getFormatedDate";
 
 export default function Vacunas() {
   const [state, dispatch] = React.useReducer(reducer, initialState);
@@ -140,12 +141,21 @@ export default function Vacunas() {
       ],
     },
   ];
+  const listFormatter = (item) => {
+    return {
+      ...item,
+      date: getFormatedDate(item.date),
+      nextVaccineDate: getFormatedDate(item.nextVaccineDate),
+    };
+  };
   return (
     <>
       <Table
         buttonConf={buttonConf}
         columns={titles}
         endpoint={`/vaccinations?petId=${pet.id}`}
+        reload={state.reload}
+        listFormatter={listFormatter}
       />
       <Modal
         onSave={state.isEdit ? onUpdate : onSave}

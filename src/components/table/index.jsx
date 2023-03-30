@@ -20,6 +20,7 @@ export default function Table({
   buttonConf,
   endpoint,
   listFormatter,
+  reload,
 }) {
   const [state = initialState, dispatch] = React.useReducer(
     reducer,
@@ -60,7 +61,14 @@ export default function Table({
 
     return () => clearTimeout(delay);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [state.filterText, state.reload, state.page, state.pageSize, endpoint]);
+  }, [
+    state.filterText,
+    state.reload,
+    state.page,
+    state.pageSize,
+    endpoint,
+    reload,
+  ]);
 
   return (
     <div className={styles.container}>

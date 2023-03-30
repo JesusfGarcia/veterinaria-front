@@ -148,6 +148,7 @@ export default function SurgeryScreen() {
           columns={title}
           endpoint="/surgeries"
           listFormatter={listFormatter}
+          reload={state.reload}
         />
         <Modal
           onSave={state.isEdit ? onUpdate : onSave}
