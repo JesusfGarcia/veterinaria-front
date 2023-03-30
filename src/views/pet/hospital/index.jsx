@@ -13,6 +13,7 @@ import apiConsumer from "../../../services";
 
 import { petContext } from "..";
 import { getServerError } from "../../../helpers/getServerError";
+import { getFormatedDate } from "../../../helpers/getFormatedDate";
 
 export default function Hospital() {
   const [state, dispatch] = React.useReducer(reducer, initialState);
@@ -92,11 +93,11 @@ export default function Hospital() {
   const titles = [
     {
       label: "Fecha de ingreso",
-      key: "entryDate",
+      key: "admissionDate",
     },
     {
       label: "Observaciones",
-      key: "observation",
+      key: "observations",
     },
     {
       label: "Tratamiento",
@@ -104,7 +105,7 @@ export default function Hospital() {
     },
     {
       label: "Fecha de de alta",
-      key: "dischargeDate",
+      key: "departureDate",
     },
     {
       label: "Cobro",
@@ -136,12 +137,22 @@ export default function Hospital() {
       ],
     },
   ];
+
+  const listFormatter = (item) => {
+    return {
+      ...item,
+      admissionDate: getFormatedDate(item.admissionDate),
+      departureDate: getFormatedDate(item.departureDate),
+    };
+  };
   return (
     <>
       <Table
         endpoint={`/hospitals?petId=${pet.id}`}
         buttonConf={buttonConf}
         columns={titles}
+        reload={state.reload}
+        listFormatter={listFormatter}
       />
       <Modal
         onSave={state.isEdit ? onUpdate : onSave}

@@ -151,6 +151,7 @@ export default function EstheticScreen() {
           endpoint="/groomings"
           buttonConf={buttonConf}
           columns={titles}
+          reload={state.reload}
         />
         <Modal
           onSave={state.isEdit ? onUpdate : onSave}

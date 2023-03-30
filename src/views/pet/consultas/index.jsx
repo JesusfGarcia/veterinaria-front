@@ -141,6 +141,7 @@ export default function Consults() {
         endpoint={`/appointments?petId=${pet.id}`}
         buttonConf={buttonConf}
         columns={titles}
+        reload={state.reload}
       />
       <Modal
         onSave={state.isEdit ? onUpdate : onSave}
