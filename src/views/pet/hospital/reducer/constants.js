@@ -1,7 +1,4 @@
 export const initialState = {
-  list: [],
-  loadingGetList: true,
-  errorTextGetList: "",
   showModal: false,
   body: {
     petId: 0,

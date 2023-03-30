@@ -18,30 +18,6 @@ export default function Vacunas() {
   const { pet } = React.useContext(petContext);
   const { addToCar } = React.useContext(CarContext);
 
-  React.useEffect(() => {
-    const getList = async () => {
-      try {
-        dispatch({ type: actions.GET_LIST });
-        const { data } = await apiConsumer({
-          method: "GET",
-          url: `/vaccinations?petId=${pet.id}&advanced=${state.filterText}`,
-        });
-
-        dispatch({ type: actions.GET_LIST_SUCCESS, payload: data });
-      } catch (error) {
-        dispatch({
-          type: actions.GET_LIST_ERROR,
-          payload: getServerError(error),
-        });
-      }
-    };
-    const delay = setTimeout(() => {
-      getList();
-    }, 500);
-
-    return () => clearTimeout(delay);
-  }, [state.reload, pet.id, state.filterText]);
-
   const handleChange = (e) => {
     const { name, value } = e.target;
     dispatch({ type: actions.HANDLE_CHANGE, payload: { name, value } });
@@ -148,22 +124,16 @@ export default function Vacunas() {
       actions: [
         {
           label: "see",
-          onClick: (id) => {
-            const edithospital = state.list.find(
-              (hospital) => hospital.id === id
-            );
-            dispatch({ type: actions.ON_EDIT, payload: edithospital });
+          onClick: (item) => {
+            dispatch({ type: actions.ON_EDIT, payload: item });
           },
         },
         {
           label: "delete",
-          onClick: (id) => {
-            const deletehospital = state.list.find(
-              (hospital) => hospital.id === id
-            );
+          onClick: (item) => {
             dispatch({
               type: actions.OPEN_DELETE_MODAL,
-              payload: deletehospital,
+              payload: item,
             });
           },
         },
@@ -173,14 +143,9 @@ export default function Vacunas() {
   return (
     <>
       <Table
-        isLoading={state.loadingGetList}
-        filter={state.filterText}
-        setFilter={(text) =>
-          dispatch({ type: actions.HANDLE_FILTER_TEXT, payload: text })
-        }
         buttonConf={buttonConf}
         columns={titles}
-        data={state.list}
+        endpoint={`/vaccinations?petId=${pet.id}`}
       />
       <Modal
         onSave={state.isEdit ? onUpdate : onSave}

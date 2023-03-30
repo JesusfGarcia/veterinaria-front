@@ -19,18 +19,6 @@ export const reducer = (
     case actions.HANDLE_CHANGE:
       newState.client[action.payload.name] = action.payload.value;
       break;
-    case actions.GET_LIST:
-      newState.isLoading = true;
-      newState.textError = "";
-      break;
-    case actions.GET_LIST_SUCCESSS:
-      newState.isLoading = false;
-      newState.list = action.payload;
-      break;
-    case actions.GET_LIST_ERROR:
-      newState.isLoading = false;
-      newState.textError = action.payload;
-      break;
     case actions.SAVE_USER:
       newState.isLoadingSave = true;
       newState.textErrorSave = "";
@@ -45,9 +33,6 @@ export const reducer = (
     case actions.SAVE_USER_ERROR:
       newState.isLoadingSave = false;
       newState.textErrorSave = action.payload;
-      break;
-    case actions.HANDLE_FILTER_TEXT:
-      newState.filterText = action.payload;
       break;
     default:
       break;

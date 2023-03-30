@@ -19,26 +19,6 @@ export default function Hospital() {
   const { pet } = React.useContext(petContext);
   const { addToCar } = React.useContext(CarContext);
 
-  React.useEffect(() => {
-    const getList = async () => {
-      try {
-        dispatch({ type: actions.GET_LIST });
-        const { data } = await apiConsumer({
-          method: "GET",
-          url: `/hospitals?petId=${pet.id}`,
-        });
-
-        dispatch({ type: actions.GET_LIST_SUCCESS, payload: data });
-      } catch (error) {
-        dispatch({
-          type: actions.GET_LIST_ERROR,
-          payload: getServerError(error),
-        });
-      }
-    };
-    getList();
-  }, [state.reload, pet.id]);
-
   const handleChange = (e) => {
     const { name, value } = e.target;
     dispatch({ type: actions.HANDLE_CHANGE, payload: { name, value } });
@@ -108,6 +88,7 @@ export default function Hospital() {
     label: "Ingresar paciente",
     onClick: () => dispatch({ type: actions.OPEN_MODAL }),
   };
+
   const titles = [
     {
       label: "Fecha de ingreso",
@@ -139,22 +120,16 @@ export default function Hospital() {
       actions: [
         {
           label: "see",
-          onClick: (id) => {
-            const edithospital = state.list.find(
-              (hospital) => hospital.id === id
-            );
-            dispatch({ type: actions.ON_EDIT, payload: edithospital });
+          onClick: (item) => {
+            dispatch({ type: actions.ON_EDIT, payload: item.id });
           },
         },
         {
           label: "delete",
-          onClick: (id) => {
-            const deletehospital = state.list.find(
-              (hospital) => hospital.id === id
-            );
+          onClick: (item) => {
             dispatch({
               type: actions.OPEN_DELETE_MODAL,
-              payload: deletehospital,
+              payload: item.id,
             });
           },
         },
@@ -163,8 +138,11 @@ export default function Hospital() {
   ];
   return (
     <>
-      <Table  isLoading={state.isLoading}
-      buttonConf={buttonConf} columns={titles} data={state.list} />
+      <Table
+        endpoint={`/hospitals?petId=${pet.id}`}
+        buttonConf={buttonConf}
+        columns={titles}
+      />
       <Modal
         onSave={state.isEdit ? onUpdate : onSave}
         title={

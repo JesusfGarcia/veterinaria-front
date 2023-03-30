@@ -2,7 +2,7 @@ import { TextField } from "@mui/material";
 import React from "react";
 import Table from "../../../components/table";
 import Modal, { DeleteDialog } from "../../../components/dialog";
-import {  CarContext } from "../../../components/dashboard";
+import { CarContext } from "../../../components/dashboard";
 
 import { reducer } from "./reducer";
 import { actions } from "./reducer/actions";
@@ -18,30 +18,6 @@ export default function Estudios() {
   const { addToCar } = React.useContext(CarContext);
   const [state, dispatch] = React.useReducer(reducer, initialState);
   const { pet } = React.useContext(petContext);
-
-  React.useEffect(() => {
-    const getList = async () => {
-      try {
-        dispatch({ type: actions.GET_LIST });
-        const { data } = await apiConsumer({
-          method: "GET",
-          url: `/diagnostics?petId=${pet.id}&advanced=${state.filterText}`,
-        });
-
-        dispatch({ type: actions.GET_LIST_SUCCESS, payload: data });
-      } catch (error) {
-        dispatch({
-          type: actions.GET_LIST_ERROR,
-          payload: getServerError(error),
-        });
-      }
-    };
-    const delay = setTimeout(() => {
-      getList();
-    }, 500);
-
-    return () => clearTimeout(delay);
-  }, [state.reload, pet.id, state.filterText]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -142,22 +118,16 @@ export default function Estudios() {
       actions: [
         {
           label: "see",
-          onClick: (id) => {
-            const editdiagnostics = state.list.find(
-              (diagnostics) => diagnostics.id === id
-            );
-            dispatch({ type: actions.ON_EDIT, payload: editdiagnostics });
+          onClick: (item) => {
+            dispatch({ type: actions.ON_EDIT, payload: item });
           },
         },
         {
           label: "delete",
-          onClick: (id) => {
-            const deletediagnostics = state.list.find(
-              (diagnostics) => diagnostics.id === id
-            );
+          onClick: (item) => {
             dispatch({
               type: actions.OPEN_DELETE_MODAL,
-              payload: deletediagnostics,
+              payload: item,
             });
           },
         },
@@ -167,14 +137,9 @@ export default function Estudios() {
   return (
     <>
       <Table
-      isLoading={state.loadingGetList}
-        filter={state.filterText}
-        setFilter={(text) =>
-          dispatch({ type: actions.HANDLE_FILTER_TEXT, payload: text })
-        }
         buttonConf={buttonConf}
         columns={titles}
-        data={state.list}
+        endpoint={`/diagnostics?petId=${pet.id}`}
       />
       <Modal
         onSave={state.isEdit ? onUpdate : onSave}

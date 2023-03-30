@@ -1,7 +1,4 @@
 export const initialState = {
-  list: [],
-  isLoading: true,
-  textError: "",
   showModal: false,
   client: {
     name: "",
@@ -14,5 +11,4 @@ export const initialState = {
   isLoadingSave: false,
   textErrorSave: "",
   reload: false,
-  filterText: "",
 };

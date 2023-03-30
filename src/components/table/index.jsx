@@ -30,12 +30,12 @@ export default function Table({
     const getList = async () => {
       try {
         dispatch({ type: actions.GET_LIST });
+
+        const signquerie = endpoint.includes("?") ? "&" : "?";
         const { data } = await apiConsumer({
           method: "GET",
-          url: `${endpoint}?page=${state.page}&pageSize=${state.pageSize}&advanced=${state.filterText}`,
+          url: `${endpoint}${signquerie}page=${state.page}&pageSize=${state.pageSize}&advanced=${state.filterText}`,
         });
-
-        console.log(data.rows.map((item) => listFormatter(item)));
         if (listFormatter) {
           dispatch({
             type: actions.GET_LIST_SUCCESS,
@@ -54,7 +54,6 @@ export default function Table({
         });
       }
     };
-
     const delay = setTimeout(() => {
       getList();
     }, 300);
