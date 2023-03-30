@@ -125,11 +125,23 @@ export default function ConfigurationScreen() {
     },
   ];
 
+  const listFormatter = (item) => {
+    return {
+      ...item,
+      type: item.isAdmin ? "Administrador" : "Veterinario",
+    };
+  };
+
   return (
     <Container>
       <Content title="Lista de Usuarios">
         <div className="linea"></div>
-        <Table endpoint="/users" buttonConf={buttonConf} columns={titles} />
+        <Table
+          endpoint="/users"
+          buttonConf={buttonConf}
+          columns={titles}
+          listFormatter={listFormatter}
+        />
         <Modal
           onSave={state.isEdit ? onEdit : onSave}
           title={state.isEdit ? "Editar Usuario" : "Añadir Usuario"}
