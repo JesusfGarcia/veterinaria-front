@@ -17,30 +17,6 @@ import apiConsumer from "../../services";
 export default function ConfigurationScreen() {
   const [state, dispatch] = React.useReducer(reducer, initialState);
 
-  React.useEffect(() => {
-    const getData = async () => {
-      try {
-        dispatch({ type: actions.GET_DATA });
-        const { data } = await apiConsumer({
-          method: "GET",
-          url: `/users?page=${state.page}&pageSize=${state.pageSize}&advanced=${state.filterText}`,
-        });
-
-        dispatch({ type: actions.GET_DATA_SUCCESS, payload: data });
-      } catch (error) {
-        dispatch({
-          type: actions.GET_DATA_ERROR,
-          payload: getServerError(error),
-        });
-      }
-    };
-    const delay = setTimeout(() => {
-      getData();
-    }, 500);
-
-    return () => clearTimeout(delay);
-  }, [state.filterText, state.reload, state.page, state.pageSize]);
-
   const handleChange = (e) => {
     const { name, value } = e.target;
     dispatch({ type: actions.HANDLE_CHANGE, payload: { name, value } });
@@ -153,33 +129,7 @@ export default function ConfigurationScreen() {
     <Container>
       <Content title="Lista de Usuarios">
         <div className="linea"></div>
-        <Table
-          isLoading={state.isLoading}
-          buttonConf={buttonConf}
-          columns={titles}
-          data={state.list}
-          reload={state.reload}
-          filter={state.filterText}
-          setFilter={(text) =>
-            dispatch({ type: actions.HANDLE_FILTER_TEXT, payload: text })
-          }
-        />
-        <div
-          style={{
-            display: "flex",
-            flexDirection: "row",
-            justifyContent: "center",
-          }}
-        >
-          <Pagination
-            page={state.page}
-            onChange={(e, value) =>
-              dispatch({ type: actions.CHANGE_PAGE, payload: value })
-            }
-            count={state.count}
-            color="primary"
-          />
-        </div>
+        <Table endpoint="/users" buttonConf={buttonConf} columns={titles} />
         <Modal
           onSave={state.isEdit ? onEdit : onSave}
           title={state.isEdit ? "Editar Usuario" : "Añadir Usuario"}
