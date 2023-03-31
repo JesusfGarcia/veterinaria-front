@@ -20,6 +20,7 @@ import vetcode from "../../assets/images/vetcode.png";
 import forma from "../../assets/images/forma.png";
 
 import lines from "../../assets/images/lines.svg";
+import shiba from "../../assets/images/shiba.png";
 
 export default function Login() {
   const navigate = useNavigate();
@@ -84,6 +85,7 @@ export default function Login() {
       <img src={forma} alt="forma" className={styles.forma} />
       <img src={vetcode} alt="lobo logo" width={250} />
       <img src={lines} alt="lineas" className={styles.lines} />
+      <img src={shiba} alt="shiba" className={styles.shiba} />
       <Card className={styles.card}>
         <h3>Inicio de Sesión</h3>
         <TextField
