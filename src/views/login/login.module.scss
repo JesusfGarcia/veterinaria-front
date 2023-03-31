@@ -9,9 +9,9 @@
 
   background: linear-gradient(
     180deg,
-    rgba(30, 125, 157, 0.69) 0%,
-    rgba(43, 49, 165, 0.502) 50%,
-    rgba(67, 55, 205, 0.713) 100%
+    #5769acdb 0%,
+    #4c8dfca1 50%,
+    #3e86b08a 100%
   );
   overflow: hidden;
   position: relative;
@@ -73,6 +73,12 @@
   top: 0px;
   right: -300px;
   transform: rotate(90deg);
+}
+.lines2 {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  transform: rotate(180deg);
 }
 
 @media only screen and (max-width: 767px) {
