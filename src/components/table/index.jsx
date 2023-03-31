@@ -21,6 +21,7 @@ import { Pagination } from "@mui/material";
 import { getFormatedDateTable } from "../../helpers/getFormatedDate";
 
 import doguito from "../../assets/images/doguito.png";
+import gatito from "../../assets/images/gatito.png";
 
 export default function Table({
   columns,
@@ -80,15 +81,24 @@ export default function Table({
   return (
     <div className={styles.container}>
       <div className={styles.row}>
-        <SearchInput
-          value={state.filterText}
-          onChange={(value) =>
-            dispatch({
-              type: actions.HANDLE_FILTER_TEXT,
-              payload: value,
-            })
-          }
-        />
+        <div className={styles.gatito_container}>
+          <img
+            src={gatito}
+            alt="gatito lindo"
+            width={100}
+            className={styles.gatito}
+          />
+          <SearchInput
+            value={state.filterText}
+            onChange={(value) =>
+              dispatch({
+                type: actions.HANDLE_FILTER_TEXT,
+                payload: value,
+              })
+            }
+          />
+        </div>
+
         {buttonConf && (
           <div className={styles.doguito_container}>
             <img

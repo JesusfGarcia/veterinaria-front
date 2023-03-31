@@ -24,6 +24,17 @@
   }
 }
 
+.gatito_container {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+
+  .gatito {
+    position: absolute;
+    top: -68px;
+    right: 0px;
+  }
+}
 .table_container {
   border-spacing: 0px;
   color: $text;
