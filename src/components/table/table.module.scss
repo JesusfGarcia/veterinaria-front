@@ -12,6 +12,18 @@
   gap: 20px;
 }
 
+.doguito_container {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+
+  .doguito {
+    position: absolute;
+    top: -55px;
+    right: 0px;
+  }
+}
+
 .table_container {
   border-spacing: 0px;
   color: $text;

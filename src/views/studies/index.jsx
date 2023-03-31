@@ -15,7 +15,7 @@ import { getServerError } from "../../helpers/getServerError";
 import SelectVet from "../../components/selectVet";
 import SearchPet from "../../components/searchPet";
 import { getFormatedDate } from "../../helpers/getFormatedDate";
-
+import InputFileStudies from "../../components/inputfilestudie";
 export default function StudiesScreen() {
   const { addToCar } = React.useContext(CarContext);
   const [state, dispatch] = React.useReducer(reducer, initialState);
@@ -83,12 +83,17 @@ export default function StudiesScreen() {
     label: "Añadir Estudio",
     onClick: () => dispatch({ type: actions.OPEN_MODAL }),
   };
-
+  const handleFile = (base64) => {
+    dispatch({
+      type: actions.HANDLE_CHANGE,
+      payload: { name: "file", value: base64 },
+    });
+  };
   const titles = [
     {
       label: "Fecha",
       key: "date",
-      type:"date"
+      type: "date",
     },
     {
       label: "Precio",
@@ -99,9 +104,15 @@ export default function StudiesScreen() {
       label: "Tipo de estudio",
       key: "studyType",
     },
+
     {
       label: "Observaciones",
       key: "observations",
+    },
+    {
+      label: "Archivo",
+      key: "file",
+      type: "file",
     },
     {
       label: "Cobro",
@@ -194,6 +205,7 @@ export default function StudiesScreen() {
           />
           <SelectVet value={state.body.vetId} onChange={handleChange} />
           <SearchPet value={state.body.petId} onChange={handleChange} />
+          <InputFileStudies value={state.body.file} setValue={handleFile} />
         </Modal>
         <DeleteDialog
           onSave={onDelete}

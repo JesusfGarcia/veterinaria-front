@@ -19,6 +19,9 @@ import apiConsumer from "../../services";
 import { getServerError } from "../../helpers/getServerError";
 import { Pagination } from "@mui/material";
 import { getFormatedDateTable } from "../../helpers/getFormatedDate";
+
+import doguito from "../../assets/images/doguito.png";
+
 export default function Table({
   columns,
   buttonConf,
@@ -87,7 +90,16 @@ export default function Table({
           }
         />
         {buttonConf && (
-          <Button onClick={buttonConf.onClick} text={buttonConf.label} />
+          <div className={styles.doguito_container}>
+            <img
+              src={doguito}
+              alt="doguito guapo"
+              width={100}
+              className={styles.doguito}
+            />
+
+            <Button onClick={buttonConf.onClick} text={buttonConf.label} />
+          </div>
         )}
       </div>
       {state.loadingGetList ? (
