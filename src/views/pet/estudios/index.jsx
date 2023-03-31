@@ -91,14 +91,17 @@ export default function Estudios() {
     {
       label: "Fecha",
       key: "date",
+      type: "date",
     },
     {
       label: "Precio",
       key: "price",
+      type:"money"
     },
     {
       label: "Tipo de estudio",
       key: "studyType",
+      
     },
     {
       label: "Observaciones",

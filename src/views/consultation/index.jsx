@@ -86,21 +86,24 @@ export default function ConsultationScreen() {
 
   const titles = [
     {
+      label: "Fecha",
+      key: "date",
+      type: "date",
+    },
+    {
       label: "Descripción",
       key: "description",
     },
     {
-      label: "Costo",
+      label: "Precio",
       key: "price",
+      type: "money",
     },
     {
       label: "Tratamiento",
       key: "treatment",
     },
-    {
-      label: "Fecha",
-      key: "date",
-    },
+
     {
       label: "Cobro",
       key: "isPayed",
@@ -161,6 +164,17 @@ export default function ConsultationScreen() {
         >
           <TextField
             onChange={handleChange}
+            name="date"
+            value={state.body.date}
+            size="small"
+            type="date"
+            label="Fecha"
+            InputLabelProps={{
+              shrink: true,
+            }}
+          />
+          <TextField
+            onChange={handleChange}
             name="description"
             value={state.body.description}
             size="small"
@@ -173,7 +187,7 @@ export default function ConsultationScreen() {
             name="price"
             value={state.body.price}
             size="small"
-            label="Costo"
+            label="Precio"
           />
           <TextField
             onChange={handleChange}
@@ -182,17 +196,7 @@ export default function ConsultationScreen() {
             size="small"
             label="Tratamiento"
           />
-          <TextField
-            onChange={handleChange}
-            name="date"
-            value={state.body.date}
-            size="small"
-            type="date"
-            label="Fecha"
-            InputLabelProps={{
-              shrink: true,
-            }}
-          />
+
           <SelectVet value={state.body.vetId} onChange={handleChange} />
           <SearchPet value={state.body.petId} onChange={handleChange} />
         </Modal>

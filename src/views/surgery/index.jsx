@@ -89,6 +89,7 @@ export default function SurgeryScreen() {
     {
       label: "Fecha",
       key: "date",
+      type: "date",
     },
     {
       label: "Categoría",
@@ -97,6 +98,7 @@ export default function SurgeryScreen() {
     {
       label: "Precio",
       key: "price",
+      type: "money",
     },
     {
       label: "Observaciones",

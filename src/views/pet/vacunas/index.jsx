@@ -88,17 +88,20 @@ export default function Vacunas() {
 
   const titles = [
     {
+      label: "Fecha de aplicación",
+      key: "date",
+      type: "date",
+    },
+    {
       label: "Nombre de la vacuna",
       key: "name",
     },
     {
       label: "Precio",
       key: "price",
+      type: "money",
     },
-    {
-      label: "Fecha de aplicación",
-      key: "date",
-    },
+
     {
       label: "Laboratorio",
       key: "laboratory",
@@ -110,6 +113,7 @@ export default function Vacunas() {
     {
       label: "Fecha de próxima aplicación",
       key: "nextVaccineDate",
+      type: "date",
     },
     {
       label: "Cobro",

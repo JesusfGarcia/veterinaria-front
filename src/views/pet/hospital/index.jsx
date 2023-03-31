@@ -94,6 +94,7 @@ export default function Hospital() {
     {
       label: "Fecha de ingreso",
       key: "admissionDate",
+      type: "date",
     },
     {
       label: "Observaciones",
@@ -104,8 +105,15 @@ export default function Hospital() {
       key: "treatment",
     },
     {
+      label: "Precio",
+      key: "price",
+      type: "money",
+    },
+    {
+
       label: "Fecha de de alta",
       key: "departureDate",
+      type:"date"
     },
     {
       label: "Cobro",
@@ -145,6 +153,7 @@ export default function Hospital() {
       departureDate: getFormatedDate(item.departureDate),
     };
   };
+  
   return (
     <>
       <Table
@@ -183,7 +192,7 @@ export default function Hospital() {
           name="price"
           value={state.body.price}
           size="small"
-          label="Costo"
+          label="Precio"
         />
         <TextField
           onChange={handleChange}

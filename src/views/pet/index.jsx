@@ -20,7 +20,7 @@ import Vacunas from "./vacunas";
 import Hospital from "./hospital";
 
 import Container from "../../components/container";
-import { useParams } from "react-router-dom";
+import { useLocation, useParams } from "react-router-dom";
 import apiConsumer from "../../services";
 
 import { initialState } from "./reducer/contants";
@@ -49,6 +49,22 @@ export default function PetsScreen() {
   const [state, dispatch] = React.useReducer(reducer, initialState);
 
   const { id } = useParams();
+  const location = useLocation();
+
+  React.useEffect(() => {
+    if (state.initialLoad) {
+      const petid = new URLSearchParams(location.search).get("pet");
+      const module = new URLSearchParams(location.search).get("module");
+
+      if (petid) {
+        dispatch({ type: actions.SELECT_PET, payload: petid });
+      }
+
+      if (module === "studies") {
+        dispatch({ type: actions.CHANGE_SCREEN_POSITION, payload: 2 });
+      }
+    }
+  }, [state.initialLoad, location.search]);
 
   React.useEffect(() => {
     const getPetList = async () => {
@@ -58,6 +74,7 @@ export default function PetsScreen() {
           url: `/clients/${id}`,
           method: "GET",
         });
+
         dispatch({ type: actions.GET_USER_INFO_SUCCESS, payload: data });
       } catch (error) {
         dispatch({
@@ -151,7 +168,9 @@ export default function PetsScreen() {
   };
 
   const petBody = React.useMemo(() => {
-    const findPet = state.user.pets.find((pet) => pet.id === state.petSelected);
+    const findPet = state.user.pets.find(
+      (pet) => parseInt(pet.id) === parseInt(state.petSelected)
+    );
     return findPet;
   }, [state.petSelected, state.user.pets]);
 
@@ -167,7 +186,7 @@ export default function PetsScreen() {
             <div className={styles.left_header}>
               {state.petSelected !== null && (
                 <>
-                  {petBody.photo ? (
+                  {petBody?.photo ? (
                     <img
                       alt="pet"
                       className={styles.pet_img}
@@ -226,7 +245,7 @@ export default function PetsScreen() {
                         }
                         alt="pet"
                         className={
-                          state.petSelected === pet.id
+                          parseInt(state.petSelected) === parseInt(pet.id)
                             ? styles.pet_img_selected
                             : styles.pet_img
                         }
@@ -239,7 +258,7 @@ export default function PetsScreen() {
                         dispatch({ type: actions.SELECT_PET, payload: pet.id })
                       }
                       className={
-                        state.petSelected === pet.id
+                        parseInt(state.petSelected) === parseInt(pet.id)
                           ? styles.pet_selected
                           : styles.pet
                       }

@@ -15,6 +15,7 @@ import { reducer } from "./reducer";
 import apiConsumer from "../../services";
 import { getServerError } from "../../helpers/getServerError";
 import { Pagination } from "@mui/material";
+import { getFormatedDateTable } from "../../helpers/getFormatedDate";
 export default function Table({
   columns,
   buttonConf,
@@ -212,6 +213,28 @@ const Td = ({ item, column, idx }) => {
       </div>
     );
   }
+
+  if (type === "money") {
+    return (
+      <td>
+        <div className={styles.money}>
+          {item[key].toLocaleString("es-MX", {
+            style: "currency",
+            currency: "MXN",
+          })}
+        </div>
+      </td>
+    );
+  }
+
+  if (type === "date") {
+    return (
+      <td>
+        <div>{getFormatedDateTable(item[key])}</div>
+      </td>
+    );
+  }
+
   return (
     <td>
       <div>{item[key]}</div>

@@ -18,10 +18,14 @@ import { getServerError } from "../../helpers/getServerError";
 import SelectVet from "../../components/selectVet";
 import SearchPet from "../../components/searchPet";
 import { getFormatedDate } from "../../helpers/getFormatedDate";
+import { useNavigate } from "react-router-dom";
+
+import styles from "./hospital.module.scss";
 
 export default function HospitalScreen() {
   const [state, dispatch] = React.useReducer(reducer, initialState);
   const { addToCar } = React.useContext(CarContext);
+  const navigate = useNavigate();
   const handleChange = (e) => {
     const { name, value } = e.target;
     dispatch({ type: actions.HANDLE_CHANGE, payload: { name, value } });
@@ -87,6 +91,7 @@ export default function HospitalScreen() {
     {
       label: "Fecha de ingreso",
       key: "admissionDate",
+      type: "date",
     },
     {
       label: "Observaciones",
@@ -96,10 +101,15 @@ export default function HospitalScreen() {
       label: "Tratamiento",
       key: "treatment",
     },
-
+    {
+      label: "Precio",
+      key: "price",
+      type: "money",
+    },
     {
       label: "Fecha de alta",
       key: "departureDate",
+      type: "date",
     },
     {
       label: "cobro",
@@ -131,6 +141,7 @@ export default function HospitalScreen() {
       ],
     },
   ];
+
   const listFormatter = (item) => {
     return {
       ...item,
@@ -138,6 +149,7 @@ export default function HospitalScreen() {
       departureDate: getFormatedDate(item.departureDate),
     };
   };
+
   return (
     <Container>
       <Content title="Hospital">
@@ -204,9 +216,19 @@ export default function HospitalScreen() {
             value={state.body.price}
             size="small"
             label="precio"
-          />{" "}
+          />
           <SelectVet value={state.body.vetId} onChange={handleChange} />
           <SearchPet value={state.body.petId} onChange={handleChange} />
+          <span
+            className={styles.link}
+            onClick={() => {
+              navigate(
+                `/admin/users/${state.body.pet.owner.id}?pet=${state.body.pet.id}&module=studies`
+              );
+            }}
+          >
+            Ir a estudios
+          </span>
         </Modal>
         <DeleteDialog
           onSave={onDelete}

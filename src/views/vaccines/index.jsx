@@ -90,6 +90,7 @@ export default function VacciensScreen() {
     {
       label: "Fecha de aplicación",
       key: "date",
+      type: "date",
     },
     {
       label: "Nombre de la vacuna",
@@ -102,11 +103,13 @@ export default function VacciensScreen() {
 
     {
       label: "Proxima vacuna",
-      key: "nextVaccine",
+      key: "nextVaccineDate",
+      type: "date",
     },
     {
       label: "Precio",
       key: "price",
+      type: "money",
     },
     {
       label: "Cobro",
@@ -142,7 +145,7 @@ export default function VacciensScreen() {
     return {
       ...item,
       date: getFormatedDate(item.date),
-      nextVaccine: getFormatedDate(item.nextVaccine),
+      nextVaccineDate: getFormatedDate(item.nextVaccineDate),
     };
   };
   return (

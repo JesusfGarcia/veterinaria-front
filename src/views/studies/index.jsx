@@ -88,10 +88,12 @@ export default function StudiesScreen() {
     {
       label: "Fecha",
       key: "date",
+      type:"date"
     },
     {
       label: "Precio",
       key: "price",
+      type: "money",
     },
     {
       label: "Tipo de estudio",

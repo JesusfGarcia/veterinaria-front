@@ -90,6 +90,7 @@ export default function Cirugia() {
     {
       label: "Fecha",
       key: "date",
+      type: "date",
     },
     {
       label: "Categoría",
@@ -98,6 +99,7 @@ export default function Cirugia() {
     {
       label: "Precio",
       key: "price",
+      type: "money",
     },
     {
       label: "Observaciones",

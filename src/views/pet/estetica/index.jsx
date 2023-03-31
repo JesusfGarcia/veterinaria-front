@@ -90,21 +90,24 @@ export default function Estetica() {
   };
   const titles = [
     {
+      label: "Fecha",
+      key: "date",
+      type: "date",
+    },
+    {
       label: "Observaciones",
       key: "observations",
     },
     {
-      label: "Costo",
+      label: "Precio",
       key: "price",
+      type: "money",
     },
     {
       label: "Tipo",
       key: "serviceType",
     },
-    {
-      label: "Fecha",
-      key: "date",
-    },
+
     {
       label: "Cobro",
       key: "isPayed",
@@ -165,7 +168,7 @@ export default function Estetica() {
           name="price"
           value={state.body.price}
           size="small"
-          label="Costo"
+          label="Precio"
         />
         <TextField
           onChange={handleChange}

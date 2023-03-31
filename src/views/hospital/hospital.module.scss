@@ -1,0 +1,9 @@
+@import "../../sass/color.scss";
+.link {
+  color: $primary;
+  cursor: pointer;
+
+  &:hover {
+    opacity: 0.9;
+  }
+}

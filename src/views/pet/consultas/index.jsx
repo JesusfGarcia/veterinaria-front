@@ -90,21 +90,24 @@ export default function Consults() {
   };
   const titles = [
     {
+      label: "Fecha",
+      key: "date",
+      type: "date",
+    },
+    {
       label: "Descripción",
       key: "description",
     },
     {
-      label: "Costo",
+      label: "Precio",
       key: "price",
+      type: "money",
     },
     {
       label: "Tratamiento",
       key: "treatment",
     },
-    {
-      label: "Fecha",
-      key: "date",
-    },
+
     {
       label: "Cobro",
       key: "isPayed",
@@ -165,7 +168,7 @@ export default function Consults() {
           name="price"
           value={state.body.price}
           size="small"
-          label="Costo"
+          label="Precio"
         />
         <TextField
           onChange={handleChange}
