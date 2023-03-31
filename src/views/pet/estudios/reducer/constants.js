@@ -7,6 +7,7 @@ export const initialState = {
     studyType: "",
     price: 0,
     observations: "",
+    file: "",
   },
   loadingSaveList: false,
   errorTextSaveList: "",

@@ -13,6 +13,7 @@ import apiConsumer from "../../../services";
 import { getServerError } from "../../../helpers/getServerError";
 
 import SelectVet from "../../../components/selectVet";
+import InputFileStudies from "../../../components/inputfilestudie";
 
 export default function Estudios() {
   const { addToCar } = React.useContext(CarContext);
@@ -87,6 +88,14 @@ export default function Estudios() {
       });
     }
   };
+
+  const handleFile = (base64) => {
+    dispatch({
+      type: actions.HANDLE_CHANGE,
+      payload: { name: "file", value: base64 },
+    });
+  };
+
   const titles = [
     {
       label: "Fecha",
@@ -96,16 +105,20 @@ export default function Estudios() {
     {
       label: "Precio",
       key: "price",
-      type:"money"
+      type: "money",
     },
     {
       label: "Tipo de estudio",
       key: "studyType",
-      
     },
     {
       label: "Observaciones",
       key: "observations",
+    },
+    {
+      label: "Archivo",
+      key: "file",
+      type: "file",
     },
     {
       label: "Cobro",
@@ -188,6 +201,7 @@ export default function Estudios() {
           minRows={3}
         />
         <SelectVet value={state.body.vetId} onChange={handleChange} />
+        <InputFileStudies value={state.body.file} setValue={handleFile} />
       </Modal>
       <DeleteDialog
         onSave={onDelete}

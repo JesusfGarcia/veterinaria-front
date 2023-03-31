@@ -7,6 +7,9 @@ import RemoveRedEyeIcon from "@mui/icons-material/RemoveRedEye";
 import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
 import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
 
+import { IconButton } from "@mui/material";
+import FileOpenIcon from "@mui/icons-material/FileOpen";
+
 import styles from "./table.module.scss";
 
 import { actions } from "./reducer/actions";
@@ -233,6 +236,26 @@ const Td = ({ item, column, idx }) => {
         <div>{getFormatedDateTable(item[key])}</div>
       </td>
     );
+  }
+
+  if (type === "file") {
+    if (item[key]) {
+      return (
+        <td>
+          <IconButton>
+            <a
+              className={styles.link}
+              href={`${process.env.REACT_APP_URL}${item[key]}`}
+              target="_blank"
+              rel="noreferrer"
+            >
+              <FileOpenIcon />
+            </a>
+          </IconButton>
+        </td>
+      );
+    }
+    return <td>sin archivo</td>;
   }
 
   return (

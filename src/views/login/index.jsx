@@ -15,6 +15,12 @@ import ErrorTag from "../../components/errorTag";
 import { authContext } from "../../App";
 import Modal from "../../components/dialog";
 
+import vetcode from "../../assets/images/vetcode.png";
+
+import forma from "../../assets/images/forma.png";
+
+import lines from "../../assets/images/lines.svg";
+
 export default function Login() {
   const navigate = useNavigate();
   const { handleLogin } = useContext(authContext);
@@ -70,10 +76,14 @@ export default function Login() {
     if (state.isSuccess) {
       navigate("/admin/users");
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [state.isSuccess]);
 
   return (
     <div className={styles.container}>
+      <img src={forma} alt="forma" className={styles.forma} />
+      <img src={vetcode} alt="lobo logo" width={250} />
+      <img src={lines} alt="lineas" className={styles.lines} />
       <Card className={styles.card}>
         <h3>Inicio de Sesión</h3>
         <TextField

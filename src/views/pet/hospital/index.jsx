@@ -110,10 +110,9 @@ export default function Hospital() {
       type: "money",
     },
     {
-
       label: "Fecha de de alta",
       key: "departureDate",
-      type:"date"
+      type: "date",
     },
     {
       label: "Cobro",
@@ -153,7 +152,7 @@ export default function Hospital() {
       departureDate: getFormatedDate(item.departureDate),
     };
   };
-  
+
   return (
     <>
       <Table
