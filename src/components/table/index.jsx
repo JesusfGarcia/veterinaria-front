@@ -22,6 +22,7 @@ import { getFormatedDateTable } from "../../helpers/getFormatedDate";
 
 import doguito from "../../assets/images/doguito.png";
 import gatito from "../../assets/images/gatito.png";
+import DaySelect from "../dateSelect";
 
 export default function Table({
   columns,
@@ -40,10 +41,9 @@ export default function Table({
       try {
         dispatch({ type: actions.GET_LIST });
 
-        const signquerie = endpoint.includes("?") ? "&" : "?";
         const { data } = await apiConsumer({
           method: "GET",
-          url: `${endpoint}${signquerie}page=${state.page}&pageSize=${state.pageSize}&advanced=${state.filterText}`,
+          url: getEndpoint(),
         });
         if (listFormatter) {
           dispatch({
@@ -74,29 +74,75 @@ export default function Table({
     state.reload,
     state.page,
     state.pageSize,
+    state.year,
+    state.month,
+    state.day,
     endpoint,
     reload,
   ]);
 
+  const getEndpoint = () => {
+    const signquerie = endpoint.includes("?") ? "&" : "?";
+    let newEndpoint = `${endpoint}${signquerie}page=${state.page}&pageSize=${state.pageSize}`;
+    if (state.day && state.month && state.year) {
+      newEndpoint = `${newEndpoint}&date=${state.year}-${state.month}-${state.day}`;
+    } else {
+      newEndpoint = `${newEndpoint}&month=${state.month}&year=${state.year}`;
+    }
+
+    if (state.filterText) {
+      newEndpoint = `${newEndpoint}&advanced=${state.filterText}`;
+    }
+
+    return newEndpoint;
+  };
+
+  const handleMonth = (e) => {
+    const { value } = e.target;
+    const [year, month] = value.split("-");
+
+    dispatch({
+      type: actions.CHANGE_MONTH,
+      payload: {
+        year,
+        month,
+      },
+    });
+  };
+
+  const handleDay = (e) => {
+    const { value } = e.target;
+
+    dispatch({ type: actions.CHANGE_DAY, payload: value });
+  };
+
   return (
     <div className={styles.container}>
       <div className={styles.row}>
-        <div className={styles.gatito_container}>
-          <img
-            src={gatito}
-            alt="gatito lindo"
-            width={100}
-            className={styles.gatito}
+        <div className={styles.center}>
+          <div className={styles.gatito_container}>
+            <img
+              src={gatito}
+              alt="gatito lindo"
+              width={100}
+              className={styles.gatito}
+            />
+            <SearchInput
+              value={state.filterText}
+              onChange={(value) =>
+                dispatch({
+                  type: actions.HANDLE_FILTER_TEXT,
+                  payload: value,
+                })
+              }
+            />
+          </div>
+          <input
+            className={styles.filtro}
+            type="month"
+            onChange={handleMonth}
           />
-          <SearchInput
-            value={state.filterText}
-            onChange={(value) =>
-              dispatch({
-                type: actions.HANDLE_FILTER_TEXT,
-                payload: value,
-              })
-            }
-          />
+          <DaySelect value={state.day} handleDay={handleDay} />
         </div>
 
         {buttonConf && (

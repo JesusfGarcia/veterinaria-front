@@ -35,6 +35,16 @@ export const reducer = (
     case actions.CHANGE_PAGE:
       newState.page = action.payload;
       break;
+    case actions.CHANGE_MONTH:
+      if (!action.payload.month && !action.payload.year) {
+        newState.day = "";
+      }
+      newState.month = action.payload.month;
+      newState.year = action.payload.year;
+      break;
+    case actions.CHANGE_DAY:
+      newState.day = action.payload;
+      break;
     default:
       break;
   }

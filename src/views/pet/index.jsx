@@ -399,7 +399,7 @@ const items = [
     icon: <ContentCutIcon />,
   },
   {
-    label: "Estudios",
+    label: "Laboratorio",
     component: <Estudios />,
     icon: <ScienceIcon />,
   },

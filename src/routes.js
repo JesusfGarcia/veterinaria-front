@@ -10,12 +10,12 @@ import ScienceIcon from "@mui/icons-material/Science";
 import BugReportIcon from "@mui/icons-material/BugReport";
 import PetsIcon from "@mui/icons-material/Pets";
 import LocalHospitalIcon from "@mui/icons-material/LocalHospital";
+import LocalOfferIcon from "@mui/icons-material/LocalOffer";
 
 const ConfigurationScreen = React.lazy(() => import("./views/configuration"));
 const UsersScreen = React.lazy(() => import("./views/user"));
 const EstheticScreen = React.lazy(() => import("./views/esthetic"));
 const StockScreen = React.lazy(() => import("./views/stock"));
-const UserInfo = React.lazy(() => import("./views/userInfo"));
 const SurgeryScreen = React.lazy(() => import("./views/surgery"));
 const VacciensScreen = React.lazy(() => import("./views/vaccines"));
 const CosultationScreen = React.lazy(() => import("./views/consultation"));
@@ -23,6 +23,7 @@ const StudiesScreen = React.lazy(() => import("./views/studies"));
 const ParasyteScreen = React.lazy(() => import("./views/parasyte"));
 const HospitalScreen = React.lazy(() => import("./views/hospital"));
 const PetScreen = React.lazy(() => import("./views/pet"));
+const ProductsScreen = React.lazy(() => import("./views/products"));
 
 export const routes = [
   {
@@ -80,7 +81,7 @@ export const routes = [
       },
       {
         element: <StudiesScreen />,
-        label: "Estudios",
+        label: "Laboratorio",
         path: "veterinary/studies",
         icon: <ScienceIcon />,
         sidebar: true,
@@ -101,12 +102,18 @@ export const routes = [
       },
     ],
   },
-
   {
     element: <StockScreen />,
     label: "Inventario",
     path: "stock",
     icon: <InventoryOutlinedIcon />,
+    sidebar: true,
+  },
+  {
+    element: <ProductsScreen />,
+    label: "Productos",
+    path: "products",
+    icon: <LocalOfferIcon />,
     sidebar: true,
   },
 ];

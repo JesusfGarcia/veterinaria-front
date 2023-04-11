@@ -152,7 +152,7 @@ export default function StudiesScreen() {
   };
   return (
     <Container>
-      <Content title="Estudios">
+      <Content title="Laboratorio">
         <div className="linea"></div>
         <Table
           listFormatter={listFormatter}

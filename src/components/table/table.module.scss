@@ -63,6 +63,19 @@
     }
   }
 }
+.filtro {
+  border-radius: 8px;
+  display: flex;
+  flex-direction: row;
+  padding: 0px 5px;
+  border: 0px;
+
+}
+.center {
+  display: flex;
+  flex-direction: row;
+  gap: 5px;
+}
 
 .addToCar {
   display: flex;
