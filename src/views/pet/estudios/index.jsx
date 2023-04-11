@@ -157,6 +157,7 @@ export default function Estudios() {
         columns={titles}
         endpoint={`/diagnostics?petId=${pet.id}`}
         reload={state.reload}
+        filterByDate
       />
       <Modal
         onSave={state.isEdit ? onUpdate : onSave}

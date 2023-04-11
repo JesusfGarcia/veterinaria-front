@@ -160,6 +160,7 @@ export default function HospitalScreen() {
           buttonConf={buttonConf}
           columns={titles}
           reload={state.reload}
+          filterByDate
         />
         <Modal
           onSave={state.isEdit ? onUpdate : onSave}

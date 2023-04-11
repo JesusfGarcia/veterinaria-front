@@ -93,9 +93,7 @@ export default function StockScreen() {
     setBody({ ...initialState });
   };
 
-  const onSave = () => {
-    
-  };
+  const onSave = () => {};
   const buttonConf = {
     label: "Añadir Producto",
     onClick: () => setisOpenModal(true),
@@ -105,7 +103,12 @@ export default function StockScreen() {
     <Container>
       <Content title="Inventario">
         <div className="linea"></div>
-        <Table buttonConf={buttonConf} columns={titles} data={data} />
+        <Table
+          buttonConf={buttonConf}
+          columns={titles}
+          data={data}
+          filterByDate
+        />
         <Modal
           onSave={onSave}
           title="Añadir producto"

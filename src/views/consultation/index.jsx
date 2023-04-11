@@ -151,6 +151,7 @@ export default function ConsultationScreen() {
           buttonConf={buttonConf}
           columns={titles}
           reload={state.reload}
+          filterByDate
         />
 
         <Modal

@@ -145,6 +145,7 @@ export default function Consults() {
         buttonConf={buttonConf}
         columns={titles}
         reload={state.reload}
+        filterByDate
       />
       <Modal
         onSave={state.isEdit ? onUpdate : onSave}

@@ -172,6 +172,7 @@ export default function ParasitosExternos() {
         buttonConf={buttonConf}
         columns={titles}
         data={state.list}
+        filterByDate
       />
       <Modal
         onSave={state.isEdit ? onUpdate : onSave}

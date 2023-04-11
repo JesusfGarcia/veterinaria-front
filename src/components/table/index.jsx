@@ -30,6 +30,7 @@ export default function Table({
   endpoint,
   listFormatter,
   reload,
+  filterByDate = false,
 }) {
   const [state = initialState, dispatch] = React.useReducer(
     reducer,
@@ -84,15 +85,20 @@ export default function Table({
   const getEndpoint = () => {
     const signquerie = endpoint.includes("?") ? "&" : "?";
     let newEndpoint = `${endpoint}${signquerie}page=${state.page}&pageSize=${state.pageSize}`;
-    if (state.day && state.month && state.year) {
-      newEndpoint = `${newEndpoint}&date=${state.year}-${state.month}-${state.day}`;
-    } else {
-      newEndpoint = `${newEndpoint}&month=${state.month}&year=${state.year}`;
-    }
 
     if (state.filterText) {
       newEndpoint = `${newEndpoint}&advanced=${state.filterText}`;
     }
+
+    if (!filterByDate) {
+      return newEndpoint;
+    }
+
+    if (state.day && state.month && state.year) {
+      return `${newEndpoint}&date=${state.year}-${state.month}-${state.day}`;
+    }
+
+    newEndpoint = `${newEndpoint}&month=${state.month}&year=${state.year}`;
 
     return newEndpoint;
   };
@@ -127,6 +133,7 @@ export default function Table({
               width={100}
               className={styles.gatito}
             />
+
             <SearchInput
               value={state.filterText}
               onChange={(value) =>
@@ -137,12 +144,16 @@ export default function Table({
               }
             />
           </div>
-          <input
-            className={styles.filtro}
-            type="month"
-            onChange={handleMonth}
-          />
-          <DaySelect value={state.day} handleDay={handleDay} />
+          {filterByDate && (
+            <>
+              <input
+                className={styles.filtro}
+                type="month"
+                onChange={handleMonth}
+              />
+              <DaySelect value={state.day} handleDay={handleDay} />
+            </>
+          )}
         </div>
 
         {buttonConf && (

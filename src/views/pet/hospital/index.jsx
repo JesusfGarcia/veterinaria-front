@@ -161,6 +161,7 @@ export default function Hospital() {
         columns={titles}
         reload={state.reload}
         listFormatter={listFormatter}
+        filterByDate
       />
       <Modal
         onSave={state.isEdit ? onUpdate : onSave}

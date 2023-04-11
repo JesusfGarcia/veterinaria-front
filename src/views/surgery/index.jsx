@@ -151,6 +151,7 @@ export default function SurgeryScreen() {
           endpoint="/surgeries"
           listFormatter={listFormatter}
           reload={state.reload}
+          filterByDate
         />
         <Modal
           onSave={state.isEdit ? onUpdate : onSave}

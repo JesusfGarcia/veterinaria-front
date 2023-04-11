@@ -160,6 +160,7 @@ export default function Vacunas() {
         endpoint={`/vaccinations?petId=${pet.id}`}
         reload={state.reload}
         listFormatter={listFormatter}
+        filterByDate
       />
       <Modal
         onSave={state.isEdit ? onUpdate : onSave}
