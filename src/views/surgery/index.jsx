@@ -92,6 +92,10 @@ export default function SurgeryScreen() {
       type: "date",
     },
     {
+      label: "Mascota",
+      key: "petName",
+    },
+    {
       label: "Categoría",
       key: "category",
     },
@@ -138,6 +142,7 @@ export default function SurgeryScreen() {
     return {
       ...item,
       date: getFormatedDate(item.date),
+      petName: `${item.pet.name} ${item.pet.lastName}`,
     };
   };
 

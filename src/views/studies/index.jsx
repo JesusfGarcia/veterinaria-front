@@ -96,6 +96,10 @@ export default function StudiesScreen() {
       type: "date",
     },
     {
+      label: "Mascota",
+      key: "petName",
+    },
+    {
       label: "Precio",
       key: "price",
       type: "money",
@@ -148,6 +152,7 @@ export default function StudiesScreen() {
     return {
       ...item,
       date: getFormatedDate(item.date),
+      petName: `${item.pet.name} ${item.pet.lastName}`,
     };
   };
   return (

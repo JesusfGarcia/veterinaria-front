@@ -94,6 +94,10 @@ export default function HospitalScreen() {
       type: "date",
     },
     {
+      label: "Mascota",
+      key: "petName",
+    },
+    {
       label: "Observaciones",
       key: "observations",
     },
@@ -147,6 +151,7 @@ export default function HospitalScreen() {
       ...item,
       admissionDate: getFormatedDate(item.admissionDate),
       departureDate: getFormatedDate(item.departureDate),
+      petName: `${item.pet.name} ${item.pet.lastName}`,
     };
   };
 

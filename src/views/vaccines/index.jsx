@@ -93,6 +93,10 @@ export default function VacciensScreen() {
       type: "date",
     },
     {
+      label: "Mascota",
+      key: "petName",
+    },
+    {
       label: "Nombre de la vacuna",
       key: "name",
     },
@@ -146,6 +150,7 @@ export default function VacciensScreen() {
       ...item,
       date: getFormatedDate(item.date),
       nextVaccineDate: getFormatedDate(item.nextVaccineDate),
+      petName: `${item.pet.name} ${item.pet.lastName}`,
     };
   };
   return (

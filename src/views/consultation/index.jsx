@@ -91,6 +91,10 @@ export default function ConsultationScreen() {
       type: "date",
     },
     {
+      label: "Mascota",
+      key: "petName",
+    },
+    {
       label: "Descripción",
       key: "description",
     },
@@ -139,6 +143,7 @@ export default function ConsultationScreen() {
     return {
       ...item,
       date: getFormatedDate(item.date),
+      petName: `${item.pet.name} ${item.pet.lastName}`,
     };
   };
   return (

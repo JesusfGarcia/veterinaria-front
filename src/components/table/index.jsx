@@ -163,15 +163,17 @@ export default function Table({
               <DaySelect value={state.day} handleDay={handleDay} />
             </>
           )}
-          <select
-          className={styles.filterType}
-            onChange={(e) => handleType(e.target.value)}
-            value={state.type}
-          >
-            <option value="">Todos los Parásitos</option>
-            <option value="INTERNAL">Internos</option>
-            <option value="EXTERNAL">Externos</option>
-          </select>
+          {filterByParasyte && (
+            <select
+              className={styles.filterType}
+              onChange={(e) => handleType(e.target.value)}
+              value={state.type}
+            >
+              <option value="">Todos los Parásitos</option>
+              <option value="INTERNAL">Internos</option>
+              <option value="EXTERNAL">Externos</option>
+            </select>
+          )}
         </div>
 
         {buttonConf && (

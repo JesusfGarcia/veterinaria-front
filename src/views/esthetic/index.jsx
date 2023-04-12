@@ -94,6 +94,10 @@ export default function EstheticScreen() {
       type: "date",
     },
     {
+      label: "Mascota",
+      key: "petName",
+    },
+    {
       label: "Observaciones",
       key: "observations",
     },
@@ -142,6 +146,7 @@ export default function EstheticScreen() {
     return {
       ...item,
       date: getFormatedDate(item.date),
+      petName: `${item.pet.name} ${item.pet.lastName}`,
     };
   };
 

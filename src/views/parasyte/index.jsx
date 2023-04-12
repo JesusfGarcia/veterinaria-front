@@ -87,13 +87,17 @@ export default function ParasyteScreen() {
   };
   const titles = [
     {
-      label: "Tipo de parasito",
-      key: "type",
-    },
-    {
       label: "Fecha de aplicación",
       key: "dateApplication",
       type: "date",
+    },
+    {
+      label: "Mascota",
+      key: "petName",
+    },
+    {
+      label: "Tipo de parasito",
+      key: "spanishType",
     },
 
     {
@@ -148,9 +152,10 @@ export default function ParasyteScreen() {
   const listFormatter = (item) => {
     return {
       ...item,
-      type: item.type === "INTERNAL" ? "Interno" : "Externo",
+      spanishType: item.type === "INTERNAL" ? "Interno" : "Externo",
       nextApplication: getFormatedDate(item.nextApplication),
       dateApplication: getFormatedDate(item.dateApplication),
+      petName: `${item.pet.name} ${item.pet.lastName}`,
     };
   };
 
@@ -175,6 +180,7 @@ export default function ParasyteScreen() {
           columns={titles}
           reload={state.reload}
           filterByDate
+          filterByParasyte
         />
         <Modal
           onSave={state.isEdit ? onUpdate : onSave}
