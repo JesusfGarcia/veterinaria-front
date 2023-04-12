@@ -43,9 +43,7 @@ export default function ParasitosInt() {
   const { addToCar } = React.useContext(CarContext);
   const [isOpenModal, setisOpenModal] = React.useState(false);
   const [body, setBody] = React.useState({ ...initialState });
-  const onSave = () => {
-   
-  };
+  const onSave = () => {};
   const handleChange = (e) => {
     const { name, value } = e.target;
     setBody({
@@ -94,7 +92,12 @@ export default function ParasitosInt() {
   ];
   return (
     <>
-      <Table buttonConf={buttonConf} columns={titles} data={data} />
+      <Table
+        buttonConf={buttonConf}
+        columns={titles}
+        data={data}
+        filterByDate
+      />
       <Modal
         onSave={onSave}
         title="Añadir Producto"

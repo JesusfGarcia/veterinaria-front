@@ -44,9 +44,7 @@ export default function ParasitosEx() {
     setBody({ ...initialState });
   };
 
-  const onSave = () => {
-
-  };
+  const onSave = () => {};
   const buttonConf = {
     label: "Añadir Registro",
     onClick: () => setisOpenModal(true),
@@ -88,7 +86,12 @@ export default function ParasitosEx() {
 
   return (
     <>
-      <Table buttonConf={buttonConf} columns={titles} data={data} />
+      <Table
+        buttonConf={buttonConf}
+        columns={titles}
+        data={data}
+        filterByDate
+      />
       <Modal
         onSave={onSave}
         title="Añadir Registro"

@@ -6,4 +6,5 @@ export const actions = {
   CHANGE_PAGE: "CHANGE_PAGE",
   CHANGE_MONTH: "CHANGE_MONTH",
   CHANGE_DAY: "CHANGE_DAY",
+  CHANGE_TYPE: "CHANGE_TYPE",
 };

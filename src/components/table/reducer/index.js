@@ -45,6 +45,9 @@ export const reducer = (
     case actions.CHANGE_DAY:
       newState.day = action.payload;
       break;
+    case actions.CHANGE_TYPE:
+      newState.type = action.payload;
+      break;
     default:
       break;
   }

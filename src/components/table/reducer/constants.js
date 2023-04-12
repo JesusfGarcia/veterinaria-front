@@ -9,4 +9,5 @@ export const initialState = {
   year: "",
   month: "",
   day: "",
+  type: "",
 };

@@ -31,6 +31,7 @@ export default function Table({
   listFormatter,
   reload,
   filterByDate = false,
+  filterByParasyte = false,
 }) {
   const [state = initialState, dispatch] = React.useReducer(
     reducer,
@@ -78,6 +79,7 @@ export default function Table({
     state.year,
     state.month,
     state.day,
+    state.type,
     endpoint,
     reload,
   ]);
@@ -88,6 +90,10 @@ export default function Table({
 
     if (state.filterText) {
       newEndpoint = `${newEndpoint}&advanced=${state.filterText}`;
+    }
+
+    if (state.type) {
+      newEndpoint = `${newEndpoint}&type=${state.type}`;
     }
 
     if (!filterByDate) {
@@ -122,6 +128,9 @@ export default function Table({
     dispatch({ type: actions.CHANGE_DAY, payload: value });
   };
 
+  const handleType = (value) => {
+    dispatch({ type: actions.CHANGE_TYPE, payload: value });
+  };
   return (
     <div className={styles.container}>
       <div className={styles.row}>
@@ -154,6 +163,15 @@ export default function Table({
               <DaySelect value={state.day} handleDay={handleDay} />
             </>
           )}
+          <select
+          className={styles.filterType}
+            onChange={(e) => handleType(e.target.value)}
+            value={state.type}
+          >
+            <option value="">Todos los Parásitos</option>
+            <option value="INTERNAL">Internos</option>
+            <option value="EXTERNAL">Externos</option>
+          </select>
         </div>
 
         {buttonConf && (
