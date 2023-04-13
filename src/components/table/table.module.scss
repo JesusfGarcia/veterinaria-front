@@ -52,8 +52,9 @@
     background-color: white;
     div {
       padding: 0px 15px;
-      height: 45px;
+      height: 60px;
       border-bottom: 1px solid rgba(110, 110, 110, 0.253);
+      overflow: hidden;
       display: flex;
       align-items: center;
     }
@@ -224,6 +225,8 @@
 
 .link {
   color: $primary;
+
+
   &:visited {
     color: $primary;
   }

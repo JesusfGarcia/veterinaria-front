@@ -341,16 +341,14 @@ const Td = ({ item, column, idx }) => {
     if (item[key]) {
       return (
         <td>
-          <IconButton>
-            <a
-              className={styles.link}
-              href={`${process.env.REACT_APP_URL}${item[key]}`}
-              target="_blank"
-              rel="noreferrer"
-            >
-              <FileOpenIcon />
-            </a>
-          </IconButton>
+          <a
+            className={styles.link}
+            href={`${process.env.REACT_APP_URL}${item[key]}`}
+            target="_blank"
+            rel="noreferrer"
+          >
+            <FileOpenIcon height={2} />
+          </a>
         </td>
       );
     }

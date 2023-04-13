@@ -7,3 +7,10 @@
     opacity: 0.9;
   }
 }
+.row {
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+  align-items: center;
+  padding-top: 10px;
+}

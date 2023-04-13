@@ -33,6 +33,7 @@ export default function ConsultationScreen() {
   const onSave = async () => {
     try {
       dispatch({ type: actions.SAVE_LIST });
+
       await apiConsumer({
         method: "POST",
         url: "/appointments",

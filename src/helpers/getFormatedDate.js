@@ -1,11 +1,12 @@
 export const getFormatedDate = (date = "") => {
+  if (!date) return "";
   return date.split("T")[0];
   //texto.replace(/-/g, "/");
 };
 
 export const getFormatedDateTable = (date = "") => {
-  if (date === "") {
-    return "";
+  if (!date) {
+    return "sin fecha";
   }
 
   const getDateArray = date.split("-");

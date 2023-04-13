@@ -21,7 +21,7 @@ import { getFormatedDate } from "../../helpers/getFormatedDate";
 import { useNavigate } from "react-router-dom";
 
 import styles from "./hospital.module.scss";
-
+import TextEditor from "../../components/textEditor";
 export default function HospitalScreen() {
   const [state, dispatch] = React.useReducer(reducer, initialState);
   const { addToCar } = React.useContext(CarContext);
@@ -37,10 +37,15 @@ export default function HospitalScreen() {
   const onSave = async () => {
     try {
       dispatch({ type: actions.SAVE_LIST });
+      const body = { ...state.body };
+      if (!body.departureDate) {
+        delete body.departureDate;
+      }
+
       await apiConsumer({
         method: "POST",
         url: "/hospitals",
-        data: state.body,
+        data: body,
       });
       dispatch({ type: actions.SAVE_LIST_SUCCESS });
     } catch (error) {
@@ -101,10 +106,7 @@ export default function HospitalScreen() {
       label: "Observaciones",
       key: "observations",
     },
-    {
-      label: "Tratamiento",
-      key: "treatment",
-    },
+
     {
       label: "Precio",
       key: "price",
@@ -154,7 +156,12 @@ export default function HospitalScreen() {
       petName: `${item.pet.name} ${item.pet.lastName}`,
     };
   };
-
+  const setEditorValue = (value) => {
+    dispatch({
+      type: actions.HANDLE_CHANGE,
+      payload: { name: "treatment", value },
+    });
+  };
   return (
     <Container>
       <Content title="Hospital">
@@ -196,15 +203,7 @@ export default function HospitalScreen() {
             multiline
             minRows={3}
           />
-          <TextField
-            onChange={handleChange}
-            name="treatment"
-            value={state.body.treatment}
-            size="small"
-            label="Tratamiento"
-            multiline
-            minRows={3}
-          />
+
           <TextField
             onChange={handleChange}
             name="departureDate"
@@ -223,18 +222,29 @@ export default function HospitalScreen() {
             size="small"
             label="precio"
           />
+
           <SelectVet value={state.body.vetId} onChange={handleChange} />
           <SearchPet value={state.body.petId} onChange={handleChange} />
-          <span
-            className={styles.link}
-            onClick={() => {
-              navigate(
-                `/admin/users/${state.body.pet.owner.id}?pet=${state.body.pet.id}&module=studies`
-              );
-            }}
-          >
-            Ir a estudios
-          </span>
+
+          <div className={styles.row}>
+            <TextEditor
+              value={state.body.treatment}
+              text="Ir a Tratamiento"
+              setValue={setEditorValue}
+            />
+            {state.body.pet && (
+              <span
+                className={styles.link}
+                onClick={() => {
+                  navigate(
+                    `/admin/users/${state.body.pet.owner.id}?pet=${state.body.pet.id}&module=studies`
+                  );
+                }}
+              >
+                ver/agregar estudios
+              </span>
+            )}
+          </div>
         </Modal>
         <DeleteDialog
           onSave={onDelete}

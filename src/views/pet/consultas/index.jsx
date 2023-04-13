@@ -13,7 +13,7 @@ import apiConsumer from "../../../services";
 
 import { petContext } from "..";
 import { getServerError } from "../../../helpers/getServerError";
-
+import TextEditor from "../../../components/textEditor";
 export default function Consults() {
   const [state, dispatch] = React.useReducer(reducer, initialState);
   const { addToCar } = React.useContext(CarContext);
@@ -103,10 +103,6 @@ export default function Consults() {
       key: "price",
       type: "money",
     },
-    {
-      label: "Tratamiento",
-      key: "treatment",
-    },
 
     {
       label: "Cobro",
@@ -138,6 +134,12 @@ export default function Consults() {
       ],
     },
   ];
+  const setEditorValue = (value) => {
+    dispatch({
+      type: actions.HANDLE_CHANGE,
+      payload: { name: "treatment", value },
+    });
+  };
   return (
     <>
       <Table
@@ -171,13 +173,7 @@ export default function Consults() {
           size="small"
           label="Precio"
         />
-        <TextField
-          onChange={handleChange}
-          name="treatment"
-          value={state.body.treatment}
-          size="small"
-          label="Tratamiento"
-        />
+
         <TextField
           onChange={handleChange}
           name="date"
@@ -190,6 +186,11 @@ export default function Consults() {
           }}
         />
         <SelectVet value={state.body.vetId} onChange={handleChange} />
+        <TextEditor
+          value={state.body.treatment}
+          text="Ir a Tratamiento"
+          setValue={setEditorValue}
+        />
       </Modal>
       <DeleteDialog
         onSave={onDelete}

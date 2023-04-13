@@ -14,7 +14,7 @@ import apiConsumer from "../../../services";
 import { petContext } from "..";
 import { getServerError } from "../../../helpers/getServerError";
 import { getFormatedDate } from "../../../helpers/getFormatedDate";
-
+import TextEditor from "../../../components/textEditor";
 export default function Hospital() {
   const [state, dispatch] = React.useReducer(reducer, initialState);
   const { pet } = React.useContext(petContext);
@@ -32,11 +32,15 @@ export default function Hospital() {
   const onSave = async () => {
     try {
       dispatch({ type: actions.SAVE_LIST });
+      const body = { ...state.body };
+      if (!body.departureDate) {
+        delete body.departureDate;
+      }
       await apiConsumer({
         method: "POST",
         url: "/hospitals",
         data: {
-          ...state.body,
+          ...body,
           petId: pet.id,
         },
       });
@@ -100,10 +104,7 @@ export default function Hospital() {
       label: "Observaciones",
       key: "observations",
     },
-    {
-      label: "Tratamiento",
-      key: "treatment",
-    },
+
     {
       label: "Precio",
       key: "price",
@@ -152,7 +153,12 @@ export default function Hospital() {
       departureDate: getFormatedDate(item.departureDate),
     };
   };
-
+  const setEditorValue = (value) => {
+    dispatch({
+      type: actions.HANDLE_CHANGE,
+      payload: { name: "treatment", value },
+    });
+  };
   return (
     <>
       <Table
@@ -175,17 +181,12 @@ export default function Hospital() {
       >
         <TextField
           onChange={handleChange}
-          name="treatment"
-          value={state.body.treatment}
-          size="small"
-          label="Tratamiento"
-        />
-        <TextField
-          onChange={handleChange}
           name="observations"
           value={state.body.observations}
           size="small"
           label="Observaciones"
+          multiline
+          minRows={3}
         />
         <TextField
           onChange={handleChange}
@@ -217,6 +218,11 @@ export default function Hospital() {
           }}
         />
         <SelectVet value={state.body.vetId} onChange={handleChange} />
+        <TextEditor
+          value={state.body.treatment}
+          text="Ir a Tratamiento"
+          setValue={setEditorValue}
+        />
       </Modal>
       <DeleteDialog
         onSave={onDelete}
