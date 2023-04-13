@@ -1,0 +1,27 @@
+@import "../../sass/color.scss";
+
+.button {
+  background-color: $primary;
+  color: $textLight;
+  padding: 10px;
+  border-radius: 8px;
+  font-weight: bold;
+  cursor: pointer;
+  user-select: none;
+}
+
+.dialogContainer {
+  padding: 20px;
+}
+
+.textContainer {
+}
+.titleText {
+  background-color: $primaryDark;
+  color: $textLight;
+  padding: 15px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  font-size: 25px;
+}
