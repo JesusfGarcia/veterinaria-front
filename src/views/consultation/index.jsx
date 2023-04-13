@@ -15,6 +15,7 @@ import { getServerError } from "../../helpers/getServerError";
 import SelectVet from "../../components/selectVet";
 import SearchPet from "../../components/searchPet";
 import { getFormatedDate } from "../../helpers/getFormatedDate";
+import TextEditor from "../../components/textEditor";
 
 export default function ConsultationScreen() {
   const [state, dispatch] = React.useReducer(reducer, initialState);
@@ -104,11 +105,6 @@ export default function ConsultationScreen() {
       type: "money",
     },
     {
-      label: "Tratamiento",
-      key: "treatment",
-    },
-
-    {
       label: "Cobro",
       key: "isPayed",
       onClick: (product) => {
@@ -145,6 +141,13 @@ export default function ConsultationScreen() {
       date: getFormatedDate(item.date),
       petName: `${item.pet.name} ${item.pet.lastName}`,
     };
+  };
+
+  const setEditorValue = (value) => {
+    dispatch({
+      type: actions.HANDLE_CHANGE,
+      payload: { name: "treatment", value },
+    });
   };
   return (
     <Container>
@@ -195,16 +198,13 @@ export default function ConsultationScreen() {
             size="small"
             label="Precio"
           />
-          <TextField
-            onChange={handleChange}
-            name="treatment"
-            value={state.body.treatment}
-            size="small"
-            label="Tratamiento"
-          />
-
           <SelectVet value={state.body.vetId} onChange={handleChange} />
           <SearchPet value={state.body.petId} onChange={handleChange} />
+          <TextEditor
+            value={state.body.treatment}
+            text="Ir a Tratamiento"
+            setValue={setEditorValue}
+          />
         </Modal>
         <DeleteDialog
           onSave={onDelete}
