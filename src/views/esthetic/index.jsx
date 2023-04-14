@@ -18,6 +18,7 @@ import { getServerError } from "../../helpers/getServerError";
 import SelectVet from "../../components/selectVet";
 import SearchPet from "../../components/searchPet";
 import { getFormatedDate } from "../../helpers/getFormatedDate";
+import { getFormatedPet } from "../../helpers/getFormatedPet";
 
 export default function EstheticScreen() {
   const [state, dispatch] = React.useReducer(reducer, initialState);
@@ -111,13 +112,13 @@ export default function EstheticScreen() {
       key: "serviceType",
     },
 
-    {
+    /*  {
       label: "Cobro",
       key: "isPayed",
       onClick: (product) => {
         addToCar({ item: product, origin: "estetica" });
       },
-    },
+    }, */
     {
       label: "Acciones",
       key: "actions",
@@ -146,7 +147,7 @@ export default function EstheticScreen() {
     return {
       ...item,
       date: getFormatedDate(item.date),
-      petName: `${item.pet.name} ${item.pet.lastName}`,
+      petName: getFormatedPet(item.pet),
     };
   };
 

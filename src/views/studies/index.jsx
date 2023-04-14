@@ -16,6 +16,7 @@ import SelectVet from "../../components/selectVet";
 import SearchPet from "../../components/searchPet";
 import { getFormatedDate } from "../../helpers/getFormatedDate";
 import InputFileStudies from "../../components/inputfilestudie";
+import { getFormatedPet } from "../../helpers/getFormatedPet";
 export default function StudiesScreen() {
   const { addToCar } = React.useContext(CarContext);
   const [state, dispatch] = React.useReducer(reducer, initialState);
@@ -118,13 +119,13 @@ export default function StudiesScreen() {
       key: "file",
       type: "file",
     },
-    {
+    /*  {
       label: "Cobro",
       key: "isPayed",
       onClick: (product) => {
         addToCar({ item: product, origin: "estudios" });
       },
-    },
+    }, */
     {
       label: "Acciones",
       key: "actions",
@@ -152,7 +153,7 @@ export default function StudiesScreen() {
     return {
       ...item,
       date: getFormatedDate(item.date),
-      petName: `${item.pet.name} ${item.pet.lastName}`,
+      petName: getFormatedPet(item.pet),
     };
   };
   return (

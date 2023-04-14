@@ -120,13 +120,13 @@ export default function Estudios() {
       key: "file",
       type: "file",
     },
-    {
+  /*   {
       label: "Cobro",
       key: "isPayed",
       onClick: (product) => {
         addToCar({ item: product, origin: "estudios" });
       },
-    },
+    }, */
     {
       label: "Acciones",
       key: "actions",

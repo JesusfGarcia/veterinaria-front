@@ -102,7 +102,7 @@ export const routes = [
       },
     ],
   },
-  {
+  /*  {
     element: <StockScreen />,
     label: "Inventario",
     path: "stock",
@@ -115,5 +115,5 @@ export const routes = [
     path: "products",
     icon: <LocalOfferIcon />,
     sidebar: true,
-  },
+  }, */
 ];

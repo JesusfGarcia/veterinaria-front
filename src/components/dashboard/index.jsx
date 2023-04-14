@@ -135,12 +135,12 @@ export default function Dashboard() {
             </Routes>
           </Suspense>
         </Content>
-        <Floating onClick={() => setShowModal(true)}>
+        {/*      <Floating onClick={() => setShowModal(true)}>
           {products.length > 0 && (
             <CantIndicator>{products.length}</CantIndicator>
           )}
           <LocalGroceryStoreIcon />
-        </Floating>
+        </Floating> */}
         <Dialog
           TransitionComponent={Transition}
           fullScreen

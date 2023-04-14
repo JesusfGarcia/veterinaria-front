@@ -4,7 +4,7 @@ import Login from "./views/login";
 import "./App.css";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import "./sass/global.scss";
-import Redirect from "./components/Redirect";
+
 import apiConsumer from "./services";
 import Loading from "./components/loading";
 import RestorePassword from "./views/restorePassword";

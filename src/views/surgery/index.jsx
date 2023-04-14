@@ -18,6 +18,7 @@ import { getServerError } from "../../helpers/getServerError";
 import SelectVet from "../../components/selectVet";
 import SearchPet from "../../components/searchPet";
 import { getFormatedDate } from "../../helpers/getFormatedDate";
+import { getFormatedPet } from "../../helpers/getFormatedPet";
 
 export default function SurgeryScreen() {
   const [state, dispatch] = React.useReducer(reducer, initialState);
@@ -108,13 +109,13 @@ export default function SurgeryScreen() {
       label: "Observaciones",
       key: "description",
     },
-    {
+    /*   {
       label: "Cobro",
       key: "isPayed",
       onClick: (product) => {
         addToCar({ item: product, origin: "cirugias" });
       },
-    },
+    }, */
     {
       label: "Acciones",
       key: "actions",
@@ -142,7 +143,7 @@ export default function SurgeryScreen() {
     return {
       ...item,
       date: getFormatedDate(item.date),
-      petName: `${item.pet.name} ${item.pet.lastName}`,
+      petName: getFormatedPet(item.pet),
     };
   };
 

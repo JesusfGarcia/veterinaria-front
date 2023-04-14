@@ -19,6 +19,7 @@ import SelectVet from "../../components/selectVet";
 import SearchPet from "../../components/searchPet";
 import { getFormatedDate } from "../../helpers/getFormatedDate";
 import SelectParasyte from "../../components/selectParasyte";
+import { getFormatedPet } from "../../helpers/getFormatedPet";
 
 export default function ParasyteScreen() {
   const [state, dispatch] = React.useReducer(reducer, initialState);
@@ -118,13 +119,13 @@ export default function ParasyteScreen() {
       key: "nextApplication",
       type: "date",
     },
-    {
+    /*   {
       label: "cobro",
       key: "isPayed",
       onClick: (product) => {
         addToCar({ item: product, origin: "parasitos" });
       },
-    },
+    }, */
     {
       label: "Acciones",
       key: "actions",
@@ -155,7 +156,7 @@ export default function ParasyteScreen() {
       spanishType: item.type === "INTERNAL" ? "Interno" : "Externo",
       nextApplication: getFormatedDate(item.nextApplication),
       dateApplication: getFormatedDate(item.dateApplication),
-      petName: `${item.pet.name} ${item.pet.lastName}`,
+      petName: getFormatedPet(item.pet),
     };
   };
 

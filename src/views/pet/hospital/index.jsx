@@ -115,13 +115,13 @@ export default function Hospital() {
       key: "departureDate",
       type: "date",
     },
-    {
+  /*   {
       label: "Cobro",
       key: "isPayed",
       onClick: (product) => {
         addToCar({ item: product, origin: "consulta" });
       },
-    },
+    }, */
     {
       label: "Acciones",
       key: "actions",

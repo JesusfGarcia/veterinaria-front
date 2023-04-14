@@ -105,13 +105,13 @@ export default function Cirugia() {
       label: "Observaciones",
       key: "description",
     },
-    {
+   /*  {
       label: "Cobro",
       key: "isPayed",
       onClick: (product) => {
         addToCar({ item: product, origin: "cirugias" });
       },
-    },
+    }, */
 
     {
       label: "Acciones",

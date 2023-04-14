@@ -16,6 +16,7 @@ import SelectVet from "../../components/selectVet";
 import SearchPet from "../../components/searchPet";
 import { getFormatedDate } from "../../helpers/getFormatedDate";
 import TextEditor from "../../components/textEditor";
+import { getFormatedPet } from "../../helpers/getFormatedPet";
 
 export default function ConsultationScreen() {
   const [state, dispatch] = React.useReducer(reducer, initialState);
@@ -105,13 +106,13 @@ export default function ConsultationScreen() {
       key: "price",
       type: "money",
     },
-    {
+    /*  {
       label: "Cobro",
       key: "isPayed",
       onClick: (product) => {
         addToCar({ item: product, origin: "consulta" });
       },
-    },
+    }, */
     {
       label: "Acciones",
       key: "actions",
@@ -140,7 +141,7 @@ export default function ConsultationScreen() {
     return {
       ...item,
       date: getFormatedDate(item.date),
-      petName: `${item.pet.name} ${item.pet.lastName}`,
+      petName: getFormatedPet(item.pet),
     };
   };
 

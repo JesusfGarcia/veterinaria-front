@@ -108,13 +108,13 @@ export default function Estetica() {
       key: "serviceType",
     },
 
-    {
+  /*   {
       label: "Cobro",
       key: "isPayed",
       onClick: (product) => {
         addToCar({ item: product, origin: "estetica" });
       },
-    },
+    }, */
     {
       label: "Acciones",
       key: "actions",

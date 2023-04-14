@@ -4,7 +4,7 @@ export const initialState = {
   errorTextGetList: "",
   filterText: "",
   page: 1,
-  pageSize: 3,
+  pageSize: 10,
   count: 0,
   year: "",
   month: "",

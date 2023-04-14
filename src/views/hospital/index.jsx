@@ -117,13 +117,13 @@ export default function HospitalScreen() {
       key: "departureDate",
       type: "date",
     },
-    {
+  /*   {
       label: "cobro",
       key: "isPayed",
       onClick: (product) => {
         addToCar({ item: product, origin: "consultas" });
       },
-    },
+    }, */
     {
       label: "Acciones",
       key: "actions",

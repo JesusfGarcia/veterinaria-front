@@ -18,6 +18,7 @@ import { getServerError } from "../../helpers/getServerError";
 import SelectVet from "../../components/selectVet";
 import SearchPet from "../../components/searchPet";
 import { getFormatedDate } from "../../helpers/getFormatedDate";
+import { getFormatedPet } from "../../helpers/getFormatedPet";
 
 export default function VacciensScreen() {
   const [state, dispatch] = React.useReducer(reducer, initialState);
@@ -115,13 +116,13 @@ export default function VacciensScreen() {
       key: "price",
       type: "money",
     },
-    {
+    /*  {
       label: "Cobro",
       key: "isPayed",
       onClick: (product) => {
         addToCar({ item: product, origin: "vacunas" });
       },
-    },
+    }, */
     {
       label: "Acciones",
       key: "actions",
@@ -150,7 +151,7 @@ export default function VacciensScreen() {
       ...item,
       date: getFormatedDate(item.date),
       nextVaccineDate: getFormatedDate(item.nextVaccineDate),
-      petName: `${item.pet.name} ${item.pet.lastName}`,
+      petName: getFormatedPet(item.pet),
     };
   };
   return (

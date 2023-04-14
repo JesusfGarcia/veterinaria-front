@@ -114,13 +114,13 @@ export default function ParasyteScreen() {
       key: "nextApplication",
       type: "date",
     },
-    {
+    /*  {
       label: "cobro",
       key: "isPayed",
       onClick: (product) => {
         addToCar({ item: product, origin: "parasitos" });
       },
-    },
+    }, */
     {
       label: "Acciones",
       key: "actions",
@@ -231,7 +231,6 @@ export default function ParasyteScreen() {
           label="precio"
         />
         <SelectVet value={state.body.vetId} onChange={handleChange} />
-        <SearchPet value={state.body.petId} onChange={handleChange} />
       </Modal>
       <DeleteDialog
         onSave={onDelete}
