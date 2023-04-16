@@ -115,13 +115,13 @@ export default function Vacunas() {
       key: "nextVaccineDate",
       type: "date",
     },
-    {
+   /*  {
       label: "Cobro",
       key: "isPayed",
       onClick: (product) => {
         addToCar({ item: product, origin: "parasitologia" });
       },
-    },
+    }, */
     {
       label: "Acciones",
       key: "actions",

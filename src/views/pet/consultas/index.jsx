@@ -104,13 +104,13 @@ export default function Consults() {
       type: "money",
     },
 
-    {
+/*     {
       label: "Cobro",
       key: "isPayed",
       onClick: (product) => {
         addToCar({ item: product, origin: "consulta" });
       },
-    },
+    }, */
     {
       label: "Acciones",
       key: "actions",
