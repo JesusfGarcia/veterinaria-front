@@ -1,3 +1,4 @@
+import {getTodayDate} from "../../../../helpers/getFormatedDate";
 export const initialState = {
   showModal: false,
   body: {
@@ -5,7 +6,7 @@ export const initialState = {
     vetId: 0,
     name: "",
     price: 0,
-    date: "",
+    date: getTodayDate(),
     laboratory: "",
     nextVaccine: "",
     nextVaccineDate: "",

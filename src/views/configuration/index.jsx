@@ -141,6 +141,7 @@ export default function ConfigurationScreen() {
           buttonConf={buttonConf}
           columns={titles}
           listFormatter={listFormatter}
+          reload={state.reload}
         />
         <Modal
           onSave={state.isEdit ? onEdit : onSave}

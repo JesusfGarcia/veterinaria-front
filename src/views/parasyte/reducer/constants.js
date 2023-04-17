@@ -1,3 +1,4 @@
+import { getTodayDate } from "../../../helpers/getFormatedDate";
 export const initialState = {
   showModal: false,
   body: {
@@ -6,7 +7,7 @@ export const initialState = {
     type: "INTERNAL",
     price: 0,
     product: "",
-    dateApplication: "",
+    dateApplication: getTodayDate(),
     nextApplication: "",
     weight: 0,
   },

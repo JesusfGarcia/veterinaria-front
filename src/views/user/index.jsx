@@ -88,7 +88,12 @@ export default function UsersScreen() {
     <Container>
       <Content title="Clientes">
         <div className="linea"></div>
-        <Table endpoint="/clients" buttonConf={buttonConf} columns={title} />
+        <Table
+          reload={state.reload}
+          endpoint="/clients"
+          buttonConf={buttonConf}
+          columns={title}
+        />
         <Modal
           onSave={onSave}
           isOpen={state.showModal}
@@ -96,7 +101,6 @@ export default function UsersScreen() {
           onClose={closeForm}
           errorText={state.textErrorSave}
           isLoading={state.isLoadingSave}
-          reload={state.reload}
         >
           <TextField
             onChange={handleChange}

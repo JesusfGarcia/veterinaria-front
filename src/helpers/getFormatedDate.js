@@ -15,6 +15,12 @@ export const getFormatedDateTable = (date = "") => {
   return `${getDateArray[2]}-${getMonth}-${getDateArray[0]}`;
 };
 
+export const getTodayDate = () => {
+  //yyyy-mm-dd
+  const today = new Date().toISOString();
+  return today.split("T")[0];
+};
+
 const month = [
   "Enero",
   "Febrero",

@@ -14,7 +14,6 @@ import apiConsumer from "../../../services";
 import { getServerError } from "../../../helpers/getServerError";
 
 import SelectVet from "../../../components/selectVet";
-import SearchPet from "../../../components/searchPet";
 import { getFormatedDate } from "../../../helpers/getFormatedDate";
 import SelectParasyte from "../../../components/selectParasyte";
 import { petContext } from "..";
@@ -38,7 +37,7 @@ export default function ParasyteScreen() {
       await apiConsumer({
         method: "POST",
         url: "/parasitologies",
-        data: state.body,
+        data: { ...state.body, petId: pet.id },
       });
       dispatch({ type: actions.SAVE_LIST_SUCCESS });
     } catch (error) {
@@ -54,7 +53,7 @@ export default function ParasyteScreen() {
       await apiConsumer({
         method: "PUT",
         url: `/parasitologies/${state.body.id}`,
-        data: state.body,
+        data: { ...state.body, petId: pet.id },
       });
       dispatch({ type: actions.SAVE_LIST_SUCCESS });
     } catch (error) {
