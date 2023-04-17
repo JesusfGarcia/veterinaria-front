@@ -23,6 +23,7 @@ import { getFormatedDateTable } from "../../helpers/getFormatedDate";
 import doguito from "../../assets/images/doguito.png";
 import gatito from "../../assets/images/gatito.png";
 import DaySelect from "../dateSelect";
+import { getFormatedPrice } from "../../helpers/getFormatedMoney";
 
 export default function Table({
   columns,
@@ -319,12 +320,7 @@ const Td = ({ item, column, idx }) => {
   if (type === "money") {
     return (
       <td>
-        <div className={styles.money}>
-          {item[key].toLocaleString("es-MX", {
-            style: "currency",
-            currency: "MXN",
-          })}
-        </div>
+        <div className={styles.money}>{getFormatedPrice(item[key])}</div>
       </td>
     );
   }
