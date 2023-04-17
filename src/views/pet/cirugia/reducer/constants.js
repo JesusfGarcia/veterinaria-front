@@ -1,4 +1,4 @@
-import {getTodayDate} from "../../../../helpers/getFormatedDate" 
+import {getTodayDate} from "../../../../helpers/getFormatedDate";
 
 export const initialState = {
   showModal: false,
