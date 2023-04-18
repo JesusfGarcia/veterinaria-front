@@ -95,7 +95,7 @@ export default function Consults() {
       type: "date",
     },
     {
-      label: "Descripción",
+      label: "Diagnóstico",
       key: "description",
     },
     {
@@ -104,7 +104,7 @@ export default function Consults() {
       type: "money",
     },
 
-/*     {
+    /*     {
       label: "Cobro",
       key: "isPayed",
       onClick: (product) => {
@@ -162,7 +162,14 @@ export default function Consults() {
           name="description"
           value={state.body.description}
           size="small"
-          label="Descripción"
+          label="Diagnóstico"
+        />
+        <TextField
+          onChange={handleChange}
+          name="clinicalSigns"
+          value={state.body.clinicalSigns}
+          size="small"
+          label="Sintomatologia"
           multiline
           minRows={3}
         />

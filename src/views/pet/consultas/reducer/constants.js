@@ -1,4 +1,4 @@
-import {getTodayDate} from "../../../../helpers/getFormatedDate";
+import { getTodayDate } from "../../../../helpers/getFormatedDate";
 export const initialState = {
   showModal: false,
   body: {
@@ -8,6 +8,7 @@ export const initialState = {
     treatment: "",
     description: "",
     price: "",
+    clinicalSigns: "",
   },
   loadingSaveList: false,
   errorTextSaveList: "",

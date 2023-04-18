@@ -98,7 +98,7 @@ export default function ConsultationScreen() {
       key: "petName",
     },
     {
-      label: "Descripción",
+      label: "Diagnóstico",
       key: "description",
     },
     {
@@ -189,7 +189,14 @@ export default function ConsultationScreen() {
             name="description"
             value={state.body.description}
             size="small"
-            label="Descripción"
+            label="Diagnóstico"
+          />
+          <TextField
+            onChange={handleChange}
+            name="clinicalSigns"
+            value={state.body.clinicalSigns}
+            size="small"
+            label="Sintomatologia"
             multiline
             minRows={3}
           />

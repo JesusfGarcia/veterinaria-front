@@ -1,6 +1,5 @@
 import { initialState } from "./constants";
 import { actions } from "./actions";
-import { getFormatedDate } from "../../../../helpers/getFormatedDate";
 
 export const reducer = (
   state = initialState,
