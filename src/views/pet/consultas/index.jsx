@@ -169,7 +169,7 @@ export default function Consults() {
           name="clinicalSigns"
           value={state.body.clinicalSigns}
           size="small"
-          label="Sintomatologia"
+          label="sintomatología"
           multiline
           minRows={3}
         />
