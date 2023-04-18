@@ -196,7 +196,7 @@ export default function ConsultationScreen() {
             name="clinicalSigns"
             value={state.body.clinicalSigns}
             size="small"
-            label="Sintomatologia"
+            label="sintomatología"
             multiline
             minRows={3}
           />
