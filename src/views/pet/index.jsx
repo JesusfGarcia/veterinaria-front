@@ -27,9 +27,16 @@ import { initialState } from "./reducer/contants";
 import { actions } from "./reducer/actions";
 import { reducer } from "./reducer";
 import Modal from "../../components/dialog";
-import { TextField, Tooltip } from "@mui/material";
+import {
+  FormControlLabel,
+  FormGroup,
+  TextField,
+  Tooltip,
+  Checkbox,
+} from "@mui/material";
 import { getServerError } from "../../helpers/getServerError";
 import InputFile from "../../components/inputfile";
+import { DateToInt, IntToDate } from "../../helpers/getFormatedDate";
 
 export const petContext = React.createContext({
   pet: {
@@ -105,11 +112,23 @@ export default function PetsScreen() {
 
   const handlePetChange = (e) => {
     const { name, value } = e.target;
+
     dispatch({
       type: actions.HANDLE_INPUT_CHANGE,
       payload: {
         name,
         value,
+      },
+    });
+  };
+
+  const handlePetAge = (e) => {
+    const { name, value } = e.target;
+    dispatch({
+      type: actions.HANDLE_INPUT_CHANGE,
+      payload: {
+        name,
+        value: IntToDate(value),
       },
     });
   };
@@ -355,17 +374,46 @@ export default function PetsScreen() {
           label="Color"
           onChange={handlePetChange}
         />
-        <TextField
-          name="birthDate"
-          value={state.pet.birthDate}
-          size="small"
-          label="Fecha de nacimiento"
-          type="date"
-          onChange={handlePetChange}
-          InputLabelProps={{
-            shrink: true,
-          }}
-        />
+        <FormGroup>
+          <FormControlLabel
+            control={
+              <Checkbox
+                checked={state.pet.isDigitAge}
+                onChange={() =>
+                  handlePetChange({
+                    target: {
+                      name: "isDigitAge",
+                      value: !state.pet.isDigitAge,
+                    },
+                  })
+                }
+              />
+            }
+            label="Conozco la fecha de nacimiento"
+          />
+        </FormGroup>
+        {!state.pet.isDigitAge ? (
+          <TextField
+            name="birthDate"
+            value={DateToInt(state.pet.birthDate)}
+            size="small"
+            label="Edad (años)"
+            type="number"
+            onChange={handlePetAge}
+          />
+        ) : (
+          <TextField
+            name="birthDate"
+            value={state.pet.birthDate}
+            size="small"
+            label="Fecha de Nacimiento"
+            type="date"
+            onChange={handlePetChange}
+            InputLabelProps={{
+              shrink: true,
+            }}
+          />
+        )}
         <TextField
           name="weight"
           value={state.pet.weight}

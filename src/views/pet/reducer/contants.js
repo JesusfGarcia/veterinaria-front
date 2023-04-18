@@ -27,6 +27,7 @@ export const initialState = {
     allergies: "",
     weight: 0,
     photo: "",
+    isDigitAge: false,
   },
   petSelected: null,
   isEdit: false,
