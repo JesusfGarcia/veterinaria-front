@@ -45,3 +45,44 @@ export default function TextEditor({ text, value, setValue }) {
     </div>
   );
 }
+
+export const TableTextEditor = ({ value, setValue, showModal, onClose }) => {
+  const [editorState, setEditorState] = React.useState(
+    value
+      ? EditorState.createWithContent(convertFromRaw(JSON.parse(value)))
+      : EditorState.createEmpty()
+  );
+
+  React.useEffect(() => {
+    if (showModal && value) {
+      setEditorState(
+        EditorState.createWithContent(convertFromRaw(JSON.parse(value)))
+      );
+    }
+  }, [showModal]);
+
+  const setDataChange = (e) => {
+    const contentState = convertToRaw(e.getCurrentContent());
+
+    setValue(JSON.stringify(contentState));
+    setEditorState(e);
+  };
+
+  return (
+    <div>
+      <Dialog fullScreen open={showModal} onClose={onClose}>
+        <div className={styles.titleText}>
+          <span>Tratamiento</span>
+          <CloseIcon onClick={onClose} />
+        </div>
+        <Editor
+          editorState={editorState}
+          toolbarClassName="toolbarClassName"
+          wrapperClassName={styles.dialogContainer}
+          editorClassName={styles.textContainer}
+          onEditorStateChange={setDataChange}
+        />
+      </Dialog>
+    </div>
+  );
+};

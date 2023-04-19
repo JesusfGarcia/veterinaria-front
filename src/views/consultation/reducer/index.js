@@ -55,9 +55,17 @@ export const reducer = (
       newState.showDeleteModal = false;
       newState.body = { ...initialState.body };
       break;
+    case actions.OPEN_TEXT_EDITOR:
+      newState.showTextEditor = true;
+      newState.body = action.payload;
+      break;
+    case actions.CLOSE_TEXT_EDITOR:
+      newState.showTextEditor = false;
+      newState.body = { ...initialState.body };
+      newState.reload = !state.reload;
+      break;
     default:
       break;
   }
-
   return newState;
 };

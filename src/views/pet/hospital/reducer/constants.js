@@ -1,4 +1,4 @@
-import {getTodayDate} from "../../../../helpers/getFormatedDate";
+import { getTodayDate } from "../../../../helpers/getFormatedDate";
 
 export const initialState = {
   showModal: false,
@@ -16,4 +16,5 @@ export const initialState = {
   reload: false,
   isEdit: false,
   showDeleteModal: false,
+  showTextEditor: false,
 };

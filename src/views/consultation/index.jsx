@@ -15,7 +15,7 @@ import { getServerError } from "../../helpers/getServerError";
 import SelectVet from "../../components/selectVet";
 import SearchPet from "../../components/searchPet";
 import { getFormatedDate } from "../../helpers/getFormatedDate";
-import TextEditor from "../../components/textEditor";
+import TextEditor, { TableTextEditor } from "../../components/textEditor";
 import { getFormatedPet } from "../../helpers/getFormatedPet";
 
 export default function ConsultationScreen() {
@@ -125,6 +125,12 @@ export default function ConsultationScreen() {
           },
         },
         {
+          label: "textEditor",
+          onClick: (appointments) => {
+            dispatch({ type: actions.OPEN_TEXT_EDITOR, payload: appointments });
+          },
+        },
+        {
           label: "delete",
           onClick: (appointments) => {
             dispatch({
@@ -151,6 +157,23 @@ export default function ConsultationScreen() {
       payload: { name: "treatment", value },
     });
   };
+
+  const saveTreatment = async () => {
+    try {
+      await apiConsumer({
+        method: "PUT",
+        url: `/appointments/${state.body.id}`,
+        data: state.body,
+      });
+      dispatch({ type: actions.CLOSE_TEXT_EDITOR });
+    } catch (error) {
+      dispatch({
+        type: actions.SAVE_LIST_ERROR,
+        payload: getServerError(error),
+      });
+    }
+  };
+
   return (
     <Container>
       <Content title="Consultas">
@@ -215,6 +238,12 @@ export default function ConsultationScreen() {
             setValue={setEditorValue}
           />
         </Modal>
+        <TableTextEditor
+          setValue={setEditorValue}
+          value={state.body.treatment}
+          showModal={state.showTextEditor}
+          onClose={saveTreatment}
+        />
         <DeleteDialog
           onSave={onDelete}
           title={`¿Seguro que desea eliminar esta consulta?`}
