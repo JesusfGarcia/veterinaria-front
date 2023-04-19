@@ -14,7 +14,7 @@ import apiConsumer from "../../../services";
 import { petContext } from "..";
 import { getServerError } from "../../../helpers/getServerError";
 import { getFormatedDate } from "../../../helpers/getFormatedDate";
-import TextEditor from "../../../components/textEditor";
+import TextEditor, { TableTextEditor } from "../../../components/textEditor";
 export default function Hospital() {
   const [state, dispatch] = React.useReducer(reducer, initialState);
   const { pet } = React.useContext(petContext);
@@ -115,7 +115,7 @@ export default function Hospital() {
       key: "departureDate",
       type: "date",
     },
-  /*   {
+    /*   {
       label: "Cobro",
       key: "isPayed",
       onClick: (product) => {
@@ -131,6 +131,12 @@ export default function Hospital() {
           label: "see",
           onClick: (item) => {
             dispatch({ type: actions.ON_EDIT, payload: item.id });
+          },
+        },
+        {
+          label: "textEditor",
+          onClick: (appointments) => {
+            dispatch({ type: actions.OPEN_TEXT_EDITOR, payload: appointments });
           },
         },
         {
@@ -158,6 +164,25 @@ export default function Hospital() {
       type: actions.HANDLE_CHANGE,
       payload: { name: "treatment", value },
     });
+  };
+
+  const saveTreatment = async () => {
+    try {
+      await apiConsumer({
+        method: "PUT",
+        url: `/hospitals/${state.body.id}`,
+        data: {
+          ...state.body,
+          petId: pet.id,
+        },
+      });
+      dispatch({ type: actions.CLOSE_TEXT_EDITOR });
+    } catch (error) {
+      dispatch({
+        type: actions.SAVE_LIST_ERROR,
+        payload: getServerError(error),
+      });
+    }
   };
   return (
     <>
@@ -224,6 +249,12 @@ export default function Hospital() {
           setValue={setEditorValue}
         />
       </Modal>
+      <TableTextEditor
+        setValue={setEditorValue}
+        value={state.body.treatment}
+        showModal={state.showTextEditor}
+        onClose={saveTreatment}
+      />
       <DeleteDialog
         onSave={onDelete}
         title={`¿Seguro que desea eliminar esta hospitalización?`}

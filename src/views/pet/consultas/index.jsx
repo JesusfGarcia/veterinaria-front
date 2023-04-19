@@ -13,7 +13,7 @@ import apiConsumer from "../../../services";
 
 import { petContext } from "..";
 import { getServerError } from "../../../helpers/getServerError";
-import TextEditor from "../../../components/textEditor";
+import TextEditor, { TableTextEditor } from "../../../components/textEditor";
 export default function Consults() {
   const [state, dispatch] = React.useReducer(reducer, initialState);
   const { addToCar } = React.useContext(CarContext);
@@ -123,6 +123,12 @@ export default function Consults() {
           },
         },
         {
+          label: "textEditor",
+          onClick: (appointments) => {
+            dispatch({ type: actions.OPEN_TEXT_EDITOR, payload: appointments });
+          },
+        },
+        {
           label: "delete",
           onClick: (item) => {
             dispatch({
@@ -139,6 +145,25 @@ export default function Consults() {
       type: actions.HANDLE_CHANGE,
       payload: { name: "treatment", value },
     });
+  };
+
+  const saveTreatment = async () => {
+    try {
+      await apiConsumer({
+        method: "PUT",
+        url: `/appointments/${state.body.id}`,
+        data: {
+          ...state.body,
+          petId: pet.id,
+        },
+      });
+      dispatch({ type: actions.CLOSE_TEXT_EDITOR });
+    } catch (error) {
+      dispatch({
+        type: actions.SAVE_LIST_ERROR,
+        payload: getServerError(error),
+      });
+    }
   };
   return (
     <>
@@ -199,6 +224,12 @@ export default function Consults() {
           setValue={setEditorValue}
         />
       </Modal>
+      <TableTextEditor
+        setValue={setEditorValue}
+        value={state.body.treatment}
+        showModal={state.showTextEditor}
+        onClose={saveTreatment}
+      />
       <DeleteDialog
         onSave={onDelete}
         title={`¿Seguro que desea eliminar esta consulta?`}

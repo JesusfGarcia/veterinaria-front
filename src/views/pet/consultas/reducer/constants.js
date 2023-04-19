@@ -15,4 +15,5 @@ export const initialState = {
   reload: false,
   isEdit: false,
   showDeleteModal: false,
+  showTextEditor: false,
 };

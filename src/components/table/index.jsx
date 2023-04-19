@@ -7,8 +7,8 @@ import RemoveRedEyeIcon from "@mui/icons-material/RemoveRedEye";
 import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
 import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
 
-import { IconButton } from "@mui/material";
 import FileOpenIcon from "@mui/icons-material/FileOpen";
+import LocalHospitalIcon from "@mui/icons-material/LocalHospital";
 
 import styles from "./table.module.scss";
 
@@ -279,6 +279,15 @@ const Td = ({ item, column, idx }) => {
                   style={{ cursor: "pointer" }}
                   color="error"
                   onClick={() => action.onClick(idx)}
+                />
+              );
+            }
+            if (action.label === "textEditor") {
+              return (
+                <LocalHospitalIcon
+                  style={{ cursor: "pointer" }}
+                  color="primary"
+                  onClick={() => action.onClick(item)}
                 />
               );
             }

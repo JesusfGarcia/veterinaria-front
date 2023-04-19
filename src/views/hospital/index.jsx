@@ -21,7 +21,7 @@ import { getFormatedDate } from "../../helpers/getFormatedDate";
 import { useNavigate } from "react-router-dom";
 
 import styles from "./hospital.module.scss";
-import TextEditor from "../../components/textEditor";
+import TextEditor, { TableTextEditor } from "../../components/textEditor";
 export default function HospitalScreen() {
   const [state, dispatch] = React.useReducer(reducer, initialState);
   const { addToCar } = React.useContext(CarContext);
@@ -117,7 +117,7 @@ export default function HospitalScreen() {
       key: "departureDate",
       type: "date",
     },
-  /*   {
+    /*   {
       label: "cobro",
       key: "isPayed",
       onClick: (product) => {
@@ -133,6 +133,12 @@ export default function HospitalScreen() {
           label: "see",
           onClick: (hospitals) => {
             dispatch({ type: actions.ON_EDIT, payload: hospitals });
+          },
+        },
+        {
+          label: "textEditor",
+          onClick: (appointments) => {
+            dispatch({ type: actions.OPEN_TEXT_EDITOR, payload: appointments });
           },
         },
         {
@@ -161,6 +167,22 @@ export default function HospitalScreen() {
       type: actions.HANDLE_CHANGE,
       payload: { name: "treatment", value },
     });
+  };
+
+  const saveTreatment = async () => {
+    try {
+      await apiConsumer({
+        method: "PUT",
+        url: `/hospitals/${state.body.id}`,
+        data: state.body,
+      });
+      dispatch({ type: actions.CLOSE_TEXT_EDITOR });
+    } catch (error) {
+      dispatch({
+        type: actions.SAVE_LIST_ERROR,
+        payload: getServerError(error),
+      });
+    }
   };
   return (
     <Container>
@@ -246,6 +268,12 @@ export default function HospitalScreen() {
             )}
           </div>
         </Modal>
+        <TableTextEditor
+          setValue={setEditorValue}
+          value={state.body.treatment}
+          showModal={state.showTextEditor}
+          onClose={saveTreatment}
+        />
         <DeleteDialog
           onSave={onDelete}
           title={`¿Seguro que desea eliminar esta visita?`}

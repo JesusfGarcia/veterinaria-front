@@ -1,6 +1,5 @@
 import { initialState } from "./constants";
 import { actions } from "./actions";
-import { getFormatedDate } from "../../../../helpers/getFormatedDate";
 
 export const reducer = (
   state = initialState,
@@ -55,6 +54,15 @@ export const reducer = (
     case actions.CLOSE_DELETE_MODAL:
       newState.showDeleteModal = false;
       newState.body = { ...initialState.body };
+      break;
+    case actions.OPEN_TEXT_EDITOR:
+      newState.showTextEditor = true;
+      newState.body = action.payload;
+      break;
+    case actions.CLOSE_TEXT_EDITOR:
+      newState.showTextEditor = false;
+      newState.body = { ...initialState.body };
+      newState.reload = !state.reload;
       break;
     default:
       break;
