@@ -6,7 +6,7 @@ import RemoveRedEyeIcon from "@mui/icons-material/RemoveRedEye";
 
 import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
 import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
-
+import EditIcon from "@mui/icons-material/Edit";
 import FileOpenIcon from "@mui/icons-material/FileOpen";
 import LocalHospitalIcon from "@mui/icons-material/LocalHospital";
 
@@ -17,7 +17,7 @@ import { initialState } from "./reducer/constants";
 import { reducer } from "./reducer";
 import apiConsumer from "../../services";
 import { getServerError } from "../../helpers/getServerError";
-import { Pagination } from "@mui/material";
+import { Pagination, Tooltip } from "@mui/material";
 import { getFormatedDateTable } from "../../helpers/getFormatedDate";
 
 import doguito from "../../assets/images/doguito.png";
@@ -266,38 +266,57 @@ const Td = ({ item, column, idx }) => {
           {column.actions.map((action) => {
             if (action.label === "see") {
               return (
-                <RemoveRedEyeIcon
-                  color="primary"
-                  style={{ cursor: "pointer" }}
-                  onClick={() => action.onClick(item)}
-                />
+                <Tooltip title="Ver">
+                  <RemoveRedEyeIcon
+                    color="primary"
+                    style={{ cursor: "pointer" }}
+                    onClick={() => action.onClick(item)}
+                  />
+                </Tooltip>
               );
             }
             if (action.label === "deletefromcar") {
               return (
-                <DeleteIcon
-                  style={{ cursor: "pointer" }}
-                  color="error"
-                  onClick={() => action.onClick(idx)}
-                />
+                <Tooltip title="Eliminar">
+                  <DeleteIcon
+                    style={{ cursor: "pointer" }}
+                    color="error"
+                    onClick={() => action.onClick(idx)}
+                  />
+                </Tooltip>
               );
             }
             if (action.label === "textEditor") {
               return (
-                <LocalHospitalIcon
-                  style={{ cursor: "pointer" }}
-                  color="primary"
-                  onClick={() => action.onClick(item)}
-                />
+                <Tooltip title="Tratamiento">
+                  <LocalHospitalIcon
+                    style={{ cursor: "pointer" }}
+                    color="primary"
+                    onClick={() => action.onClick(item)}
+                  />
+                </Tooltip>
               );
             }
             if (action.label === "delete") {
               return (
-                <DeleteIcon
-                  style={{ cursor: "pointer" }}
-                  color="error"
-                  onClick={() => action.onClick(item)}
-                />
+                <Tooltip title="Eliminar">
+                  <DeleteIcon
+                    style={{ cursor: "pointer" }}
+                    color="error"
+                    onClick={() => action.onClick(item)}
+                  />
+                </Tooltip>
+              );
+            }
+            if (action.label === "edit") {
+              return (
+                <Tooltip title="Editar">
+                  <EditIcon
+                    style={{ cursor: "pointer" }}
+                    color="primary"
+                    onClick={() => action.onClick(item)}
+                  />
+                </Tooltip>
               );
             }
             return null;
