@@ -42,6 +42,24 @@ export default function UsersScreen() {
       });
     }
   };
+
+  const updateClient = async () => {
+    try {
+      dispatch({ type: actions.SAVE_USER });
+      await apiConsumer({
+        method: "PUT",
+        data: state.client,
+        url: `/clients/${state.client.id}`,
+      });
+      dispatch({ type: actions.SAVE_USER_SUCCESS });
+    } catch (error) {
+      dispatch({
+        type: actions.SAVE_USER_ERROR,
+        payload: getServerError(error),
+      });
+    }
+  };
+
   const buttonConf = {
     label: "Añadir Cliente",
     onClick: () => dispatch({ type: actions.OPEN_MODAL }),
@@ -81,6 +99,15 @@ export default function UsersScreen() {
           label: "see",
           onClick: (item) => navigate(`${item.id}`),
         },
+        {
+          label: "edit",
+          onClick: (item) => {
+            dispatch({
+              type: actions.EDIT_USER,
+              payload: item,
+            });
+          },
+        },
       ],
     },
   ];
@@ -95,9 +122,9 @@ export default function UsersScreen() {
           columns={title}
         />
         <Modal
-          onSave={onSave}
+          onSave={state.isEdit ? updateClient : onSave}
           isOpen={state.showModal}
-          title="Añadir cliente"
+          title={state.isEdit ? "Editar cliente" : "Añadir cliente"}
           onClose={closeForm}
           errorText={state.textErrorSave}
           isLoading={state.isLoadingSave}

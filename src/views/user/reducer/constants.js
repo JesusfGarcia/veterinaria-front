@@ -11,4 +11,5 @@ export const initialState = {
   isLoadingSave: false,
   textErrorSave: "",
   reload: false,
+  isEdit: false,
 };
