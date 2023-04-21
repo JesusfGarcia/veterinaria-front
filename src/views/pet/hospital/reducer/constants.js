@@ -10,6 +10,7 @@ export const initialState = {
     treatment: "",
     observations: "",
     price: "",
+    clinicalSigns: "",
   },
   loadingSaveList: false,
   errorTextSaveList: "",

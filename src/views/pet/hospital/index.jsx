@@ -130,7 +130,7 @@ export default function Hospital() {
         {
           label: "see",
           onClick: (item) => {
-            dispatch({ type: actions.ON_EDIT, payload: item.id });
+            dispatch({ type: actions.ON_EDIT, payload: item });
           },
         },
         {
@@ -144,7 +144,7 @@ export default function Hospital() {
           onClick: (item) => {
             dispatch({
               type: actions.OPEN_DELETE_MODAL,
-              payload: item.id,
+              payload: item,
             });
           },
         },
@@ -209,7 +209,16 @@ export default function Hospital() {
           name="observations"
           value={state.body.observations}
           size="small"
-          label="Observaciones"
+          label="Diagnóstico"
+          multiline
+          minRows={3}
+        />
+        <TextField
+          onChange={handleChange}
+          name="clinicalSigns"
+          value={state.body.clinicalSigns}
+          size="small"
+          label="sintomatología"
           multiline
           minRows={3}
         />

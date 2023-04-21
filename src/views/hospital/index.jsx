@@ -221,7 +221,16 @@ export default function HospitalScreen() {
             name="observations"
             value={state.body.observations}
             size="small"
-            label="Observaciones"
+            label="Diagnóstico"
+            multiline
+            minRows={3}
+          />
+          <TextField
+            onChange={handleChange}
+            name="clinicalSigns"
+            value={state.body.clinicalSigns}
+            size="small"
+            label="sintomatología"
             multiline
             minRows={3}
           />
