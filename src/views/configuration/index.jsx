@@ -3,7 +3,7 @@ import Content from "../../components/content";
 import Container from "../../components/container";
 import Table from "../../components/table";
 import Modal, { DeleteDialog } from "../../components/dialog";
-import { TextField, Pagination } from "@mui/material";
+import { TextField } from "@mui/material";
 import FormGroup from "@mui/material/FormGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Checkbox from "@mui/material/Checkbox";
@@ -48,8 +48,8 @@ export default function ConfigurationScreen() {
       dispatch({ type: actions.SAVE_USER });
       await apiConsumer({
         method: "put",
-        data: state.form,
-        url: `/users/${state.form.id}`,
+        data: state.body,
+        url: `/users/${state.body.id}`,
       });
       dispatch({ type: actions.SAVE_USER_SUCCESS });
     } catch (error) {
@@ -66,7 +66,7 @@ export default function ConfigurationScreen() {
       await apiConsumer({
         method: "delete",
         data: state.form,
-        url: `/users/${state.form.id}`,
+        url: `/users/${state.body.id}`,
       });
       dispatch({ type: actions.SAVE_USER_SUCCESS });
     } catch (error) {
@@ -106,18 +106,16 @@ export default function ConfigurationScreen() {
       actions: [
         {
           label: "see",
-          onClick: (id) => {
-            const edituser = state.list.find((users) => users.id === id);
-            dispatch({ type: actions.ON_EDIT, payload: edituser });
+          onClick: (item) => {
+            dispatch({ type: actions.ON_EDIT, payload: item });
           },
         },
         {
           label: "delete",
-          onClick: (id) => {
-            const edituser = state.list.find((users) => users.id === id);
+          onClick: (item) => {
             dispatch({
               type: actions.OPEN_DELETE_MODAL,
-              payload: edituser,
+              payload: item,
             });
           },
         },

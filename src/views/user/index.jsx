@@ -2,7 +2,7 @@ import React from "react";
 import Content from "../../components/content";
 import Table from "../../components/table";
 import { useNavigate } from "react-router-dom";
-import Modal from "../../components/dialog";
+import Modal, { DeleteDialog } from "../../components/dialog";
 import { TextField } from "@mui/material";
 import Container from "../../components/container";
 
@@ -60,6 +60,22 @@ export default function UsersScreen() {
     }
   };
 
+  const onDelete = async () => {
+    try {
+      dispatch({ type: actions.SAVE_USER });
+      await apiConsumer({
+        method: "delete",
+        url: `/clients/${state.client.id}`,
+      });
+      dispatch({ type: actions.SAVE_USER_SUCCESS });
+    } catch (error) {
+      dispatch({
+        type: actions.SAVE_USER_ERROR,
+        payload: getServerError(error),
+      });
+    }
+  };
+
   const buttonConf = {
     label: "Añadir Cliente",
     onClick: () => dispatch({ type: actions.OPEN_MODAL }),
@@ -104,6 +120,15 @@ export default function UsersScreen() {
           onClick: (item) => {
             dispatch({
               type: actions.EDIT_USER,
+              payload: item,
+            });
+          },
+        },
+        {
+          label: "delete",
+          onClick: (item) => {
+            dispatch({
+              type: actions.OPEN_DELETE_MODAL,
               payload: item,
             });
           },
@@ -172,6 +197,14 @@ export default function UsersScreen() {
             label="Estado"
           />
         </Modal>
+        <DeleteDialog
+          onSave={onDelete}
+          title={`¿Seguro que desea eliminar a ${state.client.name} ${state.client.lastName}?`}
+          isOpen={state.showDeleteModal}
+          onClose={() => dispatch({ type: actions.CLOSE_DELETE_MODAL })}
+          isLoading={state.isLoadingSave}
+          errorText={state.textErrorSave}
+        ></DeleteDialog>
       </Content>
     </Container>
   );
