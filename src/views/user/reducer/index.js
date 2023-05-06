@@ -31,6 +31,7 @@ export const reducer = (
       newState.client = { ...initialState.client };
       newState.reload = !newState.reload;
       newState.isEdit = false;
+      newState.showDeleteModal = false;
       break;
     case actions.SAVE_USER_ERROR:
       newState.isLoadingSave = false;
@@ -40,6 +41,13 @@ export const reducer = (
       newState.client = action.payload;
       newState.showModal = true;
       newState.isEdit = true;
+      break;
+    case actions.OPEN_DELETE_MODAL:
+      newState.showDeleteModal = true;
+      newState.client = action.payload;
+      break;
+    case actions.CLOSE_DELETE_MODAL:
+      newState.showDeleteModal = false;
       break;
     default:
       break;

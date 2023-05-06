@@ -12,4 +12,5 @@ export const initialState = {
   textErrorSave: "",
   reload: false,
   isEdit: false,
+  showDeleteModal: false,
 };
