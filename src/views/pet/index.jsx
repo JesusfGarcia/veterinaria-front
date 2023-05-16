@@ -195,7 +195,7 @@ export default function PetsScreen() {
 
   return (
     <div className={styles.content}>
-      <div className={styles.header}>
+      <div>
         <div className={styles.info}>
           {state.user.pets.length === 0 ? (
             <div className={styles.titlePet}>
@@ -248,7 +248,6 @@ export default function PetsScreen() {
               )}
             </div>
           )}
-
           <div className={styles.pet_selector}>
             {state.user.pets.map((pet) => {
               return (

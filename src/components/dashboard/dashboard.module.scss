@@ -1,4 +1,110 @@
 @import "../../sass/color.scss";
+@import "../../sass/breakpoints.scss";
+.container {
+  display: grid;
+  box-sizing: border-box;
+  height: 100vh;
+  grid-template-areas:
+    "header "
+    "content";
+  grid-template-columns: 1fr;
+  grid-template-rows: 60px 1fr;
+  transition: 0.5s ease all;
+  position: relative;
+  max-width: 100vw;
+}
+
+.header {
+  grid-area: header;
+  background-color: $primaryDark;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  box-sizing: border-box;
+  padding: 10px;
+  color: white;
+  gap: 20px;
+  justify-content: space-between;
+
+  .left_side {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    align-items: center;
+  }
+}
+
+.sidebar {
+  grid-area: sidebar;
+  background-color: $primaryDark;
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  z-index: 2;
+  top: 60px;
+  height: 100%;
+  left: -260px;
+  width: 260px;
+  transition: 0.5s ease left;
+
+  .item {
+    padding: 10px 10px;
+    user-select: none;
+    cursor: pointer;
+    font-size: 16px;
+    letter-spacing: 2px;
+    background-color: $primaryDark;
+    color: white;
+    display: grid;
+    grid-template-columns: 40px 1fr;
+    overflow: hidden;
+
+    &:hover {
+      background-color: $primaryHover;
+      color: white;
+    }
+  }
+
+  .item_selected {
+    @extend .item;
+    background-color: $primaryHover;
+  }
+
+  .child {
+    padding: 10px;
+    user-select: none;
+    cursor: pointer;
+    font-size: 16px;
+    letter-spacing: 2px;
+    background-color: $primaryLight;
+    color: white;
+    display: grid;
+    grid-template-columns: 40px 1fr;
+    overflow: hidden;
+    transition: 0.5s ease all;
+
+    &:hover {
+      background-color: $primaryHover;
+      color: white;
+    }
+  }
+
+  .child_selected {
+    @extend .child;
+    background-color: $primaryHover;
+  }
+}
+
+.sidebar_selected {
+  @extend .sidebar;
+  left: 0px;
+}
+
+.content {
+  grid-area: content;
+  background-color: $background;
+}
+
 .modal_navbar {
   display: flex;
   flex-direction: row;
@@ -83,4 +189,8 @@
   align-items: center;
   cursor: pointer;
   background-color: #4d6a8d;
+}
+
+@media only screen and (min-width: $desktop) {
+  /* Agrega tus estilos CSS aquí */
 }

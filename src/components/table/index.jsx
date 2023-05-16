@@ -134,26 +134,59 @@ export default function Table({
   };
   return (
     <div className={styles.container}>
-      <div className={styles.row}>
-        <div className={styles.center}>
-          <div className={styles.gatito_container}>
-            <img
-              src={gatito}
-              alt="gatito lindo"
-              width={100}
-              className={styles.gatito}
-            />
+      <div className={styles.gatito_container}>
+        <img
+          src={gatito}
+          alt="gatito lindo"
+          width={100}
+          className={styles.gatito}
+        />
 
-            <SearchInput
-              value={state.filterText}
-              onChange={(value) =>
-                dispatch({
-                  type: actions.HANDLE_FILTER_TEXT,
-                  payload: value,
-                })
-              }
-            />
-          </div>
+        <SearchInput
+          value={state.filterText}
+          onChange={(value) =>
+            dispatch({
+              type: actions.HANDLE_FILTER_TEXT,
+              payload: value,
+            })
+          }
+        />
+      </div>
+      {filterByDate && (
+        <div className={styles.date_row}>
+          <input
+            className={styles.filtro}
+            type="month"
+            onChange={handleMonth}
+          />
+          <DaySelect value={state.day} handleDay={handleDay} />
+        </div>
+      )}
+      {filterByParasyte && (
+        <select
+          className={styles.filterType}
+          onChange={(e) => handleType(e.target.value)}
+          value={state.type}
+        >
+          <option value="">Todos los Parásitos</option>
+          <option value="INTERNAL">Internos</option>
+          <option value="EXTERNAL">Externos</option>
+        </select>
+      )}
+      {buttonConf && (
+        <div className={styles.doguito_container}>
+          <img
+            src={doguito}
+            alt="doguito guapo"
+            width={100}
+            className={styles.doguito}
+          />
+          <Button onClick={buttonConf.onClick} text={buttonConf.label} />
+        </div>
+      )}
+      {/*       <div className={styles.row}>
+        <div className={styles.center}>
+         
           {filterByDate && (
             <>
               <input
@@ -176,7 +209,6 @@ export default function Table({
             </select>
           )}
         </div>
-
         {buttonConf && (
           <div className={styles.doguito_container}>
             <img
@@ -189,7 +221,7 @@ export default function Table({
             <Button onClick={buttonConf.onClick} text={buttonConf.label} />
           </div>
         )}
-      </div>
+      </div> */}
       {state.loadingGetList ? (
         <div className={styles.loading}>
           <div className={styles.ldsroller}>
@@ -207,29 +239,31 @@ export default function Table({
       ) : (
         <>
           {state.list.length ? (
-            <table className={styles.table_container}>
-              <thead>
-                <tr>
-                  {columns.map((title, indice) => (
-                    <th key={`column${indice}`}>{title.label}</th>
-                  ))}
-                </tr>
-              </thead>
-              <tbody>
-                {state.list.map((row, idx) => (
-                  <tr key={idx}>
-                    {columns.map((column, id) => (
-                      <Td
-                        key={`row-${id}`}
-                        column={column}
-                        item={row}
-                        idx={idx}
-                      />
+            <div className={styles.table_overflow}>
+              <table className={styles.table_container}>
+                <thead>
+                  <tr>
+                    {columns.map((title, indice) => (
+                      <th key={`column${indice}`}>{title.label}</th>
                     ))}
                   </tr>
-                ))}
-              </tbody>
-            </table>
+                </thead>
+                <tbody>
+                  {state.list.map((row, idx) => (
+                    <tr key={idx}>
+                      {columns.map((column, id) => (
+                        <Td
+                          key={`row-${id}`}
+                          column={column}
+                          item={row}
+                          idx={idx}
+                        />
+                      ))}
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
           ) : (
             <div className={styles.tableText}>
               No hay registros en esta tabla
