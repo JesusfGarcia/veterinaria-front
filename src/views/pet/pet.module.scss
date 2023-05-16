@@ -5,12 +5,16 @@
   flex-direction: column;
   gap: 30px;
   height: 100%;
+  width: 100%;
 }
 .tabs {
   display: flex;
   flex-direction: row;
   background-color: white;
   box-sizing: border-box;
+  width: 100vw;
+  overflow-y: scroll;
+  margin-bottom: 20px;
   div {
     display: flex;
     flex-direction: row;
@@ -47,8 +51,7 @@
 .info {
   background-color: white;
   display: flex;
-  flex-direction: row;
-  align-items: center;
+  flex-direction: column;
   justify-content: space-between;
   padding: 10px;
   gap: 15px;
@@ -82,6 +85,7 @@
   display: flex;
   flex-direction: row;
   gap: 10px;
+  align-self: flex-end;
 }
 
 .add_pet {
@@ -167,9 +171,7 @@
     opacity: 0.8;
   }
 }
-.weight{
-  
-  
+.weight {
 }
 .info_row {
   display: flex;

@@ -11,7 +11,6 @@ export default function DaySelect({ value, handleDay }) {
   }, []);
   return (
     <select
-      variant="filled"
       style={{
         border: "0px",
         borderRadius: "8px",

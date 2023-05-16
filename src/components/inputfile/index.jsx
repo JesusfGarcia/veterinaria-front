@@ -29,6 +29,7 @@ export default function InputFile({ value = "", setValue = () => {} }) {
         className={styles.inputFile}
         id="file"
         type="file"
+        capture
       />
       {!value ? (
         <div className={styles.imgDefault}>

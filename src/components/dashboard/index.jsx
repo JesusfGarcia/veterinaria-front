@@ -1,10 +1,8 @@
 import React, { Suspense } from "react";
 
 import {
-  CantIndicator,
   Content,
   DashboardContainer,
-  Floating,
   Header,
   SidebarChild,
   Sidebard,
@@ -13,7 +11,6 @@ import {
 
 import SalePoint from "../../views/salepoint";
 
-import LocalGroceryStoreIcon from "@mui/icons-material/LocalGroceryStore";
 import ExitToAppIcon from "@mui/icons-material/ExitToApp";
 
 import { Route, Routes, useLocation, useNavigate } from "react-router-dom";
@@ -24,6 +21,8 @@ import { routes } from "../../routes";
 import MenuIcon from "@mui/icons-material/Menu";
 
 import { authContext } from "../../App";
+
+import styles from "./dashboard.module.scss";
 
 export const CarContext = React.createContext({
   products: [],
@@ -44,6 +43,7 @@ export default function Dashboard() {
     if (path === "veterinary") {
       return navigate(`/admin/veterinary/esthetic`);
     }
+    setShowSidebar(false);
     navigate(`/admin/${path}`);
   };
 
@@ -80,6 +80,56 @@ export default function Dashboard() {
 
     return dictionary[origin];
   };
+
+  if (true) {
+    return (
+      <div className={styles.container}>
+        <div className={styles.header}>
+          <div className={styles.left_side}>
+            <MenuIcon onClick={() => setShowSidebar(!showSidebar)} />
+            <h2>SAN JOSÉ</h2>
+          </div>
+          <ExitToAppIcon onClick={handleLogout} />
+        </div>
+        <div className={showSidebar ? styles.sidebar_selected : styles.sidebar}>
+          {routes
+            .filter((item) => item.sidebar)
+            .map(({ label, icon, type, childrens, path }) => (
+              <SidebarItemRender
+                showSidebar={showSidebar}
+                type={type}
+                icon={icon}
+                label={label}
+                childrens={childrens}
+                onClick={handleSidebarClick}
+                pathname={location.pathname}
+                path={path}
+                key={`sidebar${path}`}
+              />
+            ))}
+        </div>
+        <div className={styles.content}>
+          <Suspense fallback={<div>loading...</div>}>
+            <Routes>
+              {routes.map(({ element, path, childrens }) => (
+                <React.Fragment key={path}>
+                  <Route key={path} path={path} element={element} />
+                  {childrens &&
+                    childrens.map((child) => (
+                      <Route
+                        key={child.path}
+                        path={child.path}
+                        element={child.element}
+                      />
+                    ))}
+                </React.Fragment>
+              ))}
+            </Routes>
+          </Suspense>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <CarContext.Provider value={{ products, addToCar, deleteFromCar }}>
@@ -165,25 +215,30 @@ const SidebarItemRender = ({
 }) => {
   return (
     <div>
-      <SidebarItem
-        isSelected={pathname.includes(path)}
+      <div
+        className={pathname.includes(path) ? styles.item_selected : styles.item}
         onClick={() => onClick(path)}
       >
         {icon}
         {label}
-      </SidebarItem>
+      </div>
       {childrens !== undefined &&
         pathname.includes(path) &&
         childrens.map((child) => {
           return (
-            <SidebarChild
+            <div
+              className={
+                pathname.includes(child.path)
+                  ? styles.child_selected
+                  : styles.child
+              }
               key={`sidebarchild-${child.path}`}
               showSidebar={showSidebar}
               isSelected={pathname.includes(child.path)}
               onClick={() => onClick(child.path)}
             >
               {child.icon} {child.label}
-            </SidebarChild>
+            </div>
           );
         })}
     </div>
